@@ -6,6 +6,12 @@ Install python packages
 pip3 install -r requirements.txt
 ```
 
+or simply
+
+```bash
+make
+```
+
 # Local REPL
 
 There is a pre-configured local REPL init script, that provides handy namespaces.
@@ -54,14 +60,6 @@ Create `.env` file with following contents
 ```
 ICFPC_USER_EMAIL="team@email.com"
 ICFPC_USER_PASSWORD="password"
-```
-
-## Install
-
-Just run make
-
-```bash
-make
 ```
 
 ## Run server
