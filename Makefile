@@ -1,5 +1,5 @@
 PYTHON          := python3
-PIP             := pip
+PIP             := pip3
 FLASK           := ${PYTHON} -m flask
 
 install:
