@@ -16,9 +16,14 @@ Current namespace:
  - api.icfpc
 
 
-To submit solutions:
+## Check your connection:
+```
+api.icfpc.check_auth()
+```
 
+## To submit solutions:
+```
 api.icfpc.submit(problem, solution:str)
-
+```
 Where `solution` is a stringified ISL file content.
 ''')
