@@ -20,28 +20,6 @@ There is a pre-configured local REPL init script, that provides handy namespaces
 $ make repl
 ```
 
-Example output
-```
-python -i repl.py
-
-Hello user!
-
-Current namespace:
- - solver
- - os
- - server
- - api.icfpc
-
-
-To submit solutions:
-
-api.icfpc.submit(problem, solution:str)
-
-Where `solution` is a stringified ISL file content.
-
->>> _
-```
-
 # Local submission server
 
 ## Prerequisites
