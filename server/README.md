@@ -1,11 +1,3 @@
-# Setup
-
-Install python packages
-
-```bash
-pip3 install -r requirements.txt
-```
-
 # Local submission server
 
 ## Prerequisites
@@ -14,8 +6,7 @@ pip3 install -r requirements.txt
 ## Pyenv
 
 If using `pyenv` + `pyenv virtualenv`, consider using env init script
-
-```bash
+```
 ./pyenv-init.sh
 ```
 
@@ -30,23 +21,18 @@ ICFPC_USER_PASSWORD="password"
 
 Just run make
 
-```bash
+```
 make
 ```
 
 ## Run server
 
-```bash
-make start-server
+```
+make server
 ```
 
 Then test connection to ICFPC submissions server
 
-```bash
-curl -X POST localhost:5000/check-auth
 ```
-
-To submit solutions
-```bash
-curl -X POST localhost:5000/submit -H 'Content-Type: application/json' --data '{"problem": "-10", "solution": "... file content as single string ..."}'
+curl -X POST localhost:5000/check-auth
 ```
