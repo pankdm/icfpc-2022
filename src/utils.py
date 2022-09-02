@@ -1,5 +1,7 @@
 import requests
 import os.path
+from PIL import Image
+import numpy as np
 
 def download_pic(n):
     path=f"problems/{n}.png"
@@ -14,3 +16,9 @@ def download_pic(n):
     else:
         print(f"File {n} exists")
 
+
+def open_as_np(n):
+    img=Image.open(f"problems/{n}.png")
+    a=np.asarray(img)
+    return a[::-1,:].swapaxes(0,1)
+    
