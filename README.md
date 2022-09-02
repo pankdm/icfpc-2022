@@ -4,33 +4,10 @@ Install python packages
 
 ```bash
 pip3 install -r requirements.txt
-```
 
-or simply
+# or simply
 
-```bash
 make
-```
-
-# Local REPL
-
-There is a pre-configured local REPL init script, that provides handy namespaces.
-
-```bash
-$ make repl
-```
-
-# Local submission server
-
-## Prerequisites
-  1. Python
-
-## Pyenv
-
-If using `pyenv` + `pyenv virtualenv`, consider using env init script
-
-```bash
-./pyenv-init.sh
 ```
 
 Create `.env` file with following contents
@@ -40,7 +17,23 @@ ICFPC_USER_EMAIL="team@email.com"
 ICFPC_USER_PASSWORD="password"
 ```
 
-## Run server
+## Pyenv
+
+If using `pyenv` + `pyenv virtualenv`, consider using env init script
+
+```bash
+./pyenv-init.sh
+```
+
+# REPL
+
+There is a pre-configured local REPL init script, that provides handy namespaces.
+
+```bash
+$ make repl
+```
+
+# Local submission server
 
 ```bash
 make start-server
