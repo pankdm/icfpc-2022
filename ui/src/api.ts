@@ -7,7 +7,7 @@ export function APIpath(path) {
 
 async function api_request(path, params) {
   const result = await fetch(`${SERVER_URL}${path}`, params)
-  let body:any
+  let body: any
   const contentType = result.headers.get('Content-Type') || ''
   if (contentType == 'application/json') {
     body = result.json()
@@ -37,6 +37,22 @@ export async function getProblem(problemId): Promise<ArrayBuffer> {
 
 export async function getProblemInitialState(problemId): Promise<ArrayBuffer> {
   return await api_request(`/problem_initial_states/${problemId}`, { method: 'GET' })
+}
+
+export async function getGeometricMedian(problemId, x1, x2, y1, y2): Promise<ArrayBuffer> {
+  return await api_request(`/geometric_median`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      id: problemId,
+      x1: x1,
+      x2: x2,
+      y1: y1,
+      y2: y2
+    })
+  });
 }
 
 export async function getSolutions() {

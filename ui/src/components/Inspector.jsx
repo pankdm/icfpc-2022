@@ -11,6 +11,7 @@ import {
   getProblemInitialState,
   getSolution,
   getSolutions,
+  getGeometricMedian,
 } from "../api";
 import { useAppState } from "../app-state";
 import Spacer, { Interspaced } from "./Spacer";
@@ -369,7 +370,6 @@ function SolutionCanvas({ solution, width, height, ...props }) {
       ctx: ctx,
       shadowCtx: shadowCtx,
     });
-    console.log("got data", data);
     computeCode(data, justCode, width, height);
   }, [justCode, data, problemId]);
   return (
@@ -472,8 +472,19 @@ function Face2FaceView() {
   const actionsCots = _solutionResult?.actionsCost;
   const totalActionsCost = _.sum(actionsCots);
   const _selectedPixel = useStore(selectedPixel);
+  const [problemId] = useAppState("currentProblemId");
 
   const _clickedBlock = useStore(clickedBlock);
+
+  const { data:geometricMedianData } = useQuery([`geometricMedian${problemId}${_clickedBlock?.begin.x}${_clickedBlock?.begin.y}${_clickedBlock?.end.x}${_clickedBlock?.end.y}`],
+  async () => {
+    if (problemId && _clickedBlock) {
+      return await getGeometricMedian(problemId, _clickedBlock.begin.x, _clickedBlock.end.x, _clickedBlock.begin.y, _clickedBlock.end.y);
+    } else {
+      return undefined;
+    }
+  });
+
   const blockDifferenceCost = useMemo(() => {
     const picturePixelData = problemPicture.get()?.pixelData;
     const solutionPixelData = solutionPicture.get()?.pixelData;
@@ -521,6 +532,7 @@ function Face2FaceView() {
               {_clickedBlock.end.x}, {_clickedBlock.end.y})
             </p>
             <p> differenceCost: {blockDifferenceCost}</p>
+            <p> geometric median color: [{geometricMedianData?.color.join(", ")}]</p>
             </>
           )}
         </div>
