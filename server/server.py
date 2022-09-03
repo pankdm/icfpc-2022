@@ -75,6 +75,7 @@ def get_geometric_median():
             subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)), eps=1e-2)]
     return {'color': color}
 
+@app.get("/problems")
 @app.get("/problems/")
 def get_problems():
     problems_dir = os.path.dirname(__file__)+'/../problems'
@@ -103,7 +104,8 @@ def get_solutions():
 
 @app.get("/solutions/<path:path>")
 def get_solution(path):
-    return send_from_directory('./solutions', path)
+    print(path)
+    return send_from_directory('../solutions', path)
 
 
 @app.post("/submit")

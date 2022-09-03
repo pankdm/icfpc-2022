@@ -318,6 +318,7 @@ export function computeBlocksAndDraw(initialState, instructions, drawCtx, shadow
             blk.color(drawCtx, block.color[0], block.color[1], block.color[2], block.color[3])
             return blk;
         })
+        blocks = _.keyBy(blocks, 'name')
     }
 
     const actionsCost = []
@@ -396,6 +397,22 @@ export function getPictureDifferenceCost(pixelData1: Uint8ClampedArray, pixelDat
     }
     const diffCost = Math.round(diff * alpha)
     return diffCost
+}
+
+export function getSquareMedianColor(pixelData: Uint8ClampedArray) {
+    const rgba = pixelData
+    let mr = 0
+    let mg = 0
+    let mb = 0
+    let ma = 0
+    const lenSq = (rgba.length/4)**2
+    for (let j = 0; j < rgba.length; j += 4) {
+        mr += rgba[j + 0]**2/lenSq
+        mg += rgba[j + 1]**2/lenSq
+        mb += rgba[j + 2]**2/lenSq
+        ma += rgba[j + 3]**2/lenSq
+    }
+    return [mr, mg, mb, ma]
 }
 
 export function getBlockDifferenceCost(pixelData1: Uint8ClampedArray, pixelData2: Uint8ClampedArray, block) {
