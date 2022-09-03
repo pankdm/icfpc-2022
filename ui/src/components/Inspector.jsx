@@ -3,7 +3,8 @@ import _ from 'lodash'
 import { useStore } from '@nanostores/react'
 import { useQuery } from '@tanstack/react-query'
 import { atom } from 'nanostores'
-import { tw } from 'twind'
+import { apply, tw } from 'twind'
+import { css } from 'twind/css'
 import { getProblemImgUrl, getProblems, getSolution, getSolutions } from '../api'
 import { useAppState } from '../app-state'
 import Spacer, { Interspaced } from './Spacer'
@@ -33,6 +34,7 @@ function getSolutionPixel(x,y) {
 const solutionResult = atom()
 const solutionError = atom()
 const solutionPirctureDiffCost = atom()
+const hoveredBlockId = atom()
 
 window.solutionResult = solutionResult
 window.problemPicture = problemPicture
@@ -65,6 +67,9 @@ function SideBar() {
   const [problemId] = useAppState('currentProblemId')
   const [solutionId, setSolutionId] = useAppState('currentSolutionId')
   const [code, setCode] = useAppState('currentCode')
+  const _solutionResult = useStore(solutionResult)
+  const error = _solutionResult?.error
+  const errorLine = _solutionResult?.errorLine
   const onSelectSolution = async (_solutionId) => {
     setSolutionId(_solutionId)
     if (_solutionId == '__new') {
@@ -90,7 +95,17 @@ function SideBar() {
         </Select>
       </Row>
       <Spacer size={1} />
-      <TextArea value={code} onChangeValue={onChangeCode} className={tw`flex-1 font-mono overflow-scroll whitespace-pre resize-none`} />
+      <Col className={tw`relative flex-1`}>
+        <TextArea value={code} onChangeValue={onChangeCode} className={tw(apply`flex-1 font-mono overflow-scroll whitespace-pre resize-none`, error && 'bg-red-300 focus:bg-red-200 active:bg-red-200')} />
+        {error && (
+          <pre className={tw`absolute bottom-1 left-2 text-red-700 whitespace-pre-wrap`}>
+            Error on line {errorLine+1}
+            {'\n'}
+            {error.toString()}
+          </pre>
+        )}
+      </Col>
+
     </Col>
   )
 }
@@ -169,14 +184,44 @@ function SolutionCanvas({ solution, width, height, ...props }) {
   )
 }
 
+function BlockDiv({ block }) {
+  const _hoveredBlockId = useStore(hoveredBlockId)
+  const onBlockMouseLeave = () => hoveredBlockId.set()
+  const onBlockMouseEnter = () => hoveredBlockId.set(block.name)
+  const size = block.getSize()
+  const borderWidth = 2
+  const blockCls = tw(
+    apply`absolute w-[${size.x}px] h-[${size.y}px] left-[${block.begin.x - borderWidth}px] bottom-[${block.begin.y - borderWidth}px] bg-transparent border-${borderWidth} box-content border-transparent`,
+    block.name == _hoveredBlockId && `bg-[rgba(255,255,255,0.35)] border-red-500`,
+  )
+  const labelCls = tw(
+    apply`absolute bottom-full text-red-500 font-bold hidden`,
+    block.name == _hoveredBlockId && `inline`,
+  )
+  return (
+    <div className={blockCls} onPointerEnter={onBlockMouseEnter} onPointerLeave={onBlockMouseLeave}>
+      <span className={labelCls}>{block.name}</span>
+    </div>
+  )
+}
 
 function SolutionView() {
   const [code] = useAppState('currentCode')
+  const _solutionResult = useStore(solutionResult)
+  const blocks = _solutionResult?.blocks
+  const body = code && (
+    <>
+      <div className={tw`relative border`}>
+        <SolutionCanvas solution={code} width={400} height={400} />
+        {_.map(blocks, (b) => <BlockDiv key={b.name} block={b} />)}
+      </div>
+    </>
+  )
   return (
     <div className={tw`flex-1 flex flex-col items-center justify-center`}>
       <h1 className={tw`text-4xl font-bold mb-4`}>Solution</h1>
       {code
-        ? <SolutionCanvas solution={code} width={400} height={400} className={tw`border`} />
+        ? body
         : <div className={tw`border flex items-center justify-center w-[400px] h-[400px]`}>Picture will show here</div>
       }
     </div>
