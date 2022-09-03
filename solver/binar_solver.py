@@ -130,16 +130,24 @@ class Solver:
         # avg_color = [round(v) for v in subimg.mean(axis=0).mean(axis=0)]
         # start = time.time()
         avg_color = [round(v) for v in gm.geometric_median(
-            subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)), eps=1e-2)]
+            subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)), eps=0.5)]
         # end = time.time()
         # print(f"geometric_median took {end - start} for {sp.size}")
 
-        new_similarity = costs.float_simil(subimg - avg_color)
-        options.append(Option(
-            cmds=[f"color [{block_id}] {avg_color}"],
-            score=color_cost + new_similarity))
+        best_similarity = current_similarity
+        if avg_color != current_color:
+            new_similarity = costs.float_simil(subimg - avg_color)
+            options.append(Option(
+                cmds=[f"color [{block_id}] {avg_color}"],
+                score=color_cost + new_similarity))
 
-        best_similarity = min(current_similarity, new_similarity)
+            if depth < self.max_depth:
+                o = self.improve(block_id=block_id, sp=sp, current_color=avg_color, depth=depth+1)
+                options.append(Option(
+                    cmds=[f"color [{block_id}] {avg_color}"] + o.cmds,
+                    score=color_cost + o.score))
+
+            best_similarity = min(current_similarity, new_similarity)
 
         if depth < self.max_depth and sp.dim.w >= 4 and sp.dim.h >= 4:
             def make_program(cmd, cmd_cost, subshapes):
@@ -158,15 +166,17 @@ class Solver:
 
             lin_split_cost = costs.get_cost(costs.COSTS.LINECUT, sp.size)
             if best_similarity > color_cost + lin_split_cost:  # only try if we can recolor at least one of the new blocks
-                options.append(make_program(cmd=f"cut [{block_id}] [x] [{mid_x}]",
-                                            cmd_cost=lin_split_cost,
-                                            subshapes=sp.split_x(mid_x))
-                            )
-
-                options.append(make_program(cmd=f"cut [{block_id}] [y] [{mid_y}]",
-                                            cmd_cost=lin_split_cost,
-                                            subshapes=sp.split_y(mid_y))
-                            )
+                for ratio in [0.5]:
+                    x_pos = round(sp.x1 + sp.w * ratio)
+                    options.append(make_program(cmd=f"cut [{block_id}] [x] [{x_pos}]",
+                                                cmd_cost=lin_split_cost,
+                                                subshapes=sp.split_x(x_pos))
+                                )
+                    y_pos = round(sp.y1 + sp.h * ratio)
+                    options.append(make_program(cmd=f"cut [{block_id}] [y] [{y_pos}]",
+                                                cmd_cost=lin_split_cost,
+                                                subshapes=sp.split_y(y_pos))
+                                )
 
             pt_split_cost = costs.get_cost(costs.COSTS.POINTCUT, sp.size)
             if best_similarity > color_cost + lin_split_cost:  # only try if we can recolor at least one of the new blocks
@@ -176,7 +186,7 @@ class Solver:
                            )
 
         if depth < 1:
-            options_summary = "  \n".join([f"* Score: {o.score} Cmds: {o.cmds}" for o in options])
+            options_summary = "  \n".join([f"* Score: {o.score} Cmds: {str(o.cmds)[:50]}" for o in options])
             print(f"OPTIONS FOR {block_id}:\n{options_summary}")
         best_option = None
         for o in options:
@@ -192,12 +202,12 @@ def main():
         img = open_as_np(i)
 
         print(f"# Solving {i}")
-        solver = Solver(ref_img=img, max_depth=4)
+        solver = Solver(ref_img=img, max_depth=5)
         o = solver.improve(0, Shape(0, 0, 400, 400), [255, 255, 255, 255], 0)
         # print(f"Solution: {o.score}")
         # print("\n".join(o.cmds))
 
-        with open(f"{sys.path[0]}/../solutions/binary_solver/{i}.txt", "wt") as f:
+        with open(f"{sys.path[0]}/../solutions/binary_solver_2/{i}.txt", "wt") as f:
             f.write("\n".join(o.cmds)+"\n")
 
     print(f"DONE")
