@@ -119,7 +119,7 @@ def solve(name):
     color = 0
     for i in range(8):
         prog.append(f"cut [{cur}] [x] [{delta}]")
-        prog.append(f"color [{cur}.0] { white if color else black}]")
+        prog.append(f"color [{cur}.0] { white if color else black}")
         delta -= d
         cur = cur + ".0"
         color = 1 - color
@@ -131,7 +131,7 @@ def solve(name):
     # prog.append(f"color [{cur}] {black}")
     for i in range(7):
         prog.append(f"cut [{cur}] [y] [{delta}]")
-        prog.append(f"color [{cur}.1] { white if color else black}]")
+        prog.append(f"color [{cur}.1] { white if color else black}")
         delta += d
         cur = cur + ".1"
         color = 1 - color
