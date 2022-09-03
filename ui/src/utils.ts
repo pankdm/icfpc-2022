@@ -237,6 +237,29 @@ export class Block extends Rect {
     }
 }
 
+export function parseBlockIdFromCommand(instruction: String) {
+    let _instruction = instruction.split('#', 1).toString().trim()
+    if (!_instruction) {
+        return []
+    }
+    let cmd = instruction.match(/^\w+/)[0]
+    let args = [...instruction.matchAll(/(\[[^\]]+\])/g)].map(m => m[0])
+    let blockId = args[0]
+    args = args.slice(1)
+    blockId = blockId.slice(1, -1)
+    if (!blockId) {
+        return;
+    }
+    let blocks = [blockId]
+    if (cmd == "merge" || cmd == "swap") {
+        let otherBlockId = args[0]
+        otherBlockId = otherBlockId.slice(1, -1)
+        blocks.push(otherBlockId);
+    }
+    return blocks;
+}
+
+
 function executeCommand(blocks: Object, instruction: String, actionsCost: Number[], drawCtx: CanvasRenderingContext2D, shadowDrawCtx: CanvasRenderingContext2D) {
     let _instruction = instruction.split('#', 1).toString().trim()
     if (!_instruction) {

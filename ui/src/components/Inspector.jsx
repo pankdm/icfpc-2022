@@ -25,6 +25,7 @@ import {
   getBlockDifferenceCost,
   useRaf,
   getCtxPixel,
+  parseBlockIdFromCommand,
 } from "../utils";
 import { Select, TextArea } from "./Inputs";
 import { forwardRef } from "react";
@@ -103,7 +104,11 @@ const InstructionLog = forwardRef(({ code, className }, ref) => {
         const selected = selectedLOC == idx
         const cls = tw(apply`w-full px-1 -mx-1 cursor-pointer rounded`, selected ? `bg-[rgba(255,120,120,0.75)]` : `hover:bg-[rgba(255,255,255,0.75)]`)
         const hoverLOC = () => {
-          previewLOC.set(idx)
+          previewLOC.set(idx);
+          let blocks = parseBlockIdFromCommand(line);
+          if (blocks[0]) {
+            hoveredBlockId.set(blocks[0]);
+          }
         }
         const onClick = () => {
           if (selected) {
