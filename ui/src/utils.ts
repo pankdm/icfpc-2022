@@ -187,11 +187,62 @@ export class Block extends Rect {
         const height = this.end.y - this.begin.y
         drawCtx.fillRect(x, y, width, height)
     }
+
+    swap(drawCtx: CanvasRenderingContext2D, other: Block) {
+        const { x: x0, y: y0 } = this.begin
+        const { x: x1, y: y1 } = this.end
+        const { x: x2, y: y2 } = other.begin
+        const { x: x3, y: y3 } = other.end
+        const width = x1 - x0
+        const height = y1 - y0
+        const otherWidth = x3 - x2
+        const otherHeight = y3 - y2
+        if (width != otherWidth || height != otherHeight) {
+            throw new Error(`Invalid swap for blocks ((${x0}, ${y0}), (${x1}, ${y1})) and ((${x2}, ${y2}), (${x3}, ${y3}))`)
+        }
+
+        this.begin = new Vec(x2, y2)
+        this.end = new Vec(x3, y3)
+        other.begin = new Vec(x0, y0)
+        other.end = new Vec(x1, y1)
+        // NOTE: contest's Y axis is headed bottom-up
+        //       while 2D canvas are aimed top-down
+        const image = drawCtx.getImageData(x0, 400 - y1, width, height)
+        const otherImage = drawCtx.getImageData(x2, 400 - y3, otherWidth, otherHeight)
+        const imageCopy = new ImageData(
+            new Uint8ClampedArray(image.data),
+            image.width,
+            image.height
+        )
+        const otherImageCopy = new ImageData(
+            new Uint8ClampedArray(otherImage.data),
+            otherImage.width,
+            otherImage.height
+        )
+        drawCtx.putImageData(imageCopy, x2, 400 - y3)
+        drawCtx.putImageData(otherImageCopy, x0, 400 - y1)
+    }
+
+    merge(other: Block, newName) {
+        const { x: x0, y: y0 } = this.begin
+        const { x: x1, y: y1 } = this.end
+        const { x: x2, y: y2 } = other.begin
+        const { x: x3, y: y3 } = other.end
+        const merged = new Block(newName, new Vec(_.min([x0, x2]), _.min([y0, y2])), new Vec(_.max([x1, x3]), _.max([y1, y3])))
+        if (merged.getSqSize() != this.getSqSize() + other.getSqSize()) {
+            throw new Error(`Invalid merge for blocks ((${x0}, ${y0}), (${x1}, ${y1})) and ((${x2}, ${y2}), (${x3}, ${y3}))`)
+        }
+
+        return merged;
+    }
 }
 
 function executeCommand(blocks: Object, instruction: String, actionsCost: Number[], drawCtx: CanvasRenderingContext2D, shadowDrawCtx: CanvasRenderingContext2D) {
     let _instruction = instruction.split('#', 1).toString().trim()
-    if (!_instruction) return
+    if (!_instruction) {
+        actionsCost.push(0)
+        return
+    }
     let cmd, blockId, args
     cmd = instruction.match(/^\w+/)[0]
     // split into wrapped args wrapped in [ ]
@@ -228,13 +279,28 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
             }
         }
         newBlocks.forEach(b => { blocks[b.name] = b })
-        const smallestBlockSize = _.min(_.map(newBlocks, b => b.getSqSize()))
-        console.log('cut', 'smallest block size', smallestBlockSize)
-        actionsCost.push(getTotalActionCost(baseActionCost, smallestBlockSize))
+        actionsCost.push(getTotalActionCost(baseActionCost, block.getSqSize()))
     } else if (cmd == 'color') {
         const [r, g, b, a]: Number[] = JSON.parse(args)
         actionsCost.push(getTotalActionCost(ActionsBaseCost.COLOR, block.getSqSize()))
         block.color(drawCtx, r, g, b, a)
+    } else if (cmd == 'swap') {
+        let otherBlockId = args[0]
+        otherBlockId = otherBlockId.slice(1,-1)
+        const otherBlock: Block = blocks[otherBlockId]
+        block.swap(drawCtx, otherBlock)
+        actionsCost.push(getTotalActionCost(ActionsBaseCost.SWAP, block.getSqSize()))
+    } else if (cmd == 'merge') {
+        let otherBlockId = args[0]
+        otherBlockId = otherBlockId.slice(1,-1)
+        const otherBlock: Block = blocks[otherBlockId]
+        const maxBlockId = _.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0])))
+        const nextBlockId = `${maxBlockId + 1}`
+        const newBlock = block.merge(otherBlock, nextBlockId)
+        blocks[nextBlockId] = newBlock
+        delete blocks[blockId]
+        delete blocks[otherBlockId]
+        actionsCost.push(getTotalActionCost(ActionsBaseCost.SWAP, _.max([block.getSqSize(), otherBlock.getSqSize])))
     }
     return actionsCost
 }
@@ -317,5 +383,33 @@ export function getPictureDifferenceCost(pixelData1: Uint8ClampedArray, pixelDat
         if (diff > 0) pixelsWithDiff++
     }
     const diffCost = Math.round(diff * alpha)
+    return diffCost
+}
+
+export function getBlockDifferenceCost(pixelData1: Uint8ClampedArray, pixelData2: Uint8ClampedArray, block) {
+    const rgba1 = pixelData1
+    const rgba2 = pixelData2
+    const alpha = 0.005
+    let pixels = 0
+    let diff = 0
+
+    for (let y = block.begin.y; y < block.end.y; ++y) {
+        for (let x = block.begin.x ; x < block.end.x; ++x) {
+            const j = (x + y * 400) * 4;
+            pixels += 1
+            const r1 = rgba1[j+0]
+            const g1 = rgba1[j+1]
+            const b1 = rgba1[j+2]
+            const a1 = rgba1[j+3]
+    
+            const r2 = rgba2[j+0]
+            const g2 = rgba2[j+1]
+            const b2 = rgba2[j+2]
+            const a2 = rgba2[j+3]
+            diff += Math.sqrt((r1-r2)**2 + (g1-g2)**2 + (b1-b2)**2 + (a1-a2)**2)    
+        }
+    }
+    const diffCost = Math.round(diff * alpha)
+    // console.log("difference for block", block, diff);
     return diffCost
 }
