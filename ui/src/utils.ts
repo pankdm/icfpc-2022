@@ -123,9 +123,11 @@ function getTotalActionCost(actionCost: ActionsBaseCost, smallestBlockSize) {
 
 export class Block extends Rect {
     name: String
-    constructor(name, begin, end) {
+    blockColor: Uint8Array
+    constructor(name, begin, end, blockColor) {
         super(begin, end)
         this.name = name
+        this.blockColor = blockColor
     }
 
     static serializeMap(blocksMap) {
@@ -143,8 +145,8 @@ export class Block extends Rect {
             throw new Error(`Invalid cut at {X:${x}} for block ((${x0}, ${y0}), (${x1}, ${y1}))`)
         }
 
-        const left = new Block(this.name + ".0", new Vec(x0, y0), new Vec(x, y1))
-        const right = new Block(this.name + ".1", new Vec(x, y0), new Vec(x1, y1))
+        const left = new Block(this.name + ".0", new Vec(x0, y0), new Vec(x, y1), this.blockColor)
+        const right = new Block(this.name + ".1", new Vec(x, y0), new Vec(x1, y1), this.blockColor)
 
         return [left, right]
     }
@@ -156,8 +158,8 @@ export class Block extends Rect {
             throw new Error(`Invalid cut at {Y:${y}} for block ((${x0}, ${y0}), (${x1}, ${y1}))`)
         }
 
-        const bottom = new Block(this.name + ".0", new Vec(x0, y0), new Vec(x1, y))
-        const top = new Block(this.name + ".1", new Vec(x0, y), new Vec(x1, y1))
+        const bottom = new Block(this.name + ".0", new Vec(x0, y0), new Vec(x1, y), this.blockColor)
+        const top = new Block(this.name + ".1", new Vec(x0, y), new Vec(x1, y1), this.blockColor)
 
         return [bottom, top]
     }
@@ -169,15 +171,42 @@ export class Block extends Rect {
         const { x: x0, y: y0 } = this.begin
         const { x: x1, y: y1 } = this.end
 
-        const bottom_left = new Block(this.name + ".0", new Vec(x0, y0), new Vec(pt_x, pt_y))
-        const botom_right = new Block(this.name + ".1", new Vec(pt_x, y0), new Vec(x1, pt_y))
-        const top_right = new Block(this.name + ".2", new Vec(pt_x, pt_y), new Vec(x1, y1))
-        const top_left = new Block(this.name + ".3", new Vec(x0, pt_y), new Vec(pt_x, y1))
+        const bottom_left = new Block(this.name + ".0", new Vec(x0, y0), new Vec(pt_x, pt_y), this.blockColor)
+        const botom_right = new Block(this.name + ".1", new Vec(pt_x, y0), new Vec(x1, pt_y), this.blockColor)
+        const top_right = new Block(this.name + ".2", new Vec(pt_x, pt_y), new Vec(x1, y1), this.blockColor)
+        const top_left = new Block(this.name + ".3", new Vec(x0, pt_y), new Vec(pt_x, y1), this.blockColor)
 
         return [bottom_left, botom_right, top_right, top_left]
     }
 
     color(drawCtx: CanvasRenderingContext2D, r, g, b, a) {
+        this.blockColor = new Uint8Array([r, g, b, a])
+        this.draw(drawCtx)
+    }
+
+    swap(drawCtx: CanvasRenderingContext2D, other: Block) {
+        const { x: x0, y: y0 } = this.begin
+        const { x: x1, y: y1 } = this.end
+        const { x: x2, y: y2 } = other.begin
+        const { x: x3, y: y3 } = other.end
+        const width = x1 - x0
+        const height = y1 - y0
+        const otherWidth = x3 - x2
+        const otherHeight = y3 - y2
+        if (width != otherWidth || height != otherHeight) {
+            throw new Error(`Invalid swap for blocks ((${x0}, ${y0}), (${x1}, ${y1})) and ((${x2}, ${y2}), (${x3}, ${y3}))`)
+        }
+
+        this.begin = new Vec(x2, y2)
+        this.end = new Vec(x3, y3)
+        other.begin = new Vec(x0, y0)
+        other.end = new Vec(x1, y1)
+        this.draw(drawCtx)
+        other.draw(drawCtx)
+    }
+
+    private draw(drawCtx: CanvasRenderingContext2D) {
+        const [r, g, b, a] = this.blockColor
         drawCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a/255})`
         // NOTE: contest's Y axis is headed bottom-up
         //       while 2D canvas are aimed top-down
@@ -238,6 +267,12 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
         const [r, g, b, a]: Number[] = JSON.parse(args)
         actionsCost.push(getTotalActionCost(ActionsBaseCost.COLOR, block.getSqSize()))
         block.color(drawCtx, r, g, b, a)
+    } else if (cmd == 'swap') {
+        let otherBlockId = args[0]
+        otherBlockId = otherBlockId.slice(1,-1)
+        const otherBlock: Block = blocks[otherBlockId]
+        block.swap(drawCtx, otherBlock)
+        actionsCost.push(getTotalActionCost(ActionsBaseCost.SWAP, block.getSqSize()))
     }
     return actionsCost
 }
