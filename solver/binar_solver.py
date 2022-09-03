@@ -119,6 +119,8 @@ class Solver:
         cache_key = tuple([sp.x1, sp.x2, sp.y1, sp.y2] + list(current_color))
         if cache_key in self.cache:
             o = self.cache[cache_key]
+            # for cmd in o.cmds:
+            #     if len([c for c in cmd if c == "$"]) != 1: assert(False)
             return Option(cmds=[cmd.replace("$", block_id) for cmd in o.cmds], score=o.score)
 
         options = []
@@ -154,7 +156,7 @@ class Solver:
                 score=color_cost + new_similarity))
 
             if depth < self.max_depth:
-                o = self.improve(block_id=block_id, sp=sp, current_color=avg_color, depth=depth+1)
+                o = self.improve(block_id="$", sp=sp, current_color=avg_color, depth=depth+1)
                 options.append(Option(
                     cmds=[f"color [$] {avg_color}"] + o.cmds,
                     score=color_cost + o.score))
@@ -207,6 +209,9 @@ class Solver:
         # if depth < 1: print(f"{block_id} best option = {best_option}")
 
         self.cache[cache_key] = best_option
+
+        # for cmd in best_option.cmds:
+        #     if len([c for c in cmd if c == "$"]) != 1: assert(False)
 
         return Option(cmds=[cmd.replace("$", block_id) for cmd in best_option.cmds],
                       score=best_option.score)
