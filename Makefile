@@ -1,12 +1,13 @@
-PYTHON          := python3
-PIP             := pip3
-FLASK           := ${PYTHON} -m flask
+PYTHON              := python3
+PIP                 := pip3
+FLASK               := ${PYTHON} -m flask
+EXPORT_PYTHONPATH   := export PYTHONPATH="$(shell pwd)";
 
 install:
 	${PIP} install -r requirements.txt
 
 start-server:
-	${FLASK} --app server/server --debug run
+	${EXPORT_PYTHONPATH} ${FLASK} --app server/server --debug run
 
 repl:
-	${PYTHON} -i repl.py
+	${EXPORT_PYTHONPATH} ${PYTHON} -i repl.py
