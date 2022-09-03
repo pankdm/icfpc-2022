@@ -11,37 +11,9 @@ import os.path
 from PIL import Image
 import numpy as np
 import sys
+import time
+import geometric_median as gm
 
-import numpy as np
-from scipy.spatial.distance import cdist, euclidean
-
-def geometric_median(X, eps=1e-5):
-    y = np.mean(X, 0)
-
-    while True:
-        D = cdist(X, [y])
-        nonzeros = (D != 0)[:, 0]
-
-        Dinv = 1 / D[nonzeros]
-        Dinvs = np.sum(Dinv)
-        W = Dinv / Dinvs
-        T = np.sum(W * X[nonzeros], 0)
-
-        num_zeros = len(X) - np.sum(nonzeros)
-        if num_zeros == 0:
-            y1 = T
-        elif num_zeros == len(X):
-            return y
-        else:
-            R = (T - y) * Dinvs
-            r = np.linalg.norm(R)
-            rinv = 0 if r == 0 else num_zeros/r
-            y1 = max(0, 1-rinv)*T + min(1, rinv)*y
-
-        if euclidean(y, y1) < eps:
-            return y1
-
-        y = y1
 
 def open_as_np(n):
     img=Image.open(f"{sys.path[0]}/../problems/{n}.png")
@@ -144,7 +116,11 @@ class Solver:
         # Recolor
         color_cost = costs.get_cost(costs.COSTS.COLOR, sp.size)
         # avg_color = [round(v) for v in subimg.mean(axis=0).mean(axis=0)]
-        avg_color = geometric_median(subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)))
+        start = time.time()
+        avg_color = [round(v) for v in gm.geometric_median(subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)))]
+        end = time.time()
+        print(f"geometric_median took {end - start} for {sp.size}")
+
         options.append(Option(
             cmds=[f"color {block_id} {avg_color}"],
             score=color_cost + costs.float_simil(subimg - avg_color)))
