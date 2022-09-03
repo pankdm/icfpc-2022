@@ -123,11 +123,9 @@ function getTotalActionCost(actionCost: ActionsBaseCost, smallestBlockSize) {
 
 export class Block extends Rect {
     name: String
-    blockColor: Uint8Array
-    constructor(name, begin, end, blockColor) {
+    constructor(name, begin, end) {
         super(begin, end)
         this.name = name
-        this.blockColor = blockColor
     }
 
     static serializeMap(blocksMap) {
@@ -145,8 +143,8 @@ export class Block extends Rect {
             throw new Error(`Invalid cut at {X:${x}} for block ((${x0}, ${y0}), (${x1}, ${y1}))`)
         }
 
-        const left = new Block(this.name + ".0", new Vec(x0, y0), new Vec(x, y1), this.blockColor)
-        const right = new Block(this.name + ".1", new Vec(x, y0), new Vec(x1, y1), this.blockColor)
+        const left = new Block(this.name + ".0", new Vec(x0, y0), new Vec(x, y1))
+        const right = new Block(this.name + ".1", new Vec(x, y0), new Vec(x1, y1))
 
         return [left, right]
     }
@@ -158,8 +156,8 @@ export class Block extends Rect {
             throw new Error(`Invalid cut at {Y:${y}} for block ((${x0}, ${y0}), (${x1}, ${y1}))`)
         }
 
-        const bottom = new Block(this.name + ".0", new Vec(x0, y0), new Vec(x1, y), this.blockColor)
-        const top = new Block(this.name + ".1", new Vec(x0, y), new Vec(x1, y1), this.blockColor)
+        const bottom = new Block(this.name + ".0", new Vec(x0, y0), new Vec(x1, y))
+        const top = new Block(this.name + ".1", new Vec(x0, y), new Vec(x1, y1))
 
         return [bottom, top]
     }
@@ -171,17 +169,23 @@ export class Block extends Rect {
         const { x: x0, y: y0 } = this.begin
         const { x: x1, y: y1 } = this.end
 
-        const bottom_left = new Block(this.name + ".0", new Vec(x0, y0), new Vec(pt_x, pt_y), this.blockColor)
-        const botom_right = new Block(this.name + ".1", new Vec(pt_x, y0), new Vec(x1, pt_y), this.blockColor)
-        const top_right = new Block(this.name + ".2", new Vec(pt_x, pt_y), new Vec(x1, y1), this.blockColor)
-        const top_left = new Block(this.name + ".3", new Vec(x0, pt_y), new Vec(pt_x, y1), this.blockColor)
+        const bottom_left = new Block(this.name + ".0", new Vec(x0, y0), new Vec(pt_x, pt_y))
+        const botom_right = new Block(this.name + ".1", new Vec(pt_x, y0), new Vec(x1, pt_y))
+        const top_right = new Block(this.name + ".2", new Vec(pt_x, pt_y), new Vec(x1, y1))
+        const top_left = new Block(this.name + ".3", new Vec(x0, pt_y), new Vec(pt_x, y1))
 
         return [bottom_left, botom_right, top_right, top_left]
     }
 
     color(drawCtx: CanvasRenderingContext2D, r, g, b, a) {
-        this.blockColor = new Uint8Array([r, g, b, a])
-        this.draw(drawCtx)
+        drawCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a/255})`
+        // NOTE: contest's Y axis is headed bottom-up
+        //       while 2D canvas are aimed top-down
+        const x = this.begin.x
+        const y = 400 - this.end.y
+        const width = this.end.x - this.begin.x
+        const height = this.end.y - this.begin.y
+        drawCtx.fillRect(x, y, width, height)
     }
 
     swap(drawCtx: CanvasRenderingContext2D, other: Block) {
@@ -201,20 +205,22 @@ export class Block extends Rect {
         this.end = new Vec(x3, y3)
         other.begin = new Vec(x0, y0)
         other.end = new Vec(x1, y1)
-        this.draw(drawCtx)
-        other.draw(drawCtx)
-    }
-
-    private draw(drawCtx: CanvasRenderingContext2D) {
-        const [r, g, b, a] = this.blockColor
-        drawCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a/255})`
         // NOTE: contest's Y axis is headed bottom-up
         //       while 2D canvas are aimed top-down
-        const x = this.begin.x
-        const y = 400 - this.end.y
-        const width = this.end.x - this.begin.x
-        const height = this.end.y - this.begin.y
-        drawCtx.fillRect(x, y, width, height)
+        const image = drawCtx.getImageData(x0, 400 - y1, width, height)
+        const otherImage = drawCtx.getImageData(x2, 400 - y3, otherWidth, otherHeight)
+        const imageCopy = new ImageData(
+            new Uint8ClampedArray(image.data),
+            image.width,
+            image.height
+        )
+        const otherImageCopy = new ImageData(
+            new Uint8ClampedArray(otherImage.data),
+            otherImage.width,
+            otherImage.height
+        )
+        drawCtx.putImageData(imageCopy, x2, 400 - y3)
+        drawCtx.putImageData(otherImageCopy, x0, 400 - y1)
     }
 }
 
