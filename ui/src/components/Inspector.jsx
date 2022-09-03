@@ -78,7 +78,7 @@ function FlameGraph({ className, items }) {
 }
 
 
-function SideBar() {
+function SideBar({ className }) {
   const textAreaRef = useRef()
   const { data } = useQuery(['solutions'], getSolutions)
   const [problemId] = useAppState('currentProblemId')
@@ -106,7 +106,7 @@ function SideBar() {
     setScroll(textAreaRef.current?.scrollTop)
   }, [textAreaRef.current])
   return (
-    <Col className={tw`relative w-[30rem] bg-gray-100 p-2 items-stretch flex-basis-2`}>
+    <Col className={tw(`relative w-[30rem] bg-gray-100 p-2 items-stretch flex-basis-2`, className)}>
       <Row gutter={1}>
         <h2 className={tw`text-2xl font-bold`}>Solution</h2>
         <Select value={solutionId || '__none'} onChangeValue={onSelectSolution} className={tw`flex-1`}>
@@ -295,7 +295,7 @@ export default function Inspector() {
     <div className={tw`min-w-[900px] min-h-screen flex flex-col`}>
       <Header/>
       <div className={tw`flex-1 flex`}>
-        <SideBar/>
+        <SideBar className={tw`z-10`}/>
         <Face2FaceView/>
       </div>
       <Footer/>
