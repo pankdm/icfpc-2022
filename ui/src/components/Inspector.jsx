@@ -23,6 +23,7 @@ import {
   getPictureDifferenceCost,
   getBlockDifferenceCost,
   useRaf,
+  getCtxPixel,
 } from "../utils";
 import { Select, TextArea } from "./Inputs";
 import { forwardRef } from "react";
@@ -52,6 +53,7 @@ const solutionPirctureDiffCost = atom();
 const hoveredBlockId = atom();
 const clickedBlock = atom();
 const previewLOC = atom();
+const selectedPixel = atom();
 
 window.solutionResult = solutionResult;
 window.problemPicture = problemPicture;
@@ -270,6 +272,18 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
       ref={canvasRef}
       width={width}
       height={height}
+      onClick={(event)=> {
+        const canvasBoundingRect = event.target.getBoundingClientRect();
+        const ctx = problemPicture.get().ctx;
+        const x = event.clientX - canvasBoundingRect.x;
+        const y = event.clientY - canvasBoundingRect.y;
+        const yFlip = canvasBoundingRect.height - (event.clientY - canvasBoundingRect.y);
+        selectedPixel.set({
+          x: Math.floor(x),
+          y: Math.floor(yFlip),
+          rgba: getCtxPixel(ctx, x, y).data
+        });
+      }}
       {...props}
     />
   );
@@ -436,6 +450,7 @@ function Face2FaceView() {
   const _solutionResult = useStore(solutionResult);
   const actionsCots = _solutionResult?.actionsCost;
   const totalActionsCost = _.sum(actionsCots);
+  const _selectedPixel = useStore(selectedPixel);
 
   const _clickedBlock = useStore(clickedBlock);
   const blockDifferenceCost = useMemo(() => {
@@ -475,6 +490,8 @@ function Face2FaceView() {
           <p>Picture diff cost: {differenceCost}</p>
           <p>Total actions cost: {totalActionsCost}</p>
           <p>Grand total: {differenceCost + totalActionsCost}</p>
+          <p>Selected XY: {_selectedPixel?.x} {_selectedPixel?.y} </p>
+          <p>Selected color: [{_selectedPixel?.rgba.join(", ")}] </p>
           {_clickedBlock && (
             <>
             <p>Block {_clickedBlock.name}</p>
