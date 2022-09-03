@@ -13,6 +13,7 @@ import {
 } from "../api";
 import { useAppState } from "../app-state";
 import Spacer, { Interspaced } from "./Spacer";
+import Button from "./Button";
 import { Col, Row } from "./Flex";
 import {
   computeBlocksAndDraw,
@@ -23,6 +24,7 @@ import {
   useRaf,
 } from "../utils";
 import { Select, TextArea } from "./Inputs";
+import { forwardRef } from "react";
 
 const problemPicture = atom();
 function getProblemPixels(width, height) {
@@ -48,6 +50,7 @@ const solutionError = atom();
 const solutionPirctureDiffCost = atom();
 const hoveredBlockId = atom();
 const clickedBlock = atom();
+const previewLOC = atom();
 
 window.solutionResult = solutionResult;
 window.problemPicture = problemPicture;
@@ -82,6 +85,34 @@ function Header() {
   );
 }
 
+const InstructionLog = forwardRef(({ code, className }, ref) => {
+  const [selectedLOC, setSelectedLOC] = useState()
+  if (!code) return <div>Nothing to display</div>
+  const instructions = code.split('\n')
+  const unpreviewLOC = () => {
+    previewLOC.set(selectedLOC || null)
+  }
+  return (
+    <Col ref={ref} onMouseLeave={unpreviewLOC} className={tw(`flex-1 font-mono items-start overflow-y-auto`, css({flexBasis: 0}), className)}>
+      {instructions.map((line, idx) => {
+        const selected = selectedLOC == idx
+        const cls = tw(apply`w-full px-1 -mx-1 cursor-pointer rounded`, selected ? `bg-[rgba(255,120,120,0.75)]` : `hover:bg-[rgba(255,255,255,0.75)]`)
+        const hoverLOC = () => {
+          previewLOC.set(idx)
+        }
+        const onClick = () => {
+          if (selected) {
+            setSelectedLOC(null)
+          } else {
+            setSelectedLOC(idx)
+          }
+        }
+        return <div key={idx} onClick={onClick} onMouseEnter={hoverLOC} className={cls}>{line}</div>
+    })}
+    </Col>
+  )
+})
+
 function FlameGraph({ className, items }) {
   const labelsCls = tw(apply`whitespace-pre-wrap leading-tight`, className);
   let cumulative = [];
@@ -107,6 +138,8 @@ function SideBar({ className }) {
   const error = _solutionResult?.error;
   const errorLine = _solutionResult?.errorLine;
   const actionsCost = _solutionResult?.actionsCost;
+  const [editMode, setEditMode] = useAppState("codeEditMode") || false
+  const onToggleEditMode = () => setEditMode(!editMode)
   const onSelectSolution = async (_solutionId) => {
     setSolutionId(_solutionId);
     if (_solutionId == "__new") {
@@ -122,12 +155,12 @@ function SideBar({ className }) {
   const [scroll, setScroll] = useState(0);
   useRaf(() => {
     if (!textAreaRef.current) return;
-    setScroll(textAreaRef.current?.scrollTop);
+    setScroll(textAreaRef.current.scrollTop);
   }, [textAreaRef.current]);
   return (
     <Col
       className={tw(
-        `relative w-[30rem] bg-gray-100 p-2 items-stretch flex-basis-2`,
+        `relative w-[30rem] bg-gray-100 p-2 items-stretch`,
         className
       )}
     >
@@ -148,6 +181,7 @@ function SideBar({ className }) {
             ))}
           {problemId && <option value="__new">Manual</option>}
         </Select>
+        <Button color={editMode ? 'red' : 'blue'} className={tw(apply`w-24`)} onClick={onToggleEditMode}>{editMode ? 'Done' : 'Edit'}</Button>
       </Row>
       <Spacer size={1} />
       <Col className={tw`flex-1`}>
@@ -161,15 +195,22 @@ function SideBar({ className }) {
               items={actionsCost}
             />
           )}
-          <TextArea
-            ref={textAreaRef}
-            value={code}
-            onChangeValue={onChangeCode}
-            className={tw(
-              apply`flex-1 font-mono whitespace-pre resize-none`,
-              error && "bg-red-300 focus:bg-red-200 active:bg-red-200"
-            )}
-          />
+          {editMode
+            ? <TextArea
+                ref={textAreaRef}
+                value={code}
+                onChangeValue={onChangeCode}
+                className={tw(
+                  apply`flex-1 bg-white font-mono whitespace-pre border-0 resize-none py-3 px-4 pr-8`,
+                  error && "bg-red-300 focus:bg-red-200 active:bg-red-200"
+                )}
+              />
+            : <InstructionLog
+                ref={textAreaRef}
+                className={tw(`bg-gray-200 py-3 px-4 leading-tight`, css({flexBasis:0}))}
+                code={code}
+              />
+          }
         </Col>
       </Col>
       {error && (
@@ -252,6 +293,26 @@ function ProblemView() {
   );
 }
 
+function computeCode(code, width, height) {
+  const { ctx, shadowCtx } = solutionPicture.get()
+  const result = computeBlocksAndDraw(code, ctx, shadowCtx);
+  solutionResult.set(result);
+  solutionError.set(
+    result.error ? { error: result.error, line: result.errorLine } : null
+  );
+  const solutionPixelData = getCtxFullImageData(ctx, width, height);
+  solutionPicture.set({
+    ...solutionPicture.get(),
+    pixelData: solutionPixelData,
+  });
+  const picturePixelData = problemPicture.get()?.pixelData;
+  if (picturePixelData) {
+    solutionPirctureDiffCost.set(
+      getPictureDifferenceCost(solutionPixelData, picturePixelData, 400, 400)
+    );
+  }
+}
+
 function SolutionCanvas({ solution, width, height, ...props }) {
   const canvasRef = useRef();
   const canvasShadowRef = useRef();
@@ -268,23 +329,11 @@ function SolutionCanvas({ solution, width, height, ...props }) {
     ctx.fillRect(0, 0, width, height);
     shadowCtx.fillStyle = "white";
     shadowCtx.fillRect(0, 0, width, height);
-    const result = computeBlocksAndDraw(justCode, ctx, shadowCtx);
-    const solutionPixelData = getCtxFullImageData(ctx, width, height);
     solutionPicture.set({
       ctx: ctx,
       shadowCtx: shadowCtx,
-      pixelData: solutionPixelData,
     });
-    solutionResult.set(result);
-    solutionError.set(
-      result.error ? { error: result.error, line: result.errorLine } : null
-    );
-    const picturePixelData = problemPicture.get()?.pixelData;
-    if (picturePixelData) {
-      solutionPirctureDiffCost.set(
-        getPictureDifferenceCost(solutionPixelData, picturePixelData, 400, 400)
-      );
-    }
+    computeCode(justCode, width, height)
   }, [justCode]);
   return (
     <>
@@ -342,11 +391,16 @@ function BlockDiv({ block }) {
 function SolutionView() {
   const [code] = useAppState("currentCode");
   const _solutionResult = useStore(solutionResult);
+  const _previewLOC = useStore(previewLOC);
   const blocks = _solutionResult?.blocks;
-  const body = code && (
+  let filteredCode = code
+  if (_previewLOC && code) {
+    filteredCode = code.split('\n').slice(0, _previewLOC + 1).join('\n')
+  }
+  const body = filteredCode && (
     <>
       <div className={tw`relative border`}>
-        <SolutionCanvas solution={code} width={400} height={400} />
+        <SolutionCanvas solution={filteredCode} width={400} height={400} />
         {_.map(blocks, (b) => (
           <BlockDiv key={b.name} block={b} />
         ))}
@@ -356,7 +410,7 @@ function SolutionView() {
   return (
     <div className={tw`flex-1 flex flex-col items-center justify-center`}>
       <h1 className={tw`text-4xl font-bold mb-4`}>Solution</h1>
-      {code ? (
+      {filteredCode ? (
         body
       ) : (
         <div
