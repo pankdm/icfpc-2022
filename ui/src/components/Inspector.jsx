@@ -46,6 +46,7 @@ const solutionResult = atom();
 const solutionError = atom();
 const solutionPirctureDiffCost = atom();
 const hoveredBlockId = atom();
+const clickedBlock = atom();
 
 window.solutionResult = solutionResult;
 window.problemPicture = problemPicture;
@@ -306,8 +307,10 @@ function SolutionCanvas({ solution, width, height, ...props }) {
 
 function BlockDiv({ block }) {
   const _hoveredBlockId = useStore(hoveredBlockId);
+
   const onBlockMouseLeave = () => hoveredBlockId.set();
   const onBlockMouseEnter = () => hoveredBlockId.set(block.name);
+  const onClick = () => clickedBlock.set(block);
   const size = block.getSize();
   const borderWidth = 2;
   const blockCls = tw(
@@ -328,6 +331,7 @@ function BlockDiv({ block }) {
       className={blockCls}
       onPointerEnter={onBlockMouseEnter}
       onPointerLeave={onBlockMouseLeave}
+      onClick={onClick}
     >
       <span className={labelCls}>{block.name}</span>
     </div>
@@ -390,7 +394,20 @@ function Face2FaceView() {
 }
 
 function Footer() {
-  return <div className={tw`h-24 bg-gray-200`}>{/* <h1>Footer</h1> */}</div>;
+  const _clickedBlock = useStore(clickedBlock);
+  const blockInfo = _clickedBlock ? (
+    <div>
+      <p>block {_clickedBlock.name}</p>
+      <p>
+        begin: ({_clickedBlock.begin.x}, {_clickedBlock.begin.y}) end: (
+        {_clickedBlock.end.x}, {_clickedBlock.end.y})
+      </p>
+    </div>
+  ) : (
+    <div></div>
+  );
+
+  return <div className={tw`h-24 bg-gray-200`}>{blockInfo}</div>;
 }
 
 export default function Inspector() {
