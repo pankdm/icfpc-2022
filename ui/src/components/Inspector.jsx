@@ -150,6 +150,7 @@ function SideBar({ className }) {
       setCode(code);
     }
   };
+  const reloadSolution = async () => await onSelectSolution(solutionId)
   const onChangeCode = async (code) => {
     setCode(code);
   };
@@ -183,7 +184,8 @@ function SideBar({ className }) {
             ))}
           {problemId && <option value="__new">Manual</option>}
         </Select>
-        <Button color={editMode ? 'red' : 'blue'} className={tw(apply`w-24`)} onClick={onToggleEditMode}>{editMode ? 'Done' : 'Edit'}</Button>
+        <Button color='white' className={tw`w-10 h-10 text-3xl p-0 hover:bg-gray-300 active:bg-gray-400`} onClick={reloadSolution}>♻️</Button>
+        <Button color={editMode ? 'red' : 'blue'} className={tw`w-24`} onClick={onToggleEditMode}>{editMode ? 'Done' : 'Edit'}</Button>
       </Row>
       <Spacer size={1} />
       <Col className={tw`flex-1`}>
