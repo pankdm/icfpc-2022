@@ -69,9 +69,9 @@ def solve_dp(problem):
             avg = (prefix_sums[cut_y] - prefix_sums[y]) // (cut_y - y)
             similarity = 0
             for y1 in range(y, cut_y):
-                similarity += 400 * dist(rows[y1], avg)
-                # for x in range(0, 400):
-                #     similarity += dist(pixels[x,y1], avg)
+                # similarity += 400 * dist(rows[y1], avg)
+                for x in range(0, 400):
+                    similarity += dist(pixels[x,y1], avg)
 
             cost = round(COSTS.LINECUT * 400 * 400 / ((400 - y) * 400) )
             score = round(0.005 * similarity) + cost + dp[cut_y]
@@ -126,6 +126,16 @@ def solve_dp(problem):
 
 
 def main():
+    # for i in range(21, 26):
+    #     print (f"solving {i}")
+    #     # solve(i)
+    #     solve1block(i)
+
+    # for i in range(1, 21):
+    #     print (f"solving {i}")
+    #     solve(i)
+    #     # solve1block(i)
+
     solve_dp(2)
 
 
