@@ -66,10 +66,10 @@ def solve1block(problem):
 
 
 def main():
-    for i in range(1, 21):
+    for i in range(21, 26):
         print (f"solving {i}")
-        solve(i)
-        # solve1block(i)
+        # solve(i)
+        solve1block(i)
 
 
 if __name__ == "__main__":
