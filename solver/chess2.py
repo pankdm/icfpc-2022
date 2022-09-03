@@ -111,5 +111,7 @@ def solve_white_square(name):
         
     split_blocks(block, 8)
 
-with open("solutions/chess.txt", "wt") as f:
+solve_white_square("0.1.0.1.0")
+
+with open("solutions/manual_chess/1.txt", "wt") as f:
     f.write("\n".join(prog))
