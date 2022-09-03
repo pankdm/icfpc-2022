@@ -35,25 +35,31 @@ class Block:
 
         return [bottom_left, botom_right, top_right, top_left]
 
-    def line_x_mid(self, prog):
+    def line_y(self, y, prog):
         x0, y0 = self.begin
         x1, y1 = self.end
-        mid_x = (self.begin[0] + self.end[0]) // 2
-        left = Block(self.name + ".0", begin = (x0, y0), end = (mid_x, y1))
-        right = Block(self.name + ".1", begin = (mid_x, y0), end = (x1, y1))
+        bottom = Block(self.name + ".0", begin = (x0, y0), end = (x0, y))
+        top = Block(self.name + ".1", begin = (x0, y), end = (x1, y1))
 
-        prog.append(f"cut [{self.name}] [x] [{mid_x}]")
+        prog.append(f"cut [{self.name}] [y] [{y}]")
+        return [bottom, top]
+    
+    def line_x(self, x, prog):
+        x0, y0 = self.begin
+        x1, y1 = self.end
+        left = Block(self.name + ".0", begin = (x0, y0), end = (x, y1))
+        right = Block(self.name + ".1", begin = (x, y0), end = (x1, y1))
+
+        prog.append(f"cut [{self.name}] [x] [{x}]")
         return [left, right]
 
-    def line_y_mid(self, prog):
-        x0, y0 = self.begin
-        x1, y1 = self.end
-        mid_y = (self.begin[1] + self.end[1]) // 2
-        bottom = Block(self.name + ".0", begin = (x0, y0), end = (x0, mid_y))
-        top = Block(self.name + ".1", begin = (x0, mid_y), end = (x1, y1))
+    def line_x_mid(self, prog):
+        mid_x = (self.begin[0] + self.end[0]) // 2
+        return self.line_x(mid_x, prog)
 
-        prog.append(f"cut [{self.name}] [y] [{mid_y}]")
-        return [bottom, top]
+    def line_y_mid(self, prog):
+        mid_y = (self.begin[1] + self.end[1]) // 2
+        return self.line_y(mid_y, prog)
 
     
 def to_color(color):
@@ -71,15 +77,27 @@ d = size // 10
 
 y_offset = 2 * d
 
-prog = [
-    f"color [0] {blue}",
-    f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
-    f"cut [0.1] [x] [{size - d}]",
-    f"cut [0.1.0] [y] [{2 * d}]",
-    f"color [0.1.0.1] {black}",
-    f"cut [0.1.0.1] [x] [{size - 2 * d}]",
-    f"color [0.1.0.1.0] {black}",
-]
+prog = [ ]
+
+
+def add_fragment(prog, frag):
+    for line in frag.split("\n"):
+        prog.append(line.lstrip())
+
+global_counter = [0]
+
+def merge(a, b, prog):
+    assert isinstance(a, str)
+    assert isinstance(b, str)
+
+    prog.append(f"merge [{a}] [{b}]")
+    global_counter[0] += 1
+    return str(global_counter[0])
+    
+
+def swap(b1, b2, prog):
+    prog.append(f"swap [{b1.name}] [{b2.name}]")
+    [b1.name, b2.name] = [b2.name, b1.name]
 
 
 def split_blocks(b, size):
@@ -104,40 +122,134 @@ def split_blocks(b, size):
         split_blocks(b2, size // 2)
         split_blocks(b3, size // 2)
 
+def split_by_lines(b):
+    [left, right] = b.line_x_mid(prog)
+    prog.append(f"color [{left.name}] {white}")
 
-def solve(name):
+    def do_half(start, color):
+        lines = []
+        cur = start
+        for i in range(7):
+            if i == 4:
+                prog.append(f"color [{cur.name}] {color}")
+            [bottom, top] = cur.line_y(cur.end[1] - d, prog)
+            lines.append(top)
+            cur = bottom
+        lines.append(cur)
+
+        # for b in lines:
+        #     print(b.name)
+        swap(lines[1], lines[4], prog)
+        swap(lines[3], lines[6], prog)
+        return lines
+
+    left_lines = do_half(left, black)
+    right_lines = do_half(right, white)
+
+    def do_merge(lines):
+        cur = lines[0].name
+        for next in lines[1:]:
+            cur = merge(cur, next.name, prog)
+        return cur
+
+    b1 = do_merge(left_lines)
+    b2 = do_merge(right_lines)
+    last = merge(b1, b2, prog)
+    cur = Block(last, b.begin, b.end)
+
+    cols = []
+    for i in range(7):
+        [left, right] = cur.line_x(cur.begin[0] + d, prog)
+        cols.append(left)
+        cur = right
+    cols.append(cur)
+    swap(cols[1], cols[4], prog)
+    swap(cols[3], cols[6], prog)
+
+
+def add_sides():
+    # horizontal
+    # cur = "0.1.0.0"
+    # delta = 320
+    # color = 0
+    # for i in range(8):
+    #     prog.append(f"cut [{cur}] [x] [{delta}]")
+    #     prog.append(f"color [{cur}.0] { white if color else black}")
+    #     delta -= d
+    #     cur = cur + ".0"
+    #     color = 1 - color
+
+    # # vertical
+    # cur = "0.1.0.1.1"
+    # delta = 120
+    # color = 1
+    # # prog.append(f"color [{cur}] {black}")
+    # for i in range(7):
+    #     prog.append(f"cut [{cur}] [y] [{delta}]")
+    #     prog.append(f"color [{cur}.1] { white if color else black}")
+    #     delta += d
+    #     cur = cur + ".1"
+    #     color = 1 - color
+
+
+    # manually optimized
+    add_fragment(prog, 
+    """
+    cut [0.1.0.0] [x] [320]
+    color [0.1.0.0.0] [0, 0, 0, 255]
+    cut [0.1.0.0.0] [x] [280]
+    color [0.1.0.0.0.0] [255, 255, 255, 255]
+    cut [0.1.0.0.0.0] [x] [240]
+    color [0.1.0.0.0.0.0] [0, 0, 0, 255]
+    cut [0.1.0.0.0.0.0] [x] [200]
+    color [0.1.0.0.0.0.0.0] [0, 0, 0, 255]
+    cut [0.1.0.0.0.0.0.0] [x] [160]
+    cut [0.1.0.0.0.0.0.0.0] [x] [120]
+    color [0.1.0.0.0.0.0.0.0.0] [255, 255, 255, 255]
+    cut [0.1.0.0.0.0.0.0.0.0] [x] [80]
+    cut [0.1.0.0.0.0.0.0.0.0.0] [x] [40]
+    swap [0.1.0.0.0.0.0.0.1] [0.1.0.0.0.0.0.0.0.0.0.1]
+    cut [0.1.0.1.1] [y] [120]
+    color [0.1.0.1.1.1] [255, 255, 255, 255]
+    cut [0.1.0.1.1.1] [y] [160]
+    color [0.1.0.1.1.1.1] [0, 0, 0, 255]
+    cut [0.1.0.1.1.1.1] [y] [200]
+    color [0.1.0.1.1.1.1.1] [0, 0, 0, 255]
+    cut [0.1.0.1.1.1.1.1] [y] [240]
+    cut [0.1.0.1.1.1.1.1.1] [y] [280]
+    color [0.1.0.1.1.1.1.1.1.1] [255, 255, 255, 255]
+    cut [0.1.0.1.1.1.1.1.1.1] [y] [320]
+    cut [0.1.0.1.1.1.1.1.1.1.1] [y] [360]
+    swap [0.1.0.1.1.1.1.1.0] [0.1.0.1.1.1.1.1.1.1.1.0]
+    """)
+
+def solve():
+    global prog
+    prog += [
+        f"color [0] {blue}",
+        f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
+        f"cut [0.1] [x] [{size - d - 3}]", # again a bit better
+        f"cut [0.1.0] [y] [{2 * d}]",
+        f"color [0.1.0.1] {black}",
+        f"cut [0.1.0.1] [x] [{size - 2 * d}]",
+        f"color [0.1.0.1.0] {black}"
+    ]
+    name = "0.1.0.1.0"
+
     block = Block(name, begin = (0, y_offset), end = (size - 2 * d, size))
     assert block.size() == (d * 8, d * 8)
-        
-    split_blocks(block, 8)
+
+    split_by_lines(block)
+
+    add_sides()
+
+    # split_blocks(block, 8)
 
     # now do lines
 
-    # horizontal
-    cur = "0.1.0.0"
-    delta = 320
-    color = 0
-    for i in range(8):
-        prog.append(f"cut [{cur}] [x] [{delta}]")
-        prog.append(f"color [{cur}.0] { white if color else black}")
-        delta -= d
-        cur = cur + ".0"
-        color = 1 - color
 
-    # vertical
-    cur = "0.1.0.1.1"
-    delta = 120
-    color = 1
-    # prog.append(f"color [{cur}] {black}")
-    for i in range(7):
-        prog.append(f"cut [{cur}] [y] [{delta}]")
-        prog.append(f"color [{cur}.1] { white if color else black}")
-        delta += d
-        cur = cur + ".1"
-        color = 1 - color
+if __name__ == "__main__":
+    solve()
+    with open("solutions/manual_chess/1.txt", "wt") as f:
+        f.write("\n".join(prog))
 
-
-solve("0.1.0.1.0")
-
-with open("solutions/manual_chess/1.txt", "wt") as f:
-    f.write("\n".join(prog))
