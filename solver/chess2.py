@@ -77,15 +77,8 @@ d = size // 10
 
 y_offset = 2 * d
 
-prog = [
-    f"color [0] {blue}",
-    f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
-    f"cut [0.1] [x] [{size - d - 3}]", # again a bit better
-    f"cut [0.1.0] [y] [{2 * d}]",
-    f"color [0.1.0.1] {black}",
-    f"cut [0.1.0.1] [x] [{size - 2 * d}]",
-    f"color [0.1.0.1.0] {black}",
-]
+prog = [ ]
+
 
 def add_fragment(prog, frag):
     for line in frag.split("\n"):
@@ -161,22 +154,20 @@ def split_by_lines(b):
 
     b1 = do_merge(left_lines)
     b2 = do_merge(right_lines)
-    
+    last = merge(b1, b2, prog)
+    cur = Block(last, b.begin, b.end)
 
-    b = Block(
+    cols = []
+    for i in range(7):
+        [left, right] = cur.line_x(cur.begin[0] + d, prog)
+        cols.append(left)
+        cur = right
+    cols.append(cur)
+    swap(cols[1], cols[4], prog)
+    swap(cols[3], cols[6], prog)
 
 
-def solve(name):
-    block = Block(name, begin = (0, y_offset), end = (size - 2 * d, size))
-    assert block.size() == (d * 8, d * 8)
-
-    split_by_lines(block)
-    return
-
-    # split_blocks(block, 8)
-
-    # now do lines
-
+def add_sides():
     # horizontal
     # cur = "0.1.0.0"
     # delta = 320
@@ -232,9 +223,33 @@ def solve(name):
     swap [0.1.0.1.1.1.1.1.0] [0.1.0.1.1.1.1.1.1.1.1.0]
     """)
 
+def solve():
+    global prog
+    prog += [
+        f"color [0] {blue}",
+        f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
+        f"cut [0.1] [x] [{size - d - 3}]", # again a bit better
+        f"cut [0.1.0] [y] [{2 * d}]",
+        f"color [0.1.0.1] {black}",
+        f"cut [0.1.0.1] [x] [{size - 2 * d}]",
+        f"color [0.1.0.1.0] {black}"
+    ]
+    name = "0.1.0.1.0"
+
+    block = Block(name, begin = (0, y_offset), end = (size - 2 * d, size))
+    assert block.size() == (d * 8, d * 8)
+
+    split_by_lines(block)
+
+    add_sides()
+
+    # split_blocks(block, 8)
+
+    # now do lines
 
 
-solve("0.1.0.1.0")
+if __name__ == "__main__":
+    solve()
+    with open("solutions/manual_chess/1.txt", "wt") as f:
+        f.write("\n".join(prog))
 
-with open("solutions/manual_chess/1.txt", "wt") as f:
-    f.write("\n".join(prog))
