@@ -37,7 +37,6 @@ def dist(a, b):
 
 def save_from_np_sampled(path, np_array):
     img = Image.fromarray(np_array.swapaxes(0, 1)[::-1,:])
-    img.resize((400, 400))
     img.save(path, "PNG")
 
 
@@ -139,26 +138,48 @@ def solve_dp(problem, size):
 def open_as_np_sampled(n, size):
     img=Image.open(f"problems/{n}.png")
     img = img.resize((size, size))
+    img = img.resize((400, 400))
     a=np.asarray(img)
     pixels = a[::-1,:].swapaxes(0,1)
     return pixels
 
 
 def resize(n):
-    for i in range(1, 100):
+    for i in range(1, 101):
         if 400 % i == 0:
-            pixels = open_as_np_sampled(n, i)
-            print (pixels.shape)
+            pixels = open_as_np(n)
+            print (f"resampling {n}, size = {i}")
+            res = my_resample(pixels, i)
 
-            save_from_np(f"viz/resize/{n}-{i}.png", pixels)
+            save_from_np(f"viz/resize/{n}-{i}.png", res)
 
-    
+def my_resample(pixels, size):
+    assert 400 % size == 0
+    res = np.zeros((400, 400, 4))
+
+    step = 400 // size
+    for y in range(0, 400, step):
+        for x in range(0, 400, step):
+            sum = np.zeros((4))
+            for dy in range(0, step):
+                for dx in range(0, step):
+                    sum += pixels[x + dx, y + dy, :]
+            sum = sum // (step * step)
+            # print (x, y, sum)
+
+            for dy in range(0, step):
+                for dx in range(0, step):
+                    res[x + dx, y + dy, :] = sum
+    return res.astype(dtype='uint8')
+
+
+
 
 
 
 def main():
-    for i in range(5, 26):
-        solve_dp(i, 100)
+    # for i in range(5, 26):
+    #     solve_dp(i, 100)
     # resize(15)
     # for i in range(21, 26):
     #     print (f"solving {i}")
@@ -171,6 +192,9 @@ def main():
     #     # solve1block(i)
 
     # solve_dp(1)
+
+    for i in range(1, 26):
+        resize(i)
 
 
 if __name__ == "__main__":
