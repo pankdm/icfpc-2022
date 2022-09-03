@@ -48,6 +48,14 @@ def solve(problem):
     icfpc.submit(problem, solution)
 
 
+def solve1block(problem):
+    img = Image.open(f"problems/{problem}.png")
+    a=np.asarray(img)
+    mean_color = a.mean(axis=(0,1)).round().astype(int).tolist()
+    code = f"color [0] {mean_color}"
+    icfpc.submit(problem, code)
+
+
 # def solve_dp():
 #     dp = np.array(401)
 #     dp[0] = 0
@@ -61,6 +69,7 @@ def main():
     for i in range(1, 21):
         print (f"solving {i}")
         solve(i)
+        # solve1block(i)
 
 
 if __name__ == "__main__":
