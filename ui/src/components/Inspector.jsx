@@ -463,13 +463,21 @@ function Face2FaceView() {
           <Spacer size={8} />
           <ProblemView />
         </Row>
-        <div className={tw`min-w-64 items-start`}>
+        <div className={tw`min-w-[28rem] pl-[6rem] min-h-[12rem] items-start`}>
           <p>Picture diff cost: {differenceCost}</p>
           <p>Total actions cost: {totalActionsCost}</p>
           <p>Grand total: {differenceCost + totalActionsCost}</p>
+          {_clickedBlock && (
+            <>
+            <p>Block {_clickedBlock.name}</p>
+            <p>
+              begin: ({_clickedBlock.begin.x}, {_clickedBlock.begin.y}) end: (
+              {_clickedBlock.end.x}, {_clickedBlock.end.y})
+            </p>
+            <p> differenceCost: {blockDifferenceCost}</p>
+            </>
+          )}
         </div>
-        <p></p>
-        <div className={tw`min-w-64 items-start`}>{blockInfo}</div>
       </Col>
       <Spacer flex />
     </Row>
