@@ -181,7 +181,7 @@ function SideBar({ className }) {
         >
           {!solutionId && <option value="__none">&lt;Pick one&gt;</option>}
           {data?.solutions
-            .filter((s) => (problemId ? s.includes(`/${problemId}.txt`) : s))
+            ?.filter((s) => (problemId ? s.includes(`/${problemId}.txt`) : s))
             .map((opt) => (
               <option key={opt} value={opt}>
                 {opt}
