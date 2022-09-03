@@ -4,6 +4,10 @@ from flask import Flask, request, send_from_directory
 from .api import icfpc as ICFPC
 from itertools import chain
 from dotenv import load_dotenv
+import solver.geometric_median as gm
+from PIL import Image
+import numpy as np
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -11,6 +15,19 @@ CORS(app)
 
 os.path.basename(__file__)
 
+IMG_CACHE = {}
+
+def open_image_as_np(n):
+    global IMG_CACHE
+
+    if n in IMG_CACHE:
+        return IMG_CACHE[n]
+
+    img = Image.open(f"./problems/{n}.png")
+    a = np.asarray(img)
+    result = a[::-1, :].swapaxes(0, 1)
+    IMG_CACHE[n] = result
+    return result
 
 @app.route("/")
 def ping():
@@ -44,6 +61,19 @@ def get_problem_initial_state(id):
                 }]
         }
 
+@app.post("/geometric_median")
+def get_geometric_median():
+    payload = request.get_json()
+    id = payload["id"]
+    x1, x2, y1, y2 = payload["x1"], payload["x2"], payload["y1"], payload["y2"]
+    img = open_image_as_np(id)
+    subimg = img[x1:x2, y1:y2]
+
+    print(f"{img}")
+
+    color = [round(v) for v in gm.geometric_median(
+            subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)), eps=1e-2)]
+    return {'color': color}
 
 @app.get("/problems")
 @app.get("/problems/")
