@@ -78,15 +78,15 @@ prog = [
     f"color [0.1.0] {grey}",
     f"cut [0.1.0] [y] [{2 * d}]",
     f"cut [0.1.0.1] [x] [{size - 2 * d}]",
-    f"color [0.1.0.1.0] {white}",
+    f"color [0.1.0.1.0] {black}",
 ]
 
 
 def split_blocks(b, size):
     [b0, b1, b2, b3] = b.split_mid(prog)
     if size == 4:
-        prog.append(f"color [{b1.name}] {black}")
-        prog.append(f"color [{b3.name}] {black}")
+        prog.append(f"color [{b1.name}] {white}")
+        prog.append(f"color [{b3.name}] {white}")
 
         b00 = b0.split_mid(prog)
         b11 = b1.split_mid(prog)
