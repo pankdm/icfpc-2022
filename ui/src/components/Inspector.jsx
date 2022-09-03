@@ -8,6 +8,7 @@ import { css } from "twind/css";
 import {
   getProblemImgUrl,
   getProblems,
+  getProblemInitialState,
   getSolution,
   getSolutions,
 } from "../api";
@@ -297,9 +298,9 @@ function ProblemView() {
   );
 }
 
-function computeCode(code, width, height) {
+function computeCode(initialState, code, width, height) {
   const { ctx, shadowCtx } = solutionPicture.get()
-  const result = computeBlocksAndDraw(code, ctx, shadowCtx);
+  const result = computeBlocksAndDraw(initialState, code, ctx, shadowCtx);
   solutionResult.set(result);
   solutionError.set(
     result.error ? { error: result.error, line: result.errorLine } : null
@@ -318,6 +319,8 @@ function computeCode(code, width, height) {
 }
 
 function SolutionCanvas({ solution, width, height, ...props }) {
+  const [problemId] = useAppState("currentProblemId");
+  const { data } = useQuery(["problemInitialState" + problemId], () => getProblemInitialState(problemId));
   const canvasRef = useRef();
   const canvasShadowRef = useRef();
   const justCode = solution
@@ -325,7 +328,7 @@ function SolutionCanvas({ solution, width, height, ...props }) {
     .map((s) => s.split("#", 1).toString().trim())
     .join("\n");
   useEffect(() => {
-    if (!justCode || !canvasRef.current || !canvasShadowRef.current) return;
+    if (!data || !justCode || !canvasRef.current || !canvasShadowRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
     const shadowCtx = canvasShadowRef.current.getContext("2d");
     if (!ctx || !shadowCtx) return;
@@ -337,8 +340,9 @@ function SolutionCanvas({ solution, width, height, ...props }) {
       ctx: ctx,
       shadowCtx: shadowCtx,
     });
-    computeCode(justCode, width, height)
-  }, [justCode]);
+    console.log("got data", data);
+    computeCode(data, justCode, width, height);
+  }, [justCode, data, problemId]);
   return (
     <>
       <canvas

@@ -35,6 +35,10 @@ export async function getProblem(problemId): Promise<ArrayBuffer> {
   return await api_request(`/problems/${problemId}`, { method: 'GET' })
 }
 
+export async function getProblemInitialState(problemId): Promise<ArrayBuffer> {
+  return await api_request(`/problem_initial_states/${problemId}`, { method: 'GET' })
+}
+
 export async function getSolutions() {
   return await api_request(`/solutions`, { method: 'GET' })
 }

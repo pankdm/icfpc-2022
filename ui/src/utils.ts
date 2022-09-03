@@ -1,9 +1,9 @@
 import _ from 'lodash'
 import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
-export const sleep = (delayMs=100) => new Promise((res, rej) => setTimeout(res, delayMs))
+export const sleep = (delayMs = 100) => new Promise((res, rej) => setTimeout(res, delayMs))
 
-export function useOnChange(value, callback=_.noop) {
+export function useOnChange(value, callback = _.noop) {
     const [prevValue, setPrevValue] = useState(value)
     useEffect(() => {
         if (prevValue === value) return
@@ -66,7 +66,7 @@ export function usePersist<T extends (...args: any[]) => any>(callback: T): T {
 //     // return [start, cancel] as const;
 // }
 
-export function useRaf(callback, deps=[]) {
+export function useRaf(callback, deps = []) {
     let play = true
     const loop = () => {
         callback()
@@ -101,16 +101,16 @@ export class Rect {
         return new Vec(this.end.x - this.begin.x, this.end.y - this.begin.y)
     }
     getSqSize() {
-        return (this.end.x - this.begin.x)*(this.end.y - this.begin.y)
+        return (this.end.x - this.begin.x) * (this.end.y - this.begin.y)
     }
 }
 
 enum ActionsBaseCost {
-    LINE_CUT=7,
-    POINT_CUT=10,
-    COLOR=5,
-    SWAP=3,
-    MERGE=1,
+    LINE_CUT = 7,
+    POINT_CUT = 10,
+    COLOR = 5,
+    SWAP = 3,
+    MERGE = 1,
 }
 
 const CANVAS_SIZE_X = 400
@@ -139,7 +139,7 @@ export class Block extends Rect {
     cutX(x: Number) {
         const { x: x0, y: y0 } = this.begin
         const { x: x1, y: y1 } = this.end
-        if (x<=x0 || x>=x1) {
+        if (x <= x0 || x >= x1) {
             throw new Error(`Invalid cut at {X:${x}} for block ((${x0}, ${y0}), (${x1}, ${y1}))`)
         }
 
@@ -178,7 +178,7 @@ export class Block extends Rect {
     }
 
     color(drawCtx: CanvasRenderingContext2D, r, g, b, a) {
-        drawCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a/255})`
+        drawCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a / 255})`
         // NOTE: contest's Y axis is headed bottom-up
         //       while 2D canvas are aimed top-down
         const x = this.begin.x
@@ -249,13 +249,13 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
     args = [...instruction.matchAll(/(\[[^\]]+\])/g)].map(m => m[0])
     blockId = args[0]
     args = args.slice(1)
-    blockId = blockId.slice(1,-1)
+    blockId = blockId.slice(1, -1)
     const block: Block = blocks[blockId]
     if (!block) {
         throw new Error(`Incorrect blockId ${instruction}`)
     }
     if (cmd == 'cut') {
-        let newBlocks:Block[]
+        let newBlocks: Block[]
         let baseActionCost
         if (args.length == 1) {
             const pointStr = args[0]
@@ -286,13 +286,13 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
         block.color(drawCtx, r, g, b, a)
     } else if (cmd == 'swap') {
         let otherBlockId = args[0]
-        otherBlockId = otherBlockId.slice(1,-1)
+        otherBlockId = otherBlockId.slice(1, -1)
         const otherBlock: Block = blocks[otherBlockId]
         block.swap(drawCtx, otherBlock)
         actionsCost.push(getTotalActionCost(ActionsBaseCost.SWAP, block.getSqSize()))
     } else if (cmd == 'merge') {
         let otherBlockId = args[0]
-        otherBlockId = otherBlockId.slice(1,-1)
+        otherBlockId = otherBlockId.slice(1, -1)
         const otherBlock: Block = blocks[otherBlockId]
         const maxBlockId = _.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0])))
         const nextBlockId = `${maxBlockId + 1}`
@@ -305,14 +305,26 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
     return actionsCost
 }
 
-export function computeBlocksAndDraw(instructions, drawCtx, shadowDrawCtx) {
+export function computeBlocksAndDraw(initialState, instructions, drawCtx, shadowDrawCtx) {
     const codeLines = instructions.split('\n').map(cmd => cmd.trim())
-    const blocks = { '0': new Block('0', new Vec(0, 0), new Vec(400, 400)) }
+    let blocks = { '0': new Block('0', new Vec(0, 0), new Vec(400, 400)) }
+
+    if (initialState) {
+        blocks = initialState.blocks.map((block) => {
+            const blk = new Block(
+                block.blockId,
+                new Vec(block.bottomLeft[0], block.bottomLeft[1]),
+                new Vec(block.topRight[0], block.topRight[1]));
+            blk.color(drawCtx, block.color[0], block.color[1], block.color[2], block.color[3])
+            return blk;
+        })
+    }
+
     const actionsCost = []
     let line = 0
     try {
         for (; line < codeLines.length; line++) {
-            console.log(line+1, codeLines[line])
+            console.log(line + 1, codeLines[line])
             executeCommand(blocks, codeLines[line], actionsCost, drawCtx, shadowDrawCtx)
         }
         return {
@@ -321,7 +333,7 @@ export function computeBlocksAndDraw(instructions, drawCtx, shadowDrawCtx) {
             actionsCost: actionsCost,
         }
     } catch (err) {
-        console.error(`Error executing line ${line+1}: ${codeLines[line]}`)
+        console.error(`Error executing line ${line + 1}: ${codeLines[line]}`)
         console.error(err)
         return {
             result: 'error',
@@ -368,18 +380,18 @@ export function getPictureDifferenceCost(pixelData1: Uint8ClampedArray, pixelDat
     let pixels = 0
     let pixelsWithDiff = 0
     let diff = 0
-    for (let j=0; j<pixelData1.length; j+=4) {
+    for (let j = 0; j < pixelData1.length; j += 4) {
         pixels += 1
-        const r1 = rgba1[j+0]
-        const g1 = rgba1[j+1]
-        const b1 = rgba1[j+2]
-        const a1 = rgba1[j+3]
+        const r1 = rgba1[j + 0]
+        const g1 = rgba1[j + 1]
+        const b1 = rgba1[j + 2]
+        const a1 = rgba1[j + 3]
 
-        const r2 = rgba2[j+0]
-        const g2 = rgba2[j+1]
-        const b2 = rgba2[j+2]
-        const a2 = rgba2[j+3]
-        diff += Math.sqrt((r1-r2)**2 + (g1-g2)**2 + (b1-b2)**2 + (a1-a2)**2)
+        const r2 = rgba2[j + 0]
+        const g2 = rgba2[j + 1]
+        const b2 = rgba2[j + 2]
+        const a2 = rgba2[j + 3]
+        diff += Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2 + (a1 - a2) ** 2)
         if (diff > 0) pixelsWithDiff++
     }
     const diffCost = Math.round(diff * alpha)
@@ -394,19 +406,19 @@ export function getBlockDifferenceCost(pixelData1: Uint8ClampedArray, pixelData2
     let diff = 0
 
     for (let y = block.begin.y; y < block.end.y; ++y) {
-        for (let x = block.begin.x ; x < block.end.x; ++x) {
+        for (let x = block.begin.x; x < block.end.x; ++x) {
             const j = (x + y * 400) * 4;
             pixels += 1
-            const r1 = rgba1[j+0]
-            const g1 = rgba1[j+1]
-            const b1 = rgba1[j+2]
-            const a1 = rgba1[j+3]
-    
-            const r2 = rgba2[j+0]
-            const g2 = rgba2[j+1]
-            const b2 = rgba2[j+2]
-            const a2 = rgba2[j+3]
-            diff += Math.sqrt((r1-r2)**2 + (g1-g2)**2 + (b1-b2)**2 + (a1-a2)**2)    
+            const r1 = rgba1[j + 0]
+            const g1 = rgba1[j + 1]
+            const b1 = rgba1[j + 2]
+            const a1 = rgba1[j + 3]
+
+            const r2 = rgba2[j + 0]
+            const g2 = rgba2[j + 1]
+            const b2 = rgba2[j + 2]
+            const a2 = rgba2[j + 3]
+            diff += Math.sqrt((r1 - r2) ** 2 + (g1 - g2) ** 2 + (b1 - b2) ** 2 + (a1 - a2) ** 2)
         }
     }
     const diffCost = Math.round(diff * alpha)
