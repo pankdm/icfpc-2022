@@ -10,7 +10,7 @@ start-ui:
 	cd ui; yarn dev
 
 start-server:
-	${EXPORT_PYTHONPATH} ${FLASK} --app server/server --debug run
+	${EXPORT_PYTHONPATH} ${FLASK} --app server/server --debug run --port=8000
 
 repl:
 	${EXPORT_PYTHONPATH} ${PYTHON} -i repl.py

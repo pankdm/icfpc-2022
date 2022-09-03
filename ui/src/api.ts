@@ -1,4 +1,4 @@
-const SERVER_URL = 'http://localhost:5000'
+const SERVER_URL = 'http://localhost:8000'
 
 
 export function APIpath(path) {
