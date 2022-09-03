@@ -260,9 +260,7 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
             }
         }
         newBlocks.forEach(b => { blocks[b.name] = b })
-        const smallestBlockSize = _.min(_.map(newBlocks, b => b.getSqSize()))
-        console.log('cut', 'smallest block size', smallestBlockSize)
-        actionsCost.push(getTotalActionCost(baseActionCost, smallestBlockSize))
+        actionsCost.push(getTotalActionCost(baseActionCost, block.getSqSize()))
     } else if (cmd == 'color') {
         const [r, g, b, a]: Number[] = JSON.parse(args)
         actionsCost.push(getTotalActionCost(ActionsBaseCost.COLOR, block.getSqSize()))
