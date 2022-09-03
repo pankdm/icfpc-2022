@@ -33,25 +33,32 @@ There is a pre-configured local REPL init script, that provides handy namespaces
 $ make repl
 ```
 
-# Local submission server
+# Script to send solutions
+
+```
+python3 -m src.submit_folder FOLDER
+```
+
+# Local server + UI
+
+Install deps, if not yet
+```bash
+make
+```
+
+Start local server
 
 ```bash
 make start-server
 ```
 
-Then test connection to ICFPC submissions server
+Test connection to ICFPC submissions server
 
 ```bash
 curl -X POST localhost:5000/check-auth
 ```
 
-To submit solutions
+Start UI in separate terminal
 ```bash
-curl -X POST localhost:5000/submit -H 'Content-Type: application/json' --data '{"problem": "-10", "solution": "... file content as single string ..."}'
-```
-
-# Script to send solutions:
-
-```
-python3 -m src.submit_folder FOLDER
+make start-ui
 ```
