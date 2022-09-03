@@ -51,6 +51,7 @@ const solutionResult = atom();
 const solutionError = atom();
 const solutionPirctureDiffCost = atom();
 const hoveredBlockId = atom();
+const hoveredBlock = atom();
 const clickedBlock = atom();
 const previewLOC = atom();
 const selectedPixel = atom();
@@ -235,6 +236,7 @@ function SideBar({ className }) {
 
 function TargetPictureCanvas({ problemId, width, height, ...props }) {
   const canvasRef = useRef();
+  const _hoveredBlock = useStore(hoveredBlock);
   useEffect(() => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -250,6 +252,19 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
     img.crossOrigin = "anonymous";
     img.addEventListener("load", async () => {
       ctx.drawImage(img, 0, 0);
+
+      if (_hoveredBlock) {
+        ctx.beginPath();
+        ctx.lineWidth = "2";
+        ctx.strokeStyle = "red";
+        ctx.rect(_hoveredBlock.begin.x,
+          height - _hoveredBlock.end.y,
+          _hoveredBlock.end.x - _hoveredBlock.begin.x,
+          _hoveredBlock.end.y - _hoveredBlock.begin.y);
+        ctx.stroke();
+      }
+
+
       img.style.display = "none";
       const picturePixelData = getCtxFullImageData(ctx, width, height);
       problemPicture.set({ img: img, ctx: ctx, pixelData: picturePixelData });
@@ -265,7 +280,7 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
         );
       }
     });
-  }, [problemId]);
+  }, [problemId, _hoveredBlock]);
   return (
     <canvas
       id="picture-canvas"
@@ -380,8 +395,14 @@ function SolutionCanvas({ solution, width, height, ...props }) {
 function BlockDiv({ block }) {
   const _hoveredBlockId = useStore(hoveredBlockId);
 
-  const onBlockMouseLeave = () => hoveredBlockId.set();
-  const onBlockMouseEnter = () => hoveredBlockId.set(block.name);
+  const onBlockMouseLeave = () => {
+    hoveredBlockId.set();
+    hoveredBlock.set();
+  };
+  const onBlockMouseEnter = () => {
+    hoveredBlockId.set(block.name);
+    hoveredBlock.set(block);
+  }
   const onClick = () => clickedBlock.set(block);
   const size = block.getSize();
   const borderWidth = 2;
@@ -490,7 +511,7 @@ function Face2FaceView() {
           <p>Picture diff cost: {differenceCost}</p>
           <p>Total actions cost: {totalActionsCost}</p>
           <p>Grand total: {differenceCost + totalActionsCost}</p>
-          <p>Selected XY: {_selectedPixel?.x} {_selectedPixel?.y} </p>
+          <p>Selected XY: [{_selectedPixel?.x}, {_selectedPixel?.y}] </p>
           <p>Selected color: [{_selectedPixel?.rgba.join(", ")}] </p>
           {_clickedBlock && (
             <>
