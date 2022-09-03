@@ -1,5 +1,5 @@
 import _ from 'lodash'
-import { useEffect, useState } from "react"
+import { useEffect, useLayoutEffect, useRef, useState } from "react"
 
 export const sleep = (delayMs=100) => new Promise((res, rej) => setTimeout(res, delayMs))
 
@@ -10,6 +10,76 @@ export function useOnChange(value, callback=_.noop) {
         setPrevValue(value)
         callback(value, prevValue)
     }, [value])
+}
+
+export function useUnmount(effect: () => void) {
+    const effectRef = useRef(effect);
+    effectRef.current = effect;
+
+    useEffect(() => {
+        return () => {
+            effectRef.current();
+        };
+    }, []);
+}
+
+export function useLatestRef<T>(value: T) {
+    const ref = useRef(value);
+    ref.current = value;
+
+    return ref;
+}
+
+export function usePersist<T extends (...args: any[]) => any>(callback: T): T {
+    const resultRef = useRef<T>();
+    const callbackRef = useLatestRef(callback);
+
+    if (!resultRef.current) {
+        resultRef.current = function (this: any, ...args) {
+            return callbackRef.current.apply(this, args);
+        } as T;
+    }
+
+    return resultRef.current;
+}
+
+// export function useRaf(callback: () => void) {
+//     const timerRef = useRef<number>();
+//     const callbackRef = useLatestRef(callback);
+
+//     const cancel = usePersist(() => {
+//         if (timerRef.current !== undefined) {
+//             cancelAnimationFrame(timerRef.current);
+//             timerRef.current = undefined;
+//         }
+//     });
+
+//     const start = usePersist(() => {
+//         cancel();
+//         timerRef.current = requestAnimationFrame(() => {
+//             callbackRef.current();
+//         });
+//     });
+
+//     useUnmount(cancel);
+//     start()
+//     // return [start, cancel] as const;
+// }
+
+export function useRaf(callback, deps=[]) {
+    let play = true
+    const loop = () => {
+        callback()
+        if (play) {
+            requestAnimationFrame(loop)
+        }
+    }
+    useEffect(() => {
+        loop()
+        return () => {
+            play = false
+        }
+    }, deps)
 }
 
 export class Vec {

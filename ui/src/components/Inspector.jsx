@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import _ from 'lodash'
 import { useStore } from '@nanostores/react'
 import { useQuery } from '@tanstack/react-query'
@@ -9,7 +9,7 @@ import { getProblemImgUrl, getProblems, getSolution, getSolutions } from '../api
 import { useAppState } from '../app-state'
 import Spacer, { Interspaced } from './Spacer'
 import { Col, Row } from './Flex'
-import { computeBlocksAndDraw, getCtxFullImageData, getCtxPixels, getPictureDifferenceCost  } from '../utils'
+import { computeBlocksAndDraw, getCtxFullImageData, getCtxPixels, getPictureDifferenceCost, useRaf  } from '../utils'
 import { Select, TextArea } from './Inputs'
 
 const problemPicture = atom()
@@ -62,7 +62,24 @@ function Header() {
 }
 
 
+function FlameGraph({ className, items }) {
+  const labelsCls = tw(
+    apply`whitespace-pre-wrap leading-tight`,
+    className
+  )
+  let cumulative = []
+  let sum = 0
+  items.forEach(i => cumulative.push(sum+=i))
+  return (
+    <pre className={labelsCls}>
+      {cumulative?.map((v, idx) => `${idx+1}:`.padEnd(3)+` +${`${items[idx]}`.padEnd(4)} = ${v}\n`)}
+    </pre>
+  )
+}
+
+
 function SideBar() {
+  const textAreaRef = useRef()
   const { data } = useQuery(['solutions'], getSolutions)
   const [problemId] = useAppState('currentProblemId')
   const [solutionId, setSolutionId] = useAppState('currentSolutionId')
@@ -70,6 +87,7 @@ function SideBar() {
   const _solutionResult = useStore(solutionResult)
   const error = _solutionResult?.error
   const errorLine = _solutionResult?.errorLine
+  const actionsCost = _solutionResult?.actionsCost
   const onSelectSolution = async (_solutionId) => {
     setSolutionId(_solutionId)
     if (_solutionId == '__new') {
@@ -82,8 +100,13 @@ function SideBar() {
   const onChangeCode = async (code) => {
     setCode(code)
   }
+  const [scroll, setScroll] = useState(0)
+  useRaf(() => {
+    if (!textAreaRef.current) return
+    setScroll(textAreaRef.current?.scrollTop)
+  }, [textAreaRef.current])
   return (
-    <Col className={tw`w-[30rem] bg-gray-100 p-2 overflow-y-auto items-stretch flex-basis-2`}>
+    <Col className={tw`relative w-[30rem] bg-gray-100 p-2 items-stretch flex-basis-2`}>
       <Row gutter={1}>
         <h2 className={tw`text-2xl font-bold`}>Solution</h2>
         <Select value={solutionId || '__none'} onChangeValue={onSelectSolution} className={tw`flex-1`}>
@@ -95,17 +118,19 @@ function SideBar() {
         </Select>
       </Row>
       <Spacer size={1} />
-      <Col className={tw`relative flex-1`}>
-        <TextArea value={code} onChangeValue={onChangeCode} className={tw(apply`flex-1 font-mono overflow-scroll whitespace-pre resize-none`, error && 'bg-red-300 focus:bg-red-200 active:bg-red-200')} />
-        {error && (
-          <pre className={tw`absolute bottom-1 left-2 text-red-700 whitespace-pre-wrap`}>
-            Error on line {errorLine+1}
-            {'\n'}
-            {error.toString()}
-          </pre>
-        )}
+      <Col className={tw`flex-1`}>
+        <Col className={tw`relative flex-1 w-full items-stretch`}>
+          {actionsCost && <FlameGraph className={tw(apply`absolute top-0 right-[-13.25rem] w-[16rem] py-3 px-4 text-red-700`, `translate-y-[-${scroll}px]`)} items={actionsCost} />}
+          <TextArea ref={textAreaRef} value={code} onChangeValue={onChangeCode} className={tw(apply`flex-1 font-mono whitespace-pre resize-none`, error && 'bg-red-300 focus:bg-red-200 active:bg-red-200')} />
+        </Col>
       </Col>
-
+      {error && (
+        <pre className={tw`absolute top-[calc(100%+.5rem)] l-1 w-[70rem] left-2 text-red-700 whitespace-pre-wrap`}>
+          Error on line {errorLine+1}
+          {'\n'}
+          {error.toString()}
+        </pre>
+      )}
     </Col>
   )
 }
@@ -232,6 +257,8 @@ function SolutionView() {
 function Face2FaceView() {
   const differenceCost = useStore(solutionPirctureDiffCost)
   const _solutionResult = useStore(solutionResult)
+  const actionsCots = _solutionResult?.actionsCost
+  const totalActionsCost = _.sum(actionsCots)
   return (
     <Row className={tw`flex-1 overflow-auto`}>
       <Spacer flex />
@@ -241,8 +268,11 @@ function Face2FaceView() {
           <Spacer size={8} />
           <ProblemView />
         </Row>
-        <p>Picture diff cost: {differenceCost}</p>
-        <p>Total actions cost: {_.sum(_solutionResult?.actionsCost)}</p>
+        <div className={tw`min-w-64 items-start`}>
+          <p>Picture diff cost: {differenceCost}</p>
+          <p>Total actions cost: {totalActionsCost}</p>
+          <p>Grand total: {differenceCost + totalActionsCost}</p>
+        </div>
       </Col>
       <Spacer flex />
     </Row>
@@ -253,7 +283,7 @@ function Face2FaceView() {
 function Footer() {
   return (
     <div className={tw`h-24 bg-gray-200`}>
-      <h1>Footer</h1>
+      {/* <h1>Footer</h1> */}
     </div>
   )
 }
