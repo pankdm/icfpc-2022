@@ -73,7 +73,7 @@ y_offset = 2 * d
 
 prog = [
     f"color [0] {blue}",
-    f"cut [0] [y] [{d}]",
+    f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
     f"cut [0.1] [x] [{size - d}]",
     f"cut [0.1.0] [y] [{2 * d}]",
     f"color [0.1.0.1] {black}",
