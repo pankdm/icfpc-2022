@@ -75,8 +75,8 @@ prog = [
     f"color [0] {blue}",
     f"cut [0] [y] [{d}]",
     f"cut [0.1] [x] [{size - d}]",
-    f"color [0.1.0] {grey}",
     f"cut [0.1.0] [y] [{2 * d}]",
+    f"color [0.1.0.1] {black}",
     f"cut [0.1.0.1] [x] [{size - 2 * d}]",
     f"color [0.1.0.1.0] {black}",
 ]
@@ -105,13 +105,39 @@ def split_blocks(b, size):
         split_blocks(b3, size // 2)
 
 
-def solve_white_square(name):
+def solve(name):
     block = Block(name, begin = (0, y_offset), end = (size - 2 * d, size))
     assert block.size() == (d * 8, d * 8)
         
     split_blocks(block, 8)
 
-solve_white_square("0.1.0.1.0")
+    # now do lines
+
+    # horizontal
+    cur = "0.1.0.0"
+    delta = 320
+    color = 0
+    for i in range(8):
+        prog.append(f"cut [{cur}] [x] [{delta}]")
+        prog.append(f"color [{cur}.0] { white if color else black}]")
+        delta -= d
+        cur = cur + ".0"
+        color = 1 - color
+
+    # vertical
+    cur = "0.1.0.1.1"
+    delta = 120
+    color = 1
+    # prog.append(f"color [{cur}] {black}")
+    for i in range(7):
+        prog.append(f"cut [{cur}] [y] [{delta}]")
+        prog.append(f"color [{cur}.1] { white if color else black}]")
+        delta += d
+        cur = cur + ".1"
+        color = 1 - color
+
+
+solve("0.1.0.1.0")
 
 with open("solutions/manual_chess/1.txt", "wt") as f:
     f.write("\n".join(prog))
