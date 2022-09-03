@@ -222,6 +222,19 @@ export class Block extends Rect {
         drawCtx.putImageData(imageCopy, x2, 400 - y3)
         drawCtx.putImageData(otherImageCopy, x0, 400 - y1)
     }
+
+    merge(other: Block, newName) {
+        const { x: x0, y: y0 } = this.begin
+        const { x: x1, y: y1 } = this.end
+        const { x: x2, y: y2 } = other.begin
+        const { x: x3, y: y3 } = other.end
+        const merged = new Block(newName, new Vec(_.min([x0, x2]), _.min([y0, y2])), new Vec(_.max([x1, x3]), _.max([y1, y3])))
+        if (merged.getSqSize() != this.getSqSize() + other.getSqSize()) {
+            throw new Error(`Invalid merge for blocks ((${x0}, ${y0}), (${x1}, ${y1})) and ((${x2}, ${y2}), (${x3}, ${y3}))`)
+        }
+
+        return merged;
+    }
 }
 
 function executeCommand(blocks: Object, instruction: String, actionsCost: Number[], drawCtx: CanvasRenderingContext2D, shadowDrawCtx: CanvasRenderingContext2D) {
@@ -277,6 +290,17 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
         const otherBlock: Block = blocks[otherBlockId]
         block.swap(drawCtx, otherBlock)
         actionsCost.push(getTotalActionCost(ActionsBaseCost.SWAP, block.getSqSize()))
+    } else if (cmd == 'merge') {
+        let otherBlockId = args[0]
+        otherBlockId = otherBlockId.slice(1,-1)
+        const otherBlock: Block = blocks[otherBlockId]
+        const maxBlockId = _.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0])))
+        const nextBlockId = `${maxBlockId + 1}`
+        const newBlock = block.merge(otherBlock, nextBlockId)
+        blocks[nextBlockId] = newBlock
+        delete blocks[blockId]
+        delete blocks[otherBlockId]
+        actionsCost.push(getTotalActionCost(ActionsBaseCost.SWAP, _.max([block.getSqSize(), otherBlock.getSqSize])))
     }
     return actionsCost
 }
