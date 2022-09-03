@@ -13,7 +13,7 @@ export function Interspaced({ gutter=4, children, ...props }) {
       {_.map(children, (child, idx) => (
         <React.Fragment key={idx}>
           {idx != 0 && <Spacer size={gutter} />}
-          <div>{child}</div>
+          {child}
           </React.Fragment>
       ))}
     </div>

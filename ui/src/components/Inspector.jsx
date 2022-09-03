@@ -53,16 +53,16 @@ function SideBar() {
   }
   return (
     <Col className={tw`w-96 bg-gray-100 p-2 overflow-y-auto items-stretch`}>
-      <Row gutter={2}>
+      <Row gutter={1}>
         <h2 className={tw`text-2xl font-bold`}>Solution</h2>
-        <Select value={solutionId || '__none'} onChangeValue={onSelectSolution} className={tw`w-48`}>
+        <Select value={solutionId || '__none'} onChangeValue={onSelectSolution} className={tw`flex-1`}>
           {!solutionId && <option value='__none'></option>}
           {data?.solutions.map(opt => (
             <option key={opt} value={opt}>{opt}</option>
           ))}
         </Select>
       </Row>
-      <Spacer />
+      <Spacer size={1} />
       <TextArea value={code} onChangeValue={setCode} className={tw`flex-1 font-mono overflow-scroll whitespace-pre`} />
     </Col>
   )
@@ -111,7 +111,7 @@ function ProblemView() {
 }
 
 
-function getBlocks(op, ops) {
+function getBlocks(solution) {
   const blocks = []
 
 }
