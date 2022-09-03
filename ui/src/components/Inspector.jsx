@@ -131,6 +131,7 @@ function FlameGraph({ className, items }) {
 function SideBar({ className }) {
   const textAreaRef = useRef();
   const { data } = useQuery(["solutions"], getSolutions);
+  const [viewMode] = useAppState("viewMode")
   const [problemId] = useAppState("currentProblemId");
   const [solutionId, setSolutionId] = useAppState("currentSolutionId");
   const [code, setCode] = useAppState("currentCode");
@@ -160,7 +161,8 @@ function SideBar({ className }) {
   return (
     <Col
       className={tw(
-        `relative w-[30rem] bg-gray-100 p-2 items-stretch`,
+        `relative w-[30rem] bg-gray-100 p-2 items-stretch transition-all`,
+        css({flexBasis: viewMode == 'wide' ? '48rem' : '30rem'}),
         className
       )}
     >
@@ -485,7 +487,13 @@ function Face2FaceView() {
 }
 
 function Footer() {
-  return <div className={tw`h-24 bg-gray-200`}></div>;
+  const [viewMode, setViewMode] = useAppState("viewMode")
+  return (
+    <Row className={tw`h-24 bg-gray-200 px-4`}>
+      <Spacer flex={1}/>
+      <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>
+    </Row>
+  );
 }
 
 export default function Inspector() {
