@@ -93,7 +93,7 @@ const InstructionLog = forwardRef(({ code, className }, ref) => {
     previewLOC.set(selectedLOC || null)
   }
   return (
-    <Col ref={ref} onMouseLeave={unpreviewLOC} className={tw(`flex-1 font-mono items-start overflow-y-auto`, css({flexBasis: 0}), className)}>
+    <Col ref={ref} onMouseLeave={unpreviewLOC} className={tw(`flex-1 font-mono items-start overflow-auto whitespace-nowrap`, css({flexBasis: 0}), className)}>
       {instructions.map((line, idx) => {
         const selected = selectedLOC == idx
         const cls = tw(apply`w-full px-1 -mx-1 cursor-pointer rounded`, selected ? `bg-[rgba(255,120,120,0.75)]` : `hover:bg-[rgba(255,255,255,0.75)]`)
@@ -482,7 +482,7 @@ function Footer() {
 
 export default function Inspector() {
   return (
-    <div className={tw`min-w-[900px] min-h-screen flex flex-col`}>
+    <div className={tw`min-w-[900px] min-h-screen flex flex-col overflow-hidden`}>
       <Header />
       <div className={tw`flex-1 flex`}>
         <SideBar className={tw`z-10`} />
