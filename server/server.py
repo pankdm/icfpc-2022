@@ -34,7 +34,11 @@ def get_problems():
 @app.get("/solutions/")
 def get_solutions():
     solutions_dir = os.path.dirname(__file__)+'/../solutions'
-    solutions_folders_with_files = [(path.lstrip(solutions_dir), files) for path, folders, files in os.walk(solutions_dir)]
+    # print (solutions_dir)
+    solutions_folders_with_files = []
+    for path, folders, files in os.walk(solutions_dir):
+        # print (path, folders, files)
+        solutions_folders_with_files.append((path.removeprefix(solutions_dir + '/'), files))
     solutions = []
     for path, files in solutions_folders_with_files:
         for file in files:
