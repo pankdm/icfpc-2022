@@ -112,7 +112,7 @@ class Solver:
         return self.ref_img[sp.x1:sp.x2, sp.y1:sp.y2]
 
     def improve(self, block_id: str, sp: Shape, current_color, depth) -> Option:
-        print(f"improve {block_id} at {sp} depth {depth}")
+        # print(f"improve {block_id} at {sp} depth {depth}")
 
         options = []
 
@@ -175,22 +175,32 @@ class Solver:
                                             subshapes=sp.split_xy(mid_x, mid_y))
                            )
 
-        if depth < 2: print(f"{block_id} options = {options}")
+        if depth < 1:
+            options_summary = "  \n".join([f"* Score: {o.score} Cmds: {o.cmds}" for o in options])
+            print(f"OPTIONS FOR {block_id}:\n{options_summary}")
         best_option = None
         for o in options:
             if best_option == None or o.score < best_option.score:
                 best_option = o
-        if depth < 2: print(f"{block_id} best option = {best_option}")
+        # if depth < 1: print(f"{block_id} best option = {best_option}")
 
         return best_option
 
 
 def main():
-    img = open_as_np(2)
-    solver = Solver(ref_img=img, max_depth=4)
-    o = solver.improve(0, Shape(0, 0, 400, 400), [255, 255, 255, 255], 0)
-    print(f"Solution: {o.score}")
-    print("\n".join(o.cmds))
+    for i in range(1, 26):
+        img = open_as_np(i)
+
+        print(f"# Solving {i}")
+        solver = Solver(ref_img=img, max_depth=4)
+        o = solver.improve(0, Shape(0, 0, 400, 400), [255, 255, 255, 255], 0)
+        # print(f"Solution: {o.score}")
+        # print("\n".join(o.cmds))
+
+        with open(f"{sys.path[0]}/../solutions/binary_solver/{i}.txt", "wt") as f:
+            f.write("\n".join(o.cmds)+"\n")
+
+    print(f"DONE")
 
 
 
