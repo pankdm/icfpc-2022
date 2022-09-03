@@ -5,6 +5,10 @@ from typing import List, Tuple, Deque
 
 from solver.costs import simil, COSTS
 from utils import open_as_np
+
+from dotenv import load_dotenv
+load_dotenv()
+
 from server.api import icfpc
 
 class Problem:
@@ -123,8 +127,8 @@ def find_best_pointcut(b: Block, p: Problem, cur_score: int, N=10):
                 best = (i,j)
     return best_score, (b.w//N*best[0], b.h//N*best[1])
 
-GREED = 0.93
-MAX_DEPTH = 4
+GREED = 0.95
+MAX_DEPTH = 5
 
 def dfs(b: Block, p: Problem):
     if b.depth>=MAX_DEPTH:
@@ -153,7 +157,6 @@ def main():
         dfs(b, p)
         print(i, p.total_cost(), p.total_similarity(),  p.total_score())
         code = p.output()
-        print(code)
         icfpc.submit(i, code)
 
 if __name__ == '__main__':
