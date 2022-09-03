@@ -1,7 +1,7 @@
 from dotenv import load_dotenv
 load_dotenv()
 from .api import icfpc as ICFPC
-from flask import Flask, request
+from flask import Flask, request, send_from_directory
 
 app = Flask(__name__)
 
@@ -12,6 +12,10 @@ def ping():
 @app.post("/check-auth")
 def post_check_auth():
     return ICFPC.check_auth()
+
+@app.get("/problems/<id>")
+def get_problem(id):
+    return send_from_directory('../problems', id+'.png')
 
 @app.post("/submit")
 def post_submit():
