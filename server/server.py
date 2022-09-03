@@ -45,6 +45,7 @@ def get_problem_initial_state(id):
         }
 
 
+@app.get("/problems")
 @app.get("/problems/")
 def get_problems():
     problems_dir = os.path.dirname(__file__)+'/../problems'
@@ -73,7 +74,8 @@ def get_solutions():
 
 @app.get("/solutions/<path:path>")
 def get_solution(path):
-    return send_from_directory('./solutions', path)
+    print(path)
+    return send_from_directory('../solutions', path)
 
 
 @app.post("/submit")

@@ -398,6 +398,22 @@ export function getPictureDifferenceCost(pixelData1: Uint8ClampedArray, pixelDat
     return diffCost
 }
 
+export function getSquareMedianColor(pixelData: Uint8ClampedArray) {
+    const rgba = pixelData
+    let mr = 0
+    let mg = 0
+    let mb = 0
+    let ma = 0
+    const lenSq = (rgba.length/4)**2
+    for (let j = 0; j < rgba.length; j += 4) {
+        mr += rgba[j + 0]**2/lenSq
+        mg += rgba[j + 1]**2/lenSq
+        mb += rgba[j + 2]**2/lenSq
+        ma += rgba[j + 3]**2/lenSq
+    }
+    return [mr, mg, mb, ma]
+}
+
 export function getBlockDifferenceCost(pixelData1: Uint8ClampedArray, pixelData2: Uint8ClampedArray, block) {
     const rgba1 = pixelData1
     const rgba2 = pixelData2

@@ -369,7 +369,6 @@ function SolutionCanvas({ solution, width, height, ...props }) {
       ctx: ctx,
       shadowCtx: shadowCtx,
     });
-    console.log("got data", data);
     computeCode(data, justCode, width, height);
   }, [justCode, data, problemId]);
   return (
