@@ -318,6 +318,7 @@ export function computeBlocksAndDraw(initialState, instructions, drawCtx, shadow
             blk.color(drawCtx, block.color[0], block.color[1], block.color[2], block.color[3])
             return blk;
         })
+        blocks = _.keyBy(blocks, 'name')
     }
 
     const actionsCost = []
