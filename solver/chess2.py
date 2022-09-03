@@ -122,9 +122,16 @@ def split_blocks(b, size):
         split_blocks(b2, size // 2)
         split_blocks(b3, size // 2)
 
-def split_by_lines(b):
-    [left, right] = b.line_x_mid(prog)
-    prog.append(f"color [{left.name}] {white}")
+def split_by_lines(b, bottom_line):
+    prog.append(f"color [{b.name}] {white}")
+    prog.append(f"color [{bottom_line.name}] {white}")
+
+    bottom_left, bottom_right = bottom_line.line_x(4 * d, prog)
+    prog.append(f"color [{bottom_left.name}] {black}")
+
+
+    [left, right] = b.line_x(b.begin[0] + 4 * d, prog)
+    prog.append(f"color [{left.name}] {black}")
 
     def do_half(start, color):
         lines = []
@@ -143,9 +150,11 @@ def split_by_lines(b):
         swap(lines[3], lines[6], prog)
         return lines
 
-    left_lines = do_half(left, black)
-    right_lines = do_half(right, white)
 
+    left_lines = do_half(left, white)
+    right_lines = do_half(right, black)
+    # swap(left_lines[-1], right_lines[-1], prog)
+    prog.append("# doing merge")
     def do_merge(lines):
         cur = lines[0].name
         for next in lines[1:]:
@@ -154,6 +163,15 @@ def split_by_lines(b):
 
     b1 = do_merge(left_lines)
     b2 = do_merge(right_lines)
+
+    # doing cut from left
+    prog.append("# cut right column")
+    prog.append(f"cut [{b2}] [x] [{size - 2 * d}]")
+    b2 = b2 + ".0"
+
+    b1 = merge(b1, bottom_left.name, prog)
+    b2 = merge(b2, bottom_right.name, prog)
+
     last = merge(b1, b2, prog)
     cur = Block(last, b.begin, b.end)
 
@@ -163,8 +181,22 @@ def split_by_lines(b):
         cols.append(left)
         cur = right
     cols.append(cur)
-    swap(cols[1], cols[4], prog)
-    swap(cols[3], cols[6], prog)
+    swap(cols[0], cols[5], prog)
+    swap(cols[2], cols[7], prog)
+
+def add_side(block):
+    prog.append(f"color [{block.name}] {black}")
+    rows = []
+    cur = block
+    for i in range(7):
+        [bottom, top] = cur.line_y(cur.end[1] - d, prog)
+        if i == 3:
+            prog.append(f"color [{bottom.name}] {white}")
+        rows.append(top)
+        cur = bottom
+    rows.append(cur)
+    swap(rows[0], rows[5], prog)
+    swap(rows[2], rows[7], prog)
 
 
 def add_sides():
@@ -227,21 +259,24 @@ def solve():
     global prog
     prog += [
         f"color [0] {blue}",
-        f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
-        f"cut [0.1] [x] [{size - d - 3}]", # again a bit better
-        f"cut [0.1.0] [y] [{2 * d}]",
-        f"color [0.1.0.1] {black}",
-        f"cut [0.1.0.1] [x] [{size - 2 * d}]",
-        f"color [0.1.0.1.0] {black}"
     ]
-    name = "0.1.0.1.0"
+    b = Block("0", begin = (0, 0), end = (400, 400))
+    [_, b1] = b.line_y(d, prog)
+    [b2, _] = b1.line_x(size - d, prog)
+    [b3, main_block] = b2.line_y(b2.begin[1] + d, prog)
+    [bottom_line, _] = b3.line_x(size - 2 * d, prog)
 
-    block = Block(name, begin = (0, y_offset), end = (size - 2 * d, size))
-    assert block.size() == (d * 8, d * 8)
+    # add_side(right_col)
 
-    split_by_lines(block)
+        # f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
+        # f"cut [0.1] [x] [{size - d - 3}]", # again a bit better
+        # f"cut [0.1.0] [y] [{2 * d}]",
+        # f"color [0.1.0.1] {black}",
+        # f"cut [0.1.0.1] [x] [{size - 2 * d}]",
+        # f"color [0.1.0.1.0] {black}"
+    split_by_lines(main_block, bottom_line)
 
-    add_sides()
+    # add_sides()
 
     # split_blocks(block, 8)
 
