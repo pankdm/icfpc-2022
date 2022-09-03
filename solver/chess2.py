@@ -34,7 +34,7 @@ class Block:
         top_left = Block(self.name + ".3", begin = (x0, mid_y), end = (mid_x, y1))
 
         return [bottom_left, botom_right, top_right, top_left]
-    
+
 
 def to_color(color):
     return "[{}, {}, {}, {}]".format(color[0], color[1], color[2], color[3])
@@ -85,12 +85,9 @@ def split_blocks(b, size):
         split_blocks(b1, size // 2)
         split_blocks(b2, size // 2)
         split_blocks(b3, size // 2)
-    
+
 split_blocks(block, 8)
 
 
 with open("solutions/chess.txt", "wt") as f:
     f.write("\n".join(prog))
-
-
-

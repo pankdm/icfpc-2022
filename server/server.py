@@ -38,8 +38,8 @@ def get_solutions():
     solutions = []
     for path, files in solutions_folders_with_files:
         for file in files:
-            solutions.append(path+'/'+file)
-    return { 'solutions': solutions }
+            solutions.append(path+'/'+file if path else file)
+    return { 'solutions': sorted(solutions) }
 
 @app.get("/solutions/<path:path>")
 def get_solution(path):

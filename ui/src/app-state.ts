@@ -27,7 +27,7 @@ export function useAppState(key): [any, Function] {
     const state = key === 'ROOT' ? wholeAppState : _.get(wholeAppState, key)
     const setState = (newState) => {
         const update = key === 'ROOT' ? newState : _.set({}, key, newState)
-        const _newState = { ...persistedState.get(), ...update }
+        const _newState = _.merge({}, persistedState.get(), update)
         setAppState(_newState)
     }
     return [state, setState]

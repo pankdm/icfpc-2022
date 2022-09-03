@@ -4,66 +4,93 @@ import { useStore } from '@nanostores/react'
 import { useQuery } from '@tanstack/react-query'
 import { atom } from 'nanostores'
 import { tw } from 'twind'
-import { getProblem, getProblemImgUrl, getProblems, getSolution, getSolutions } from '../api'
+import { getProblemImgUrl, getProblems, getSolution, getSolutions } from '../api'
 import { useAppState } from '../app-state'
-import Button from "./Button"
-import Select from "./Select"
 import Spacer, { Interspaced } from './Spacer'
 import { Col, Row } from './Flex'
-import TextArea from './TextArea'
+import { computeBlocksAndDraw, getCtxFullImageData, getCtxPixels, getPictureDifferenceCost  } from '../utils'
+import { Select, TextArea } from './Inputs'
 
 const problemPicture = atom()
-const problemPicture2DCtx = atom()
+function getProblemPixels(width, height) {
+  const ctx = problemPicture.get()?.ctx
+  return getCtxPixels(ctx, width, height)
+}
 function getProblemPixel(x,y) {
-  const ctx = problemPicture2DCtx.get()
-  if (!ctx) return null
-  return ctx.getImageData(x, y, 1, 1).data;
+  const ctx = problemPicture.get()?.ctx
+  return getCtxPixel(ctx, x, y)
 }
 
+const solutionPicture = atom()
+function getSolutionPixels(width, height) {
+  const ctx = solutionPicture.get()?.ctx
+  return getCtxPixels(ctx, width, height)
+}
+function getSolutionPixel(x,y) {
+  const ctx = solutionPicture.get()?.ctx
+  return getCtxPixel(ctx, x, y)
+}
+const solutionResult = atom()
+const solutionError = atom()
+const solutionPirctureDiffCost = atom()
+
+window.solutionResult = solutionResult
+window.problemPicture = problemPicture
+window.solutionPicture = solutionPicture
 window.getProblemPixel = getProblemPixel
+window.getSolutionPixel = getSolutionPixel
 
 
 function Header() {
   const { data } = useQuery(['problems'], getProblems)
   const [problemId, setProblemId] = useAppState('currentProblemId')
   return (
-    <Interspaced gutter={2} className={tw`min-h-[4rem] py-2 px-4 flex items-center bg-blue-500 text-white justify-center`}>
+    <Row gutter={2} className={tw`min-h-[4rem] py-2 px-4 bg-blue-500 text-white justify-center`}>
+      <p className={tw`font-bold text-xl`}>ICFPC 2022</p>
+      <Spacer size={2} />
       <p className={tw`font-bold text-xl`}>Problem:</p>
       <Select value={problemId || '__none'} onChangeValue={setProblemId} className={tw`w-48`}>
-        {!problemId && <option value='__none'></option>}
+        {!problemId && <option value='__none'>&lt;Pick one&gt;</option>}
         {data?.problems.map(opt => (
           <option key={opt} value={opt}>{opt}</option>
         ))}
       </Select>
-    </Interspaced>
+    </Row>
   )
 }
 
 
 function SideBar() {
   const { data } = useQuery(['solutions'], getSolutions)
-  const [solution, setSolution] = useAppState('currentSolution')
+  const [problemId] = useAppState('currentProblemId')
+  const [solutionId, setSolutionId] = useAppState('currentSolutionId')
   const [code, setCode] = useAppState('currentCode')
-  const solutionId = solution?.id
-  const instructions = solution?.instructions
   const onSelectSolution = async (_solutionId) => {
-    const instructions = await getSolution(_solutionId)
-    setSolution({ id: _solutionId, instructions })
-    setCode(instructions)
+    setSolutionId(_solutionId)
+    if (_solutionId == '__new') {
+      setCode('# Let\'s go!!!\ncolor [0] [255, 255, 255, 255]')
+    } else {
+      const code = await getSolution(_solutionId)
+      setCode(code)
+    }
+  }
+  const onChangeCode = async (code) => {
+    setCode(code)
   }
   return (
-    <Col className={tw`w-96 bg-gray-100 p-2 overflow-y-auto items-stretch`}>
+    <Col className={tw`w-[30rem] bg-gray-100 p-2 overflow-y-auto items-stretch flex-basis-2`}>
       <Row gutter={1}>
         <h2 className={tw`text-2xl font-bold`}>Solution</h2>
         <Select value={solutionId || '__none'} onChangeValue={onSelectSolution} className={tw`flex-1`}>
-          {!solutionId && <option value='__none'></option>}
-          {data?.solutions.map(opt => (
+          {!solutionId && <option value='__none'>&lt;Pick one&gt;</option>}
+          {data?.solutions.filter(s => problemId ? s.includes(`/${problemId}.txt`) : s).map(opt => (
             <option key={opt} value={opt}>{opt}</option>
           ))}
+          {problemId && <option value='__new'>Manual</option>}
         </Select>
       </Row>
       <Spacer size={1} />
-      <TextArea value={code} onChangeValue={setCode} className={tw`flex-1 font-mono overflow-scroll whitespace-pre`} />
+      <TextArea value={code} onChangeValue={onChangeCode} className={tw`flex-1 font-mono overflow-scroll whitespace-pre resize-none`} />
     </Col>
   )
 }
@@ -76,22 +103,23 @@ function TargetPictureCanvas({problemId, width, height, ...props}) {
     const ctx = canvasRef.current.getContext('2d')
     if (!ctx) return
     if (!problemId) {
-      console.log('fill')
       ctx.fillStyle = 'white'
       ctx.fillRect(0, 0, width, height)
       problemPicture.set()
-      problemPicture2DCtx.set()
       return
     }
     const img = new Image()
     img.src = getProblemImgUrl(problemId);
     img.crossOrigin = "anonymous";
     img.addEventListener('load', async () => {
-      problemPicture.set(img)
       ctx.drawImage(img, 0, 0)
       img.style.display = 'none';
-      const _ctx = canvasRef.current.getContext('2d')
-      problemPicture2DCtx.set(_ctx)
+      const picturePixelData = getCtxFullImageData(ctx, width, height)
+      problemPicture.set({ img: img, ctx: ctx, pixelData: picturePixelData })
+      const solutionPixelData = solutionPicture.get()?.pixelData
+      if (solutionPixelData) {
+        solutionPirctureDiffCost.set(getPictureDifferenceCost(solutionPixelData, picturePixelData, 400, 400))
+      }
     });
   }, [problemId])
   return <canvas id='picture-canvas' ref={canvasRef} width={width} height={height} {...props} />
@@ -110,41 +138,69 @@ function ProblemView() {
   )
 }
 
-
-function getBlocks(solution) {
-  const blocks = []
-
-}
-
-
-function SolutionCanvas({ problemId, width, height, ...props }) {
+function SolutionCanvas({ solution, width, height, ...props }) {
   const canvasRef = useRef()
+  const canvasShadowRef = useRef()
+  const justCode = solution.split('\n').map(s => s.split('#', 1).toString().trim()).join('\n')
   useEffect(() => {
-    if (!canvasRef.current) return
+    if (!justCode || !canvasRef.current || !canvasShadowRef.current) return
     const ctx = canvasRef.current.getContext('2d')
-    if (!ctx) return
-    if (!problemId) {
-      console.log('fill')
-      ctx.fillStyle = 'white'
-      ctx.fillRect(0, 0, width, height)
-      return
+    const shadowCtx = canvasShadowRef.current.getContext('2d')
+    if (!ctx || !shadowCtx) return
+    ctx.fillStyle = 'white'
+    ctx.fillRect(0, 0, width, height)
+    shadowCtx.fillStyle = 'white'
+    shadowCtx.fillRect(0, 0, width, height)
+    const result = computeBlocksAndDraw(justCode, ctx, shadowCtx)
+    const solutionPixelData = getCtxFullImageData(ctx, width, height)
+    solutionPicture.set({ ctx: ctx, shadowCtx: shadowCtx, pixelData: solutionPixelData })
+    solutionResult.set(result)
+    solutionError.set(result.error ? {error: result.error, line: result.errorLine} : null)
+    const picturePixelData = problemPicture.get()?.pixelData
+    if (picturePixelData) {
+      solutionPirctureDiffCost.set(getPictureDifferenceCost(solutionPixelData, picturePixelData, 400, 400))
     }
-  }, [problemId])
-  return <canvas id='solution-canvas' ref={canvasRef} width={width} height={height} {...props} />
+  }, [justCode])
+  return (
+    <>
+      <canvas id='solution-canvas' ref={canvasRef} width={width} height={height} {...props} />
+      <canvas id='solution-canvas-shadow' ref={canvasShadowRef} width={width} height={height} className={tw`hidden`}/>
+    </>
+  )
 }
 
 
 function SolutionView() {
-  const [problemId] = useAppState('currentProblemId')
-  const [solution, setSolution] = useAppState('currentSolution')
+  const [code] = useAppState('currentCode')
   return (
     <div className={tw`flex-1 flex flex-col items-center justify-center`}>
       <h1 className={tw`text-4xl font-bold mb-4`}>Solution</h1>
-      {problemId
-        ? <SolutionCanvas problemId={problemId} width={400} height={400} className={tw`border`} />
+      {code
+        ? <SolutionCanvas solution={code} width={400} height={400} className={tw`border`} />
         : <div className={tw`border flex items-center justify-center w-[400px] h-[400px]`}>Picture will show here</div>
       }
     </div>
+  )
+}
+
+
+function Face2FaceView() {
+  const differenceCost = useStore(solutionPirctureDiffCost)
+  const _solutionResult = useStore(solutionResult)
+  return (
+    <Row className={tw`flex-1 overflow-auto`}>
+      <Spacer flex />
+      <Col centeredItems>
+        <Row>
+          <SolutionView />
+          <Spacer size={8} />
+          <ProblemView />
+        </Row>
+        <p>Picture diff cost: {differenceCost}</p>
+        <p>Total actions cost: {_.sum(_solutionResult?.actionsCost)}</p>
+      </Col>
+      <Spacer flex />
+    </Row>
   )
 }
 
@@ -165,11 +221,7 @@ export default function Inspector() {
       <Header/>
       <div className={tw`flex-1 flex`}>
         <SideBar/>
-        <Spacer flex/>
-        <SolutionView/>
-        <Spacer size={8}/>
-        <ProblemView/>
-        <Spacer flex/>
+        <Face2FaceView/>
       </div>
       <Footer/>
     </div >
