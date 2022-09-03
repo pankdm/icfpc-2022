@@ -79,7 +79,7 @@ function Header() {
         className={tw`w-48`}
       >
         {!problemId && <option value="__none">&lt;Pick one&gt;</option>}
-        {data?.problems.map((opt) => (
+        {data?.problems?.map((opt) => (
           <option key={opt} value={opt}>
             {opt}
           </option>
