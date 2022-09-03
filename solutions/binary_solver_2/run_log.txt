@@ -1,0 +1,194 @@
+fourdman@mikhails-mbp-2 icfpc-2022 %  cd /Users/fourdman/src/icfpc-2022 ; /usr/bin/env /Library/Frameworks/Python.framework/Versions/3.8/bin/python3 /Users/fourdman/.vscode/extensions/ms-python.python-2022.4.1/pythonFiles/lib/python/debugpy/launcher 56312 -- 
+/Users/fourdman/src/icfpc-2022/solver/binar_solver.py 
+/Users/fourdman/src/icfpc-2022/solver/binar_solver.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+# Solving 1
+OPTIONS FOR 0:
+* Score: 194616.42536818434 Cmds: []  
+* Score: 152015.69117599595 Cmds: ['color [0] [51, 84, 127, 255]']  
+* Score: 128124.4531271936 Cmds: ['color [0] [51, 84, 127, 255]', 'cut [0] [200, 20  
+* Score: 126140.65013405675 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 126105.55538925012 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut  
+* Score: 125644.74267874239 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut
+# Solving 2
+OPTIONS FOR 0:
+* Score: 66637.86260932364 Cmds: []  
+* Score: 31291.42197437475 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 31332.033823185935 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut   
+* Score: 31272.421974374753 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'co
+# Solving 3
+OPTIONS FOR 0:
+* Score: 303415.95221132704 Cmds: []  
+* Score: 65066.75868161112 Cmds: ['color [0] [0, 0, 0, 255]']  
+* Score: 42483.681197837526 Cmds: ['color [0] [0, 0, 0, 255]', 'cut [0] [200, 200]',  
+* Score: 45118.42159179937 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut  
+* Score: 44038.79322113897 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'col  
+* Score: 42558.681197837526 Cmds: ['cut [0] [200, 200]', 'color [0.0] [0, 0, 0, 255]
+# Solving 4
+OPTIONS FOR 0:
+* Score: 25307.78243250631 Cmds: []  
+* Score: 25271.41410656071 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut  
+* Score: 25293.414106560707 Cmds: ['cut [0] [y] [200]', 'cut [0.1] [x] [200]', 'cut   
+* Score: 25282.414106560715 Cmds: ['cut [0] [200, 200]', 'cut [0.3] [x] [100]', 'cut
+# Solving 5
+OPTIONS FOR 0:
+* Score: 42755.025928028525 Cmds: []  
+* Score: 28321.141500903526 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 28343.141500903526 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut   
+* Score: 28318.141500903526 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'cu
+# Solving 6
+OPTIONS FOR 0:
+* Score: 169166.36812288262 Cmds: []  
+* Score: 95326.73480906324 Cmds: ['color [0] [83, 87, 88, 255]']  
+* Score: 20721.607552091577 Cmds: ['color [0] [83, 87, 88, 255]', 'cut [0] [y] [200]  
+* Score: 22085.709803717466 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 19641.517804516912 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [y] [100]', 'cut   
+* Score: 21713.597503289922 Cmds: ['cut [0] [200, 200]', 'color [0.0] [227, 228, 226
+# Solving 7
+OPTIONS FOR 0:
+* Score: 277944.8982466252 Cmds: []  
+* Score: 95989.89533966673 Cmds: ['color [0] [0, 0, 0, 255]']  
+* Score: 41241.119023192456 Cmds: ['color [0] [0, 0, 0, 255]', 'cut [0] [200, 200]',  
+* Score: 43645.83179816092 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'col  
+* Score: 40979.71395935009 Cmds: ['cut [0] [y] [200]', 'color [0.0] [0, 0, 0, 255]'  
+* Score: 40676.49768922222 Cmds: ['cut [0] [200, 200]', 'color [0.0] [0, 0, 0, 255]
+# Solving 8
+OPTIONS FOR 0:
+* Score: 21906.015798810506 Cmds: []  
+* Score: 21913.015798810506 Cmds: ['cut [0] [x] [200]']  
+* Score: 21913.015798810506 Cmds: ['cut [0] [y] [200]']  
+* Score: 21916.015798810513 Cmds: ['cut [0] [200, 200]']
+# Solving 9
+OPTIONS FOR 0:
+* Score: 198787.46656333862 Cmds: []  
+* Score: 111395.22435126212 Cmds: ['color [0] [140, 142, 110, 255]']  
+* Score: 58701.50444374065 Cmds: ['color [0] [140, 142, 110, 255]', 'cut [0] [200,   
+* Score: 55051.36200582217 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut  
+* Score: 56132.76017544307 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut  
+* Score: 54151.618915391045 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'cu
+# Solving 10
+OPTIONS FOR 0:
+* Score: 210784.30769478861 Cmds: []  
+* Score: 72232.44921210974 Cmds: ['color [0] [59, 74, 168, 255]']  
+* Score: 40114.98867103601 Cmds: ['color [0] [59, 74, 168, 255]', 'cut [0] [200, 20  
+* Score: 40095.86007638069 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut  
+* Score: 39974.91728012024 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'col  
+* Score: 38861.7495406962 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'cut
+# Solving 11
+OPTIONS FOR 0:
+* Score: 235480.12131673517 Cmds: []  
+* Score: 72996.17242899025 Cmds: ['color [0] [182, 71, 22, 255]']  
+* Score: 53489.27501496161 Cmds: ['color [0] [182, 71, 22, 255]', 'cut [0] [200, 20  
+* Score: 53874.20993147325 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 53310.188486758285 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'col  
+* Score: 53243.52544695184 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'col
+# Solving 12
+OPTIONS FOR 0:
+* Score: 24770.241123864835 Cmds: []  
+* Score: 20053.958445161094 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut  
+* Score: 20086.95840173802 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut  
+* Score: 20063.95840173802 Cmds: ['cut [0] [200, 200]', 'cut [0.1] [300, 100]', 'cu
+# Solving 13
+OPTIONS FOR 0:
+* Score: 179453.1018580572 Cmds: []  
+* Score: 62298.00685177407 Cmds: ['color [0] [134, 111, 100, 255]']  
+* Score: 29345.02600939743 Cmds: ['color [0] [134, 111, 100, 255]', 'cut [0] [200,   
+* Score: 29019.19275784121 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 29006.469315255985 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut   
+* Score: 27955.891532952228 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'cut
+# Solving 14
+OPTIONS FOR 0:
+* Score: 45198.53862798772 Cmds: []  
+* Score: 42243.05430735446 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 42221.05430735446 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [y] [100]', 'cut   
+* Score: 42240.05430735446 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut
+# Solving 15
+OPTIONS FOR 0:
+* Score: 75113.00336126356 Cmds: []  
+* Score: 62227.86222083697 Cmds: ['color [0] [207, 225, 243, 255]']  
+* Score: 36747.206865020045 Cmds: ['color [0] [207, 225, 243, 255]', 'cut [0] [200,   
+* Score: 37257.50597197614 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 37257.50597197614 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut   
+* Score: 36812.58389537409 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'co
+# Solving 16
+OPTIONS FOR 0:
+* Score: 246370.7931387563 Cmds: []  
+* Score: 50746.90005910791 Cmds: ['color [0] [83, 69, 48, 255]']  
+* Score: 30412.181688658224 Cmds: ['color [0] [83, 69, 48, 255]', 'cut [0] [y] [200]  
+* Score: 30575.62067516063 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'colo  
+* Score: 29552.167929128005 Cmds: ['cut [0] [y] [200]', 'color [0.0] [64, 47, 32, 25  
+* Score: 30266.373179035636 Cmds: ['cut [0] [200, 200]', 'color [0.0] [71, 52, 35, 2
+# Solving 17
+OPTIONS FOR 0:
+* Score: 218612.80745928525 Cmds: []  
+* Score: 62492.093537762616 Cmds: ['color [0] [76, 99, 135, 255]']  
+* Score: 42635.845934324876 Cmds: ['color [0] [76, 99, 135, 255]', 'cut [0] [200, 20  
+* Score: 42537.880164550275 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'col  
+* Score: 42618.60783327832 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'col  
+* Score: 42439.737210367006 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'col
+# Solving 18
+OPTIONS FOR 0:
+* Score: 204734.03909619935 Cmds: []  
+* Score: 58496.52395339182 Cmds: ['color [0] [143, 124, 65, 255]']  
+* Score: 42304.639375545485 Cmds: ['color [0] [143, 124, 65, 255]', 'cut [0] [200, 2  
+* Score: 42263.08920683441 Cmds: ['cut [0] [x] [200]', 'color [0.0] [149, 132, 72,   
+* Score: 42310.008027473625 Cmds: ['cut [0] [y] [200]', 'color [0.0] [139, 126, 67,   
+* Score: 42299.639375545485 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'co
+# Solving 19
+OPTIONS FOR 0:
+* Score: 253304.47792566774 Cmds: []  
+* Score: 72235.63407331736 Cmds: ['color [0] [28, 38, 53, 255]']  
+* Score: 39766.773134914016 Cmds: ['color [0] [28, 38, 53, 255]', 'cut [0] [200, 200  
+* Score: 39932.916092909254 Cmds: ['cut [0] [x] [200]', 'color [0.0] [17, 27, 42, 25  
+* Score: 40394.73921250597 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'colo  
+* Score: 39928.86812704733 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'col
+# Solving 20
+OPTIONS FOR 0:
+* Score: 135112.13076717616 Cmds: []  
+* Score: 74151.3072102063 Cmds: ['color [0] [195, 194, 190, 255]']  
+* Score: 29412.007537510417 Cmds: ['color [0] [195, 194, 190, 255]', 'cut [0] [x] [2  
+* Score: 28550.7223242396 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut  
+* Score: 30197.6011844906 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut   
+* Score: 28480.301721383956 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'cut
+# Solving 21
+OPTIONS FOR 0:
+* Score: 160851.83226690238 Cmds: []  
+* Score: 110953.04824112414 Cmds: ['color [0] [198, 157, 132, 255]']  
+* Score: 54043.82527509076 Cmds: ['color [0] [198, 157, 132, 255]', 'cut [0] [200,   
+* Score: 53988.43391189967 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut  
+* Score: 53169.747518277334 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut  
+* Score: 52332.77176593083 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'co
+# Solving 22
+OPTIONS FOR 0:
+* Score: 297675.6757820344 Cmds: []  
+* Score: 54942.58194981401 Cmds: ['color [0] [1, 1, 1, 255]']  
+* Score: 37637.80063515072 Cmds: ['color [0] [1, 1, 1, 255]', 'cut [0] [200, 200]',  
+* Score: 38236.963519508216 Cmds: ['cut [0] [x] [200]', 'color [0.0] [1, 1, 1, 255]'  
+* Score: 38757.213425532245 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'colo  
+* Score: 37712.80063515072 Cmds: ['cut [0] [200, 200]', 'color [0.0] [1, 1, 1, 255]
+# Solving 23
+OPTIONS FOR 0:
+* Score: 93952.77371575392 Cmds: []  
+* Score: 94074.7664042377 Cmds: ['color [0] [252, 252, 251, 255]']  
+* Score: 44827.15026538864 Cmds: ['color [0] [252, 252, 251, 255]', 'cut [0] [y] [2  
+* Score: 45090.81650372739 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 44492.64394140336 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [y] [100]', 'cut   
+* Score: 45065.816503727394 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut
+# Solving 24
+OPTIONS FOR 0:
+* Score: 164586.8261087473 Cmds: []  
+* Score: 46768.91566863944 Cmds: ['color [0] [171, 151, 117, 255]']  
+* Score: 27018.778562666692 Cmds: ['color [0] [171, 151, 117, 255]', 'cut [0] [200,   
+* Score: 27850.199673099807 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut   
+* Score: 26958.89072496163 Cmds: ['cut [0] [y] [200]', 'color [0.0] [191, 173, 139,  
+* Score: 26828.201370099374 Cmds: ['cut [0] [200, 200]', 'color [0.0] [197, 179, 144
+# Solving 25
+OPTIONS FOR 0:
+* Score: 287941.00092290435 Cmds: []  
+* Score: 51428.15754925888 Cmds: ['color [0] [40, 47, 31, 255]']  
+* Score: 34154.28568147795 Cmds: ['color [0] [40, 47, 31, 255]', 'cut [0] [200, 200  
+* Score: 34138.126234492636 Cmds: ['cut [0] [x] [200]', 'color [0.0] [72, 26, 16, 25  
+* Score: 34031.46613578698 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'col  
+* Score: 33768.27063174752 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'col
+DONE
+fourdman@mikhails-mbp-2 icfpc-2022 % 

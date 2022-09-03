@@ -45,16 +45,22 @@ prog = [
     f"cut [0] [y] [{2 * d}]",
     f"cut [0.1] [x] [{size - 2 * d}]",
     f"color [0.1.0] {white}",
-    f"cut [0.1.0] [{4 * d}, {y_offset + 4 * d}]",
-    f"color [0.1.0.1] {black}",
+    f"cut [0.1.0] [{4 * d}, {y_offset + 4 * d}]",  # -> 4 x 4
+    f"color [0.1.0.1] {black}", 
     f"color [0.1.0.3] {black}",
 
-    f"cut [0.1.0.0] [{2 * d}, {y_offset + 2 * d}]",
+    f"cut [0.1.0.0] [{2 * d}, {y_offset + 2 * d}]", # -> 2 x 2
     f"color [0.1.0.0.1] {black}",
     f"color [0.1.0.0.3] {black}",
 
-    f"cut [0.1.0.0.0] [{d}, {y_offset + d}]", 
-    f"cut [0.1.0.0.1] [{3 * d}, {y_offset + d}]",
+    f"cut [0.1.0.0.0] [{d}, {y_offset + d}]", # -> 1 x 1
+    f"cut [0.1.0.0.1] [{3 * d}, {y_offset + d}]", # -> 1 x 1
+
+    f"swap [0.1.0.0.0.3] [0.1.0.0.1.2]",
+    f"swap [0.1.0.0.0.1] [0.1.0.0.1.0]",
+
+    f"cut [0.1.0.0.0] [{d}, {y_offset + d}]", # -> 1 x 1
+    f"cut [0.1.0.0.1] [{3 * d}, {y_offset + d}]", # -> 1 x 1
 
     f"swap [0.1.0.0.0.3] [0.1.0.0.1.2]",
     f"swap [0.1.0.0.0.1] [0.1.0.0.1.0]",

@@ -49,3 +49,9 @@ To submit solutions
 ```bash
 curl -X POST localhost:5000/submit -H 'Content-Type: application/json' --data '{"problem": "-10", "solution": "... file content as single string ..."}'
 ```
+
+# Script to send solutions:
+
+```
+python3 -m src.submit_folder FOLDER
+```

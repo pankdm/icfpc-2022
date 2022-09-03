@@ -2,6 +2,7 @@ import requests
 import os.path
 from PIL import Image
 import numpy as np
+import sys
 
 def download_pic(n):
     path=f"problems/{n}.png"

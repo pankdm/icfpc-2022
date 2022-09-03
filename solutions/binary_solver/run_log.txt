@@ -1,0 +1,728 @@
+improve 0.2.3.0.1 at Shape(x=250, y=300, w=50, h=50) depth 4
+improve 0.2.3.0.0 at Shape(x=200, y=300, w=100, h=25) depth 4
+improve 0.2.3.0.1 at Shape(x=200, y=325, w=100, h=25) depth 4
+improve 0.2.3.0.0 at Shape(x=200, y=300, w=50, h=25) depth 4
+improve 0.2.3.0.1 at Shape(x=250, y=300, w=50, h=25) depth 4
+improve 0.2.3.0.2 at Shape(x=250, y=325, w=50, h=25) depth 4
+improve 0.2.3.0.3 at Shape(x=200, y=325, w=50, h=25) depth 4
+improve 0.2.3.1 at Shape(x=200, y=350, w=100, h=50) depth 3
+improve 0.2.3.1.0 at Shape(x=200, y=350, w=50, h=50) depth 4
+improve 0.2.3.1.1 at Shape(x=250, y=350, w=50, h=50) depth 4
+improve 0.2.3.1.0 at Shape(x=200, y=350, w=100, h=25) depth 4
+improve 0.2.3.1.1 at Shape(x=200, y=375, w=100, h=25) depth 4
+improve 0.2.3.1.0 at Shape(x=200, y=350, w=50, h=25) depth 4
+improve 0.2.3.1.1 at Shape(x=250, y=350, w=50, h=25) depth 4
+improve 0.2.3.1.2 at Shape(x=250, y=375, w=50, h=25) depth 4
+improve 0.2.3.1.3 at Shape(x=200, y=375, w=50, h=25) depth 4
+improve 0.2.3.0 at Shape(x=200, y=300, w=50, h=50) depth 3
+improve 0.2.3.1 at Shape(x=250, y=300, w=50, h=50) depth 3
+improve 0.2.3.2 at Shape(x=250, y=350, w=50, h=50) depth 3
+improve 0.2.3.3 at Shape(x=200, y=350, w=50, h=50) depth 3
+0.2 options = [Option(cmds=[], score=47293.571118997446), Option(cmds=['color [0.2] [88, 117, 163, 255]'], score=10170.515056207922), Option(cmds=['cut [0.2] [x] [300]', 'cut [0.2.0] [y] [300]', 'color [0.2.0.0] [100, 130, 169, 255]', 'color [0.2.0.1] [79, 103, 152, 255]', 'color [0.2.1] [86, 116, 164, 255]'], score=10178.37945997695), Option(cmds=['cut [0.2] [y] [300]', 'color [0.2.0] [94, 126, 169, 255]', 'cut [0.2.1] [y] [350]', 'color [0.2.1.0] [91, 118, 161, 255]', 'color [0.2.1.1] [69, 90, 146, 255]'], score=9890.63793712372), Option(cmds=['cut [0.2] [300, 300]', 'color [0.2.0] [100, 130, 169, 255]', 'color [0.2.1] [89, 123, 170, 255]', 'color [0.2.2] [81, 107, 157, 255]', 'color [0.2.3] [79, 103, 152, 255]'], score=10161.237484400297)]
+0.2 best option = Option(cmds=['cut [0.2] [y] [300]', 'color [0.2.0] [94, 126, 169, 255]', 'cut [0.2.1] [y] [350]', 'color [0.2.1.0] [91, 118, 161, 255]', 'color [0.2.1.1] [69, 90, 146, 255]'], score=9890.63793712372)
+improve 0.3 at Shape(x=0, y=200, w=200, h=200) depth 1
+improve 0.3.0 at Shape(x=0, y=200, w=100, h=200) depth 2
+improve 0.3.0.0 at Shape(x=0, y=200, w=50, h=200) depth 3
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=25, h=200) depth 4
+improve 0.3.0.0.1 at Shape(x=25, y=200, w=25, h=200) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=100) depth 4
+improve 0.3.0.0.1 at Shape(x=0, y=300, w=50, h=100) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=25, h=100) depth 4
+improve 0.3.0.0.1 at Shape(x=25, y=200, w=25, h=100) depth 4
+improve 0.3.0.0.2 at Shape(x=25, y=300, w=25, h=100) depth 4
+improve 0.3.0.0.3 at Shape(x=0, y=300, w=25, h=100) depth 4
+improve 0.3.0.1 at Shape(x=50, y=200, w=50, h=200) depth 3
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=25, h=200) depth 4
+improve 0.3.0.1.1 at Shape(x=75, y=200, w=25, h=200) depth 4
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=50, h=100) depth 4
+improve 0.3.0.1.1 at Shape(x=50, y=300, w=50, h=100) depth 4
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=25, h=100) depth 4
+improve 0.3.0.1.1 at Shape(x=75, y=200, w=25, h=100) depth 4
+improve 0.3.0.1.2 at Shape(x=75, y=300, w=25, h=100) depth 4
+improve 0.3.0.1.3 at Shape(x=50, y=300, w=25, h=100) depth 4
+improve 0.3.0.0 at Shape(x=0, y=200, w=100, h=100) depth 3
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=100) depth 4
+improve 0.3.0.0.1 at Shape(x=50, y=200, w=50, h=100) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=100, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=0, y=250, w=100, h=50) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=50, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.2 at Shape(x=50, y=250, w=50, h=50) depth 4
+improve 0.3.0.0.3 at Shape(x=0, y=250, w=50, h=50) depth 4
+improve 0.3.0.1 at Shape(x=0, y=300, w=100, h=100) depth 3
+improve 0.3.0.1.0 at Shape(x=0, y=300, w=50, h=100) depth 4
+improve 0.3.0.1.1 at Shape(x=50, y=300, w=50, h=100) depth 4
+improve 0.3.0.1.0 at Shape(x=0, y=300, w=100, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=0, y=350, w=100, h=50) depth 4
+improve 0.3.0.1.0 at Shape(x=0, y=300, w=50, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=50, y=300, w=50, h=50) depth 4
+improve 0.3.0.1.2 at Shape(x=50, y=350, w=50, h=50) depth 4
+improve 0.3.0.1.3 at Shape(x=0, y=350, w=50, h=50) depth 4
+improve 0.3.0.0 at Shape(x=0, y=200, w=50, h=100) depth 3
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=25, h=100) depth 4
+improve 0.3.0.0.1 at Shape(x=25, y=200, w=25, h=100) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=0, y=250, w=50, h=50) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=25, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=25, y=200, w=25, h=50) depth 4
+improve 0.3.0.0.2 at Shape(x=25, y=250, w=25, h=50) depth 4
+improve 0.3.0.0.3 at Shape(x=0, y=250, w=25, h=50) depth 4
+improve 0.3.0.1 at Shape(x=50, y=200, w=50, h=100) depth 3
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=25, h=100) depth 4
+improve 0.3.0.1.1 at Shape(x=75, y=200, w=25, h=100) depth 4
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=50, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=50, y=250, w=50, h=50) depth 4
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=25, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=75, y=200, w=25, h=50) depth 4
+improve 0.3.0.1.2 at Shape(x=75, y=250, w=25, h=50) depth 4
+improve 0.3.0.1.3 at Shape(x=50, y=250, w=25, h=50) depth 4
+improve 0.3.0.2 at Shape(x=50, y=300, w=50, h=100) depth 3
+improve 0.3.0.2.0 at Shape(x=50, y=300, w=25, h=100) depth 4
+improve 0.3.0.2.1 at Shape(x=75, y=300, w=25, h=100) depth 4
+improve 0.3.0.2.0 at Shape(x=50, y=300, w=50, h=50) depth 4
+improve 0.3.0.2.1 at Shape(x=50, y=350, w=50, h=50) depth 4
+improve 0.3.0.2.0 at Shape(x=50, y=300, w=25, h=50) depth 4
+improve 0.3.0.2.1 at Shape(x=75, y=300, w=25, h=50) depth 4
+improve 0.3.0.2.2 at Shape(x=75, y=350, w=25, h=50) depth 4
+improve 0.3.0.2.3 at Shape(x=50, y=350, w=25, h=50) depth 4
+improve 0.3.0.3 at Shape(x=0, y=300, w=50, h=100) depth 3
+improve 0.3.0.3.0 at Shape(x=0, y=300, w=25, h=100) depth 4
+improve 0.3.0.3.1 at Shape(x=25, y=300, w=25, h=100) depth 4
+improve 0.3.0.3.0 at Shape(x=0, y=300, w=50, h=50) depth 4
+improve 0.3.0.3.1 at Shape(x=0, y=350, w=50, h=50) depth 4
+improve 0.3.0.3.0 at Shape(x=0, y=300, w=25, h=50) depth 4
+improve 0.3.0.3.1 at Shape(x=25, y=300, w=25, h=50) depth 4
+improve 0.3.0.3.2 at Shape(x=25, y=350, w=25, h=50) depth 4
+improve 0.3.0.3.3 at Shape(x=0, y=350, w=25, h=50) depth 4
+improve 0.3.1 at Shape(x=100, y=200, w=100, h=200) depth 2
+improve 0.3.1.0 at Shape(x=100, y=200, w=50, h=200) depth 3
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=25, h=200) depth 4
+improve 0.3.1.0.1 at Shape(x=125, y=200, w=25, h=200) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=50, h=100) depth 4
+improve 0.3.1.0.1 at Shape(x=100, y=300, w=50, h=100) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=25, h=100) depth 4
+improve 0.3.1.0.1 at Shape(x=125, y=200, w=25, h=100) depth 4
+improve 0.3.1.0.2 at Shape(x=125, y=300, w=25, h=100) depth 4
+improve 0.3.1.0.3 at Shape(x=100, y=300, w=25, h=100) depth 4
+improve 0.3.1.1 at Shape(x=150, y=200, w=50, h=200) depth 3
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=25, h=200) depth 4
+improve 0.3.1.1.1 at Shape(x=175, y=200, w=25, h=200) depth 4
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=50, h=100) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=300, w=50, h=100) depth 4
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=25, h=100) depth 4
+improve 0.3.1.1.1 at Shape(x=175, y=200, w=25, h=100) depth 4
+improve 0.3.1.1.2 at Shape(x=175, y=300, w=25, h=100) depth 4
+improve 0.3.1.1.3 at Shape(x=150, y=300, w=25, h=100) depth 4
+improve 0.3.1.0 at Shape(x=100, y=200, w=100, h=100) depth 3
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=50, h=100) depth 4
+improve 0.3.1.0.1 at Shape(x=150, y=200, w=50, h=100) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=100, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=100, y=250, w=100, h=50) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=50, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=150, y=200, w=50, h=50) depth 4
+improve 0.3.1.0.2 at Shape(x=150, y=250, w=50, h=50) depth 4
+improve 0.3.1.0.3 at Shape(x=100, y=250, w=50, h=50) depth 4
+improve 0.3.1.1 at Shape(x=100, y=300, w=100, h=100) depth 3
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=50, h=100) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=300, w=50, h=100) depth 4
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=100, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=100, y=350, w=100, h=50) depth 4
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=50, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=300, w=50, h=50) depth 4
+improve 0.3.1.1.2 at Shape(x=150, y=350, w=50, h=50) depth 4
+improve 0.3.1.1.3 at Shape(x=100, y=350, w=50, h=50) depth 4
+improve 0.3.1.0 at Shape(x=100, y=200, w=50, h=100) depth 3
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=25, h=100) depth 4
+improve 0.3.1.0.1 at Shape(x=125, y=200, w=25, h=100) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=50, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=100, y=250, w=50, h=50) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=25, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=125, y=200, w=25, h=50) depth 4
+improve 0.3.1.0.2 at Shape(x=125, y=250, w=25, h=50) depth 4
+improve 0.3.1.0.3 at Shape(x=100, y=250, w=25, h=50) depth 4
+improve 0.3.1.1 at Shape(x=150, y=200, w=50, h=100) depth 3
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=25, h=100) depth 4
+improve 0.3.1.1.1 at Shape(x=175, y=200, w=25, h=100) depth 4
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=50, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=250, w=50, h=50) depth 4
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=25, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=175, y=200, w=25, h=50) depth 4
+improve 0.3.1.1.2 at Shape(x=175, y=250, w=25, h=50) depth 4
+improve 0.3.1.1.3 at Shape(x=150, y=250, w=25, h=50) depth 4
+improve 0.3.1.2 at Shape(x=150, y=300, w=50, h=100) depth 3
+improve 0.3.1.2.0 at Shape(x=150, y=300, w=25, h=100) depth 4
+improve 0.3.1.2.1 at Shape(x=175, y=300, w=25, h=100) depth 4
+improve 0.3.1.2.0 at Shape(x=150, y=300, w=50, h=50) depth 4
+improve 0.3.1.2.1 at Shape(x=150, y=350, w=50, h=50) depth 4
+improve 0.3.1.2.0 at Shape(x=150, y=300, w=25, h=50) depth 4
+improve 0.3.1.2.1 at Shape(x=175, y=300, w=25, h=50) depth 4
+improve 0.3.1.2.2 at Shape(x=175, y=350, w=25, h=50) depth 4
+improve 0.3.1.2.3 at Shape(x=150, y=350, w=25, h=50) depth 4
+improve 0.3.1.3 at Shape(x=100, y=300, w=50, h=100) depth 3
+improve 0.3.1.3.0 at Shape(x=100, y=300, w=25, h=100) depth 4
+improve 0.3.1.3.1 at Shape(x=125, y=300, w=25, h=100) depth 4
+improve 0.3.1.3.0 at Shape(x=100, y=300, w=50, h=50) depth 4
+improve 0.3.1.3.1 at Shape(x=100, y=350, w=50, h=50) depth 4
+improve 0.3.1.3.0 at Shape(x=100, y=300, w=25, h=50) depth 4
+improve 0.3.1.3.1 at Shape(x=125, y=300, w=25, h=50) depth 4
+improve 0.3.1.3.2 at Shape(x=125, y=350, w=25, h=50) depth 4
+improve 0.3.1.3.3 at Shape(x=100, y=350, w=25, h=50) depth 4
+improve 0.3.0 at Shape(x=0, y=200, w=200, h=100) depth 2
+improve 0.3.0.0 at Shape(x=0, y=200, w=100, h=100) depth 3
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=100) depth 4
+improve 0.3.0.0.1 at Shape(x=50, y=200, w=50, h=100) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=100, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=0, y=250, w=100, h=50) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=50, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.2 at Shape(x=50, y=250, w=50, h=50) depth 4
+improve 0.3.0.0.3 at Shape(x=0, y=250, w=50, h=50) depth 4
+improve 0.3.0.1 at Shape(x=100, y=200, w=100, h=100) depth 3
+improve 0.3.0.1.0 at Shape(x=100, y=200, w=50, h=100) depth 4
+improve 0.3.0.1.1 at Shape(x=150, y=200, w=50, h=100) depth 4
+improve 0.3.0.1.0 at Shape(x=100, y=200, w=100, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=100, y=250, w=100, h=50) depth 4
+improve 0.3.0.1.0 at Shape(x=100, y=200, w=50, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=150, y=200, w=50, h=50) depth 4
+improve 0.3.0.1.2 at Shape(x=150, y=250, w=50, h=50) depth 4
+improve 0.3.0.1.3 at Shape(x=100, y=250, w=50, h=50) depth 4
+improve 0.3.0.0 at Shape(x=0, y=200, w=200, h=50) depth 3
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=100, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=100, y=200, w=100, h=50) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=200, h=25) depth 4
+improve 0.3.0.0.1 at Shape(x=0, y=225, w=200, h=25) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=100, h=25) depth 4
+improve 0.3.0.0.1 at Shape(x=100, y=200, w=100, h=25) depth 4
+improve 0.3.0.0.2 at Shape(x=100, y=225, w=100, h=25) depth 4
+improve 0.3.0.0.3 at Shape(x=0, y=225, w=100, h=25) depth 4
+improve 0.3.0.1 at Shape(x=0, y=250, w=200, h=50) depth 3
+improve 0.3.0.1.0 at Shape(x=0, y=250, w=100, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=100, y=250, w=100, h=50) depth 4
+improve 0.3.0.1.0 at Shape(x=0, y=250, w=200, h=25) depth 4
+improve 0.3.0.1.1 at Shape(x=0, y=275, w=200, h=25) depth 4
+improve 0.3.0.1.0 at Shape(x=0, y=250, w=100, h=25) depth 4
+improve 0.3.0.1.1 at Shape(x=100, y=250, w=100, h=25) depth 4
+improve 0.3.0.1.2 at Shape(x=100, y=275, w=100, h=25) depth 4
+improve 0.3.0.1.3 at Shape(x=0, y=275, w=100, h=25) depth 4
+improve 0.3.0.0 at Shape(x=0, y=200, w=100, h=50) depth 3
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=50, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=100, h=25) depth 4
+improve 0.3.0.0.1 at Shape(x=0, y=225, w=100, h=25) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=25) depth 4
+improve 0.3.0.0.1 at Shape(x=50, y=200, w=50, h=25) depth 4
+improve 0.3.0.0.2 at Shape(x=50, y=225, w=50, h=25) depth 4
+improve 0.3.0.0.3 at Shape(x=0, y=225, w=50, h=25) depth 4
+improve 0.3.0.1 at Shape(x=100, y=200, w=100, h=50) depth 3
+improve 0.3.0.1.0 at Shape(x=100, y=200, w=50, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=150, y=200, w=50, h=50) depth 4
+improve 0.3.0.1.0 at Shape(x=100, y=200, w=100, h=25) depth 4
+improve 0.3.0.1.1 at Shape(x=100, y=225, w=100, h=25) depth 4
+improve 0.3.0.1.0 at Shape(x=100, y=200, w=50, h=25) depth 4
+improve 0.3.0.1.1 at Shape(x=150, y=200, w=50, h=25) depth 4
+improve 0.3.0.1.2 at Shape(x=150, y=225, w=50, h=25) depth 4
+improve 0.3.0.1.3 at Shape(x=100, y=225, w=50, h=25) depth 4
+improve 0.3.0.2 at Shape(x=100, y=250, w=100, h=50) depth 3
+improve 0.3.0.2.0 at Shape(x=100, y=250, w=50, h=50) depth 4
+improve 0.3.0.2.1 at Shape(x=150, y=250, w=50, h=50) depth 4
+improve 0.3.0.2.0 at Shape(x=100, y=250, w=100, h=25) depth 4
+improve 0.3.0.2.1 at Shape(x=100, y=275, w=100, h=25) depth 4
+improve 0.3.0.2.0 at Shape(x=100, y=250, w=50, h=25) depth 4
+improve 0.3.0.2.1 at Shape(x=150, y=250, w=50, h=25) depth 4
+improve 0.3.0.2.2 at Shape(x=150, y=275, w=50, h=25) depth 4
+improve 0.3.0.2.3 at Shape(x=100, y=275, w=50, h=25) depth 4
+improve 0.3.0.3 at Shape(x=0, y=250, w=100, h=50) depth 3
+improve 0.3.0.3.0 at Shape(x=0, y=250, w=50, h=50) depth 4
+improve 0.3.0.3.1 at Shape(x=50, y=250, w=50, h=50) depth 4
+improve 0.3.0.3.0 at Shape(x=0, y=250, w=100, h=25) depth 4
+improve 0.3.0.3.1 at Shape(x=0, y=275, w=100, h=25) depth 4
+improve 0.3.0.3.0 at Shape(x=0, y=250, w=50, h=25) depth 4
+improve 0.3.0.3.1 at Shape(x=50, y=250, w=50, h=25) depth 4
+improve 0.3.0.3.2 at Shape(x=50, y=275, w=50, h=25) depth 4
+improve 0.3.0.3.3 at Shape(x=0, y=275, w=50, h=25) depth 4
+improve 0.3.1 at Shape(x=0, y=300, w=200, h=100) depth 2
+improve 0.3.1.0 at Shape(x=0, y=300, w=100, h=100) depth 3
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=50, h=100) depth 4
+improve 0.3.1.0.1 at Shape(x=50, y=300, w=50, h=100) depth 4
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=100, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=0, y=350, w=100, h=50) depth 4
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=50, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=50, y=300, w=50, h=50) depth 4
+improve 0.3.1.0.2 at Shape(x=50, y=350, w=50, h=50) depth 4
+improve 0.3.1.0.3 at Shape(x=0, y=350, w=50, h=50) depth 4
+improve 0.3.1.1 at Shape(x=100, y=300, w=100, h=100) depth 3
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=50, h=100) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=300, w=50, h=100) depth 4
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=100, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=100, y=350, w=100, h=50) depth 4
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=50, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=300, w=50, h=50) depth 4
+improve 0.3.1.1.2 at Shape(x=150, y=350, w=50, h=50) depth 4
+improve 0.3.1.1.3 at Shape(x=100, y=350, w=50, h=50) depth 4
+improve 0.3.1.0 at Shape(x=0, y=300, w=200, h=50) depth 3
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=100, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=100, y=300, w=100, h=50) depth 4
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=200, h=25) depth 4
+improve 0.3.1.0.1 at Shape(x=0, y=325, w=200, h=25) depth 4
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=100, h=25) depth 4
+improve 0.3.1.0.1 at Shape(x=100, y=300, w=100, h=25) depth 4
+improve 0.3.1.0.2 at Shape(x=100, y=325, w=100, h=25) depth 4
+improve 0.3.1.0.3 at Shape(x=0, y=325, w=100, h=25) depth 4
+improve 0.3.1.1 at Shape(x=0, y=350, w=200, h=50) depth 3
+improve 0.3.1.1.0 at Shape(x=0, y=350, w=100, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=100, y=350, w=100, h=50) depth 4
+improve 0.3.1.1.0 at Shape(x=0, y=350, w=200, h=25) depth 4
+improve 0.3.1.1.1 at Shape(x=0, y=375, w=200, h=25) depth 4
+improve 0.3.1.1.0 at Shape(x=0, y=350, w=100, h=25) depth 4
+improve 0.3.1.1.1 at Shape(x=100, y=350, w=100, h=25) depth 4
+improve 0.3.1.1.2 at Shape(x=100, y=375, w=100, h=25) depth 4
+improve 0.3.1.1.3 at Shape(x=0, y=375, w=100, h=25) depth 4
+improve 0.3.1.0 at Shape(x=0, y=300, w=100, h=50) depth 3
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=50, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=50, y=300, w=50, h=50) depth 4
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=100, h=25) depth 4
+improve 0.3.1.0.1 at Shape(x=0, y=325, w=100, h=25) depth 4
+improve 0.3.1.0.0 at Shape(x=0, y=300, w=50, h=25) depth 4
+improve 0.3.1.0.1 at Shape(x=50, y=300, w=50, h=25) depth 4
+improve 0.3.1.0.2 at Shape(x=50, y=325, w=50, h=25) depth 4
+improve 0.3.1.0.3 at Shape(x=0, y=325, w=50, h=25) depth 4
+improve 0.3.1.1 at Shape(x=100, y=300, w=100, h=50) depth 3
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=50, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=300, w=50, h=50) depth 4
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=100, h=25) depth 4
+improve 0.3.1.1.1 at Shape(x=100, y=325, w=100, h=25) depth 4
+improve 0.3.1.1.0 at Shape(x=100, y=300, w=50, h=25) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=300, w=50, h=25) depth 4
+improve 0.3.1.1.2 at Shape(x=150, y=325, w=50, h=25) depth 4
+improve 0.3.1.1.3 at Shape(x=100, y=325, w=50, h=25) depth 4
+improve 0.3.1.2 at Shape(x=100, y=350, w=100, h=50) depth 3
+improve 0.3.1.2.0 at Shape(x=100, y=350, w=50, h=50) depth 4
+improve 0.3.1.2.1 at Shape(x=150, y=350, w=50, h=50) depth 4
+improve 0.3.1.2.0 at Shape(x=100, y=350, w=100, h=25) depth 4
+improve 0.3.1.2.1 at Shape(x=100, y=375, w=100, h=25) depth 4
+improve 0.3.1.2.0 at Shape(x=100, y=350, w=50, h=25) depth 4
+improve 0.3.1.2.1 at Shape(x=150, y=350, w=50, h=25) depth 4
+improve 0.3.1.2.2 at Shape(x=150, y=375, w=50, h=25) depth 4
+improve 0.3.1.2.3 at Shape(x=100, y=375, w=50, h=25) depth 4
+improve 0.3.1.3 at Shape(x=0, y=350, w=100, h=50) depth 3
+improve 0.3.1.3.0 at Shape(x=0, y=350, w=50, h=50) depth 4
+improve 0.3.1.3.1 at Shape(x=50, y=350, w=50, h=50) depth 4
+improve 0.3.1.3.0 at Shape(x=0, y=350, w=100, h=25) depth 4
+improve 0.3.1.3.1 at Shape(x=0, y=375, w=100, h=25) depth 4
+improve 0.3.1.3.0 at Shape(x=0, y=350, w=50, h=25) depth 4
+improve 0.3.1.3.1 at Shape(x=50, y=350, w=50, h=25) depth 4
+improve 0.3.1.3.2 at Shape(x=50, y=375, w=50, h=25) depth 4
+improve 0.3.1.3.3 at Shape(x=0, y=375, w=50, h=25) depth 4
+improve 0.3.0 at Shape(x=0, y=200, w=100, h=100) depth 2
+improve 0.3.0.0 at Shape(x=0, y=200, w=50, h=100) depth 3
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=25, h=100) depth 4
+improve 0.3.0.0.1 at Shape(x=25, y=200, w=25, h=100) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=0, y=250, w=50, h=50) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=25, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=25, y=200, w=25, h=50) depth 4
+improve 0.3.0.0.2 at Shape(x=25, y=250, w=25, h=50) depth 4
+improve 0.3.0.0.3 at Shape(x=0, y=250, w=25, h=50) depth 4
+improve 0.3.0.1 at Shape(x=50, y=200, w=50, h=100) depth 3
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=25, h=100) depth 4
+improve 0.3.0.1.1 at Shape(x=75, y=200, w=25, h=100) depth 4
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=50, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=50, y=250, w=50, h=50) depth 4
+improve 0.3.0.1.0 at Shape(x=50, y=200, w=25, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=75, y=200, w=25, h=50) depth 4
+improve 0.3.0.1.2 at Shape(x=75, y=250, w=25, h=50) depth 4
+improve 0.3.0.1.3 at Shape(x=50, y=250, w=25, h=50) depth 4
+improve 0.3.0.0 at Shape(x=0, y=200, w=100, h=50) depth 3
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.1 at Shape(x=50, y=200, w=50, h=50) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=100, h=25) depth 4
+improve 0.3.0.0.1 at Shape(x=0, y=225, w=100, h=25) depth 4
+improve 0.3.0.0.0 at Shape(x=0, y=200, w=50, h=25) depth 4
+improve 0.3.0.0.1 at Shape(x=50, y=200, w=50, h=25) depth 4
+improve 0.3.0.0.2 at Shape(x=50, y=225, w=50, h=25) depth 4
+improve 0.3.0.0.3 at Shape(x=0, y=225, w=50, h=25) depth 4
+improve 0.3.0.1 at Shape(x=0, y=250, w=100, h=50) depth 3
+improve 0.3.0.1.0 at Shape(x=0, y=250, w=50, h=50) depth 4
+improve 0.3.0.1.1 at Shape(x=50, y=250, w=50, h=50) depth 4
+improve 0.3.0.1.0 at Shape(x=0, y=250, w=100, h=25) depth 4
+improve 0.3.0.1.1 at Shape(x=0, y=275, w=100, h=25) depth 4
+improve 0.3.0.1.0 at Shape(x=0, y=250, w=50, h=25) depth 4
+improve 0.3.0.1.1 at Shape(x=50, y=250, w=50, h=25) depth 4
+improve 0.3.0.1.2 at Shape(x=50, y=275, w=50, h=25) depth 4
+improve 0.3.0.1.3 at Shape(x=0, y=275, w=50, h=25) depth 4
+improve 0.3.0.0 at Shape(x=0, y=200, w=50, h=50) depth 3
+improve 0.3.0.1 at Shape(x=50, y=200, w=50, h=50) depth 3
+improve 0.3.0.2 at Shape(x=50, y=250, w=50, h=50) depth 3
+improve 0.3.0.2.0 at Shape(x=50, y=250, w=25, h=50) depth 4
+improve 0.3.0.2.1 at Shape(x=75, y=250, w=25, h=50) depth 4
+improve 0.3.0.2.0 at Shape(x=50, y=250, w=50, h=25) depth 4
+improve 0.3.0.2.1 at Shape(x=50, y=275, w=50, h=25) depth 4
+improve 0.3.0.2.0 at Shape(x=50, y=250, w=25, h=25) depth 4
+improve 0.3.0.2.1 at Shape(x=75, y=250, w=25, h=25) depth 4
+improve 0.3.0.2.2 at Shape(x=75, y=275, w=25, h=25) depth 4
+improve 0.3.0.2.3 at Shape(x=50, y=275, w=25, h=25) depth 4
+improve 0.3.0.3 at Shape(x=0, y=250, w=50, h=50) depth 3
+improve 0.3.1 at Shape(x=100, y=200, w=100, h=100) depth 2
+improve 0.3.1.0 at Shape(x=100, y=200, w=50, h=100) depth 3
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=25, h=100) depth 4
+improve 0.3.1.0.1 at Shape(x=125, y=200, w=25, h=100) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=50, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=100, y=250, w=50, h=50) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=25, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=125, y=200, w=25, h=50) depth 4
+improve 0.3.1.0.2 at Shape(x=125, y=250, w=25, h=50) depth 4
+improve 0.3.1.0.3 at Shape(x=100, y=250, w=25, h=50) depth 4
+improve 0.3.1.1 at Shape(x=150, y=200, w=50, h=100) depth 3
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=25, h=100) depth 4
+improve 0.3.1.1.1 at Shape(x=175, y=200, w=25, h=100) depth 4
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=50, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=250, w=50, h=50) depth 4
+improve 0.3.1.1.0 at Shape(x=150, y=200, w=25, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=175, y=200, w=25, h=50) depth 4
+improve 0.3.1.1.2 at Shape(x=175, y=250, w=25, h=50) depth 4
+improve 0.3.1.1.3 at Shape(x=150, y=250, w=25, h=50) depth 4
+improve 0.3.1.0 at Shape(x=100, y=200, w=100, h=50) depth 3
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=50, h=50) depth 4
+improve 0.3.1.0.1 at Shape(x=150, y=200, w=50, h=50) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=100, h=25) depth 4
+improve 0.3.1.0.1 at Shape(x=100, y=225, w=100, h=25) depth 4
+improve 0.3.1.0.0 at Shape(x=100, y=200, w=50, h=25) depth 4
+improve 0.3.1.0.1 at Shape(x=150, y=200, w=50, h=25) depth 4
+improve 0.3.1.0.2 at Shape(x=150, y=225, w=50, h=25) depth 4
+improve 0.3.1.0.3 at Shape(x=100, y=225, w=50, h=25) depth 4
+improve 0.3.1.1 at Shape(x=100, y=250, w=100, h=50) depth 3
+improve 0.3.1.1.0 at Shape(x=100, y=250, w=50, h=50) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=250, w=50, h=50) depth 4
+improve 0.3.1.1.0 at Shape(x=100, y=250, w=100, h=25) depth 4
+improve 0.3.1.1.1 at Shape(x=100, y=275, w=100, h=25) depth 4
+improve 0.3.1.1.0 at Shape(x=100, y=250, w=50, h=25) depth 4
+improve 0.3.1.1.1 at Shape(x=150, y=250, w=50, h=25) depth 4
+improve 0.3.1.1.2 at Shape(x=150, y=275, w=50, h=25) depth 4
+improve 0.3.1.1.3 at Shape(x=100, y=275, w=50, h=25) depth 4
+improve 0.3.1.0 at Shape(x=100, y=200, w=50, h=50) depth 3
+improve 0.3.1.1 at Shape(x=150, y=200, w=50, h=50) depth 3
+improve 0.3.1.2 at Shape(x=150, y=250, w=50, h=50) depth 3
+improve 0.3.1.3 at Shape(x=100, y=250, w=50, h=50) depth 3
+improve 0.3.2 at Shape(x=100, y=300, w=100, h=100) depth 2
+improve 0.3.2.0 at Shape(x=100, y=300, w=50, h=100) depth 3
+improve 0.3.2.0.0 at Shape(x=100, y=300, w=25, h=100) depth 4
+improve 0.3.2.0.1 at Shape(x=125, y=300, w=25, h=100) depth 4
+improve 0.3.2.0.0 at Shape(x=100, y=300, w=50, h=50) depth 4
+improve 0.3.2.0.1 at Shape(x=100, y=350, w=50, h=50) depth 4
+improve 0.3.2.0.0 at Shape(x=100, y=300, w=25, h=50) depth 4
+improve 0.3.2.0.1 at Shape(x=125, y=300, w=25, h=50) depth 4
+improve 0.3.2.0.2 at Shape(x=125, y=350, w=25, h=50) depth 4
+improve 0.3.2.0.3 at Shape(x=100, y=350, w=25, h=50) depth 4
+improve 0.3.2.1 at Shape(x=150, y=300, w=50, h=100) depth 3
+improve 0.3.2.1.0 at Shape(x=150, y=300, w=25, h=100) depth 4
+improve 0.3.2.1.1 at Shape(x=175, y=300, w=25, h=100) depth 4
+improve 0.3.2.1.0 at Shape(x=150, y=300, w=50, h=50) depth 4
+improve 0.3.2.1.1 at Shape(x=150, y=350, w=50, h=50) depth 4
+improve 0.3.2.1.0 at Shape(x=150, y=300, w=25, h=50) depth 4
+improve 0.3.2.1.1 at Shape(x=175, y=300, w=25, h=50) depth 4
+improve 0.3.2.1.2 at Shape(x=175, y=350, w=25, h=50) depth 4
+improve 0.3.2.1.3 at Shape(x=150, y=350, w=25, h=50) depth 4
+improve 0.3.2.0 at Shape(x=100, y=300, w=100, h=50) depth 3
+improve 0.3.2.0.0 at Shape(x=100, y=300, w=50, h=50) depth 4
+improve 0.3.2.0.1 at Shape(x=150, y=300, w=50, h=50) depth 4
+improve 0.3.2.0.0 at Shape(x=100, y=300, w=100, h=25) depth 4
+improve 0.3.2.0.1 at Shape(x=100, y=325, w=100, h=25) depth 4
+improve 0.3.2.0.0 at Shape(x=100, y=300, w=50, h=25) depth 4
+improve 0.3.2.0.1 at Shape(x=150, y=300, w=50, h=25) depth 4
+improve 0.3.2.0.2 at Shape(x=150, y=325, w=50, h=25) depth 4
+improve 0.3.2.0.3 at Shape(x=100, y=325, w=50, h=25) depth 4
+improve 0.3.2.1 at Shape(x=100, y=350, w=100, h=50) depth 3
+improve 0.3.2.1.0 at Shape(x=100, y=350, w=50, h=50) depth 4
+improve 0.3.2.1.1 at Shape(x=150, y=350, w=50, h=50) depth 4
+improve 0.3.2.1.0 at Shape(x=100, y=350, w=100, h=25) depth 4
+improve 0.3.2.1.1 at Shape(x=100, y=375, w=100, h=25) depth 4
+improve 0.3.2.1.0 at Shape(x=100, y=350, w=50, h=25) depth 4
+improve 0.3.2.1.1 at Shape(x=150, y=350, w=50, h=25) depth 4
+improve 0.3.2.1.2 at Shape(x=150, y=375, w=50, h=25) depth 4
+improve 0.3.2.1.3 at Shape(x=100, y=375, w=50, h=25) depth 4
+improve 0.3.2.0 at Shape(x=100, y=300, w=50, h=50) depth 3
+improve 0.3.2.1 at Shape(x=150, y=300, w=50, h=50) depth 3
+improve 0.3.2.2 at Shape(x=150, y=350, w=50, h=50) depth 3
+improve 0.3.2.2.0 at Shape(x=150, y=350, w=25, h=50) depth 4
+improve 0.3.2.2.1 at Shape(x=175, y=350, w=25, h=50) depth 4
+improve 0.3.2.2.0 at Shape(x=150, y=350, w=50, h=25) depth 4
+improve 0.3.2.2.1 at Shape(x=150, y=375, w=50, h=25) depth 4
+improve 0.3.2.2.0 at Shape(x=150, y=350, w=25, h=25) depth 4
+improve 0.3.2.2.1 at Shape(x=175, y=350, w=25, h=25) depth 4
+improve 0.3.2.2.2 at Shape(x=175, y=375, w=25, h=25) depth 4
+improve 0.3.2.2.3 at Shape(x=150, y=375, w=25, h=25) depth 4
+improve 0.3.2.3 at Shape(x=100, y=350, w=50, h=50) depth 3
+improve 0.3.3 at Shape(x=0, y=300, w=100, h=100) depth 2
+improve 0.3.3.0 at Shape(x=0, y=300, w=50, h=100) depth 3
+improve 0.3.3.0.0 at Shape(x=0, y=300, w=25, h=100) depth 4
+improve 0.3.3.0.1 at Shape(x=25, y=300, w=25, h=100) depth 4
+improve 0.3.3.0.0 at Shape(x=0, y=300, w=50, h=50) depth 4
+improve 0.3.3.0.1 at Shape(x=0, y=350, w=50, h=50) depth 4
+improve 0.3.3.0.0 at Shape(x=0, y=300, w=25, h=50) depth 4
+improve 0.3.3.0.1 at Shape(x=25, y=300, w=25, h=50) depth 4
+improve 0.3.3.0.2 at Shape(x=25, y=350, w=25, h=50) depth 4
+improve 0.3.3.0.3 at Shape(x=0, y=350, w=25, h=50) depth 4
+improve 0.3.3.1 at Shape(x=50, y=300, w=50, h=100) depth 3
+improve 0.3.3.1.0 at Shape(x=50, y=300, w=25, h=100) depth 4
+improve 0.3.3.1.1 at Shape(x=75, y=300, w=25, h=100) depth 4
+improve 0.3.3.1.0 at Shape(x=50, y=300, w=50, h=50) depth 4
+improve 0.3.3.1.1 at Shape(x=50, y=350, w=50, h=50) depth 4
+improve 0.3.3.1.0 at Shape(x=50, y=300, w=25, h=50) depth 4
+improve 0.3.3.1.1 at Shape(x=75, y=300, w=25, h=50) depth 4
+improve 0.3.3.1.2 at Shape(x=75, y=350, w=25, h=50) depth 4
+improve 0.3.3.1.3 at Shape(x=50, y=350, w=25, h=50) depth 4
+improve 0.3.3.0 at Shape(x=0, y=300, w=100, h=50) depth 3
+improve 0.3.3.0.0 at Shape(x=0, y=300, w=50, h=50) depth 4
+improve 0.3.3.0.1 at Shape(x=50, y=300, w=50, h=50) depth 4
+improve 0.3.3.0.0 at Shape(x=0, y=300, w=100, h=25) depth 4
+improve 0.3.3.0.1 at Shape(x=0, y=325, w=100, h=25) depth 4
+improve 0.3.3.0.0 at Shape(x=0, y=300, w=50, h=25) depth 4
+improve 0.3.3.0.1 at Shape(x=50, y=300, w=50, h=25) depth 4
+improve 0.3.3.0.2 at Shape(x=50, y=325, w=50, h=25) depth 4
+improve 0.3.3.0.3 at Shape(x=0, y=325, w=50, h=25) depth 4
+improve 0.3.3.1 at Shape(x=0, y=350, w=100, h=50) depth 3
+improve 0.3.3.1.0 at Shape(x=0, y=350, w=50, h=50) depth 4
+improve 0.3.3.1.1 at Shape(x=50, y=350, w=50, h=50) depth 4
+improve 0.3.3.1.0 at Shape(x=0, y=350, w=100, h=25) depth 4
+improve 0.3.3.1.1 at Shape(x=0, y=375, w=100, h=25) depth 4
+improve 0.3.3.1.0 at Shape(x=0, y=350, w=50, h=25) depth 4
+improve 0.3.3.1.1 at Shape(x=50, y=350, w=50, h=25) depth 4
+improve 0.3.3.1.2 at Shape(x=50, y=375, w=50, h=25) depth 4
+improve 0.3.3.1.3 at Shape(x=0, y=375, w=50, h=25) depth 4
+improve 0.3.3.0 at Shape(x=0, y=300, w=50, h=50) depth 3
+improve 0.3.3.1 at Shape(x=50, y=300, w=50, h=50) depth 3
+improve 0.3.3.1.0 at Shape(x=50, y=300, w=25, h=50) depth 4
+improve 0.3.3.1.1 at Shape(x=75, y=300, w=25, h=50) depth 4
+improve 0.3.3.1.0 at Shape(x=50, y=300, w=50, h=25) depth 4
+improve 0.3.3.1.1 at Shape(x=50, y=325, w=50, h=25) depth 4
+improve 0.3.3.1.0 at Shape(x=50, y=300, w=25, h=25) depth 4
+improve 0.3.3.1.1 at Shape(x=75, y=300, w=25, h=25) depth 4
+improve 0.3.3.1.2 at Shape(x=75, y=325, w=25, h=25) depth 4
+improve 0.3.3.1.3 at Shape(x=50, y=325, w=25, h=25) depth 4
+improve 0.3.3.2 at Shape(x=50, y=350, w=50, h=50) depth 3
+improve 0.3.3.3 at Shape(x=0, y=350, w=50, h=50) depth 3
+improve 0.3.3.3.0 at Shape(x=0, y=350, w=25, h=50) depth 4
+improve 0.3.3.3.1 at Shape(x=25, y=350, w=25, h=50) depth 4
+improve 0.3.3.3.0 at Shape(x=0, y=350, w=50, h=25) depth 4
+improve 0.3.3.3.1 at Shape(x=0, y=375, w=50, h=25) depth 4
+improve 0.3.3.3.0 at Shape(x=0, y=350, w=25, h=25) depth 4
+improve 0.3.3.3.1 at Shape(x=25, y=350, w=25, h=25) depth 4
+improve 0.3.3.3.2 at Shape(x=25, y=375, w=25, h=25) depth 4
+improve 0.3.3.3.3 at Shape(x=0, y=375, w=25, h=25) depth 4
+0.3 options = [Option(cmds=[], score=50660.96965635352), Option(cmds=['color [0.3] [84, 110, 152, 255]'], score=13842.132712540071), Option(cmds=['cut [0.3] [x] [100]', 'cut [0.3.0] [y] [300]', 'cut [0.3.0.0] [x] [50]', 'color [0.3.0.0.0] [117, 147, 174, 255]', 'color [0.3.0.0.1] [47, 55, 53, 255]', 'color [0.3.0.1] [63, 85, 145, 255]', 'cut [0.3.1] [y] [300]', 'color [0.3.1.0] [98, 130, 166, 255]', 'color [0.3.1.1] [78, 103, 151, 255]'], score=12642.40528406165), Option(cmds=['cut [0.3] [y] [300]', 'cut [0.3.0] [x] [100]', 'cut [0.3.0.0] [x] [50]', 'color [0.3.0.0.0] [117, 147, 174, 255]', 'color [0.3.0.0.1] [47, 55, 53, 255]', 'color [0.3.0.1] [98, 130, 166, 255]', 'color [0.3.1] [69, 92, 147, 255]'], score=12560.310357248265), Option(cmds=['cut [0.3] [100, 300]', 'cut [0.3.0] [x] [50]', 'color [0.3.0.0] [117, 147, 174, 255]', 'color [0.3.0.1] [47, 55, 53, 255]', 'color [0.3.1] [98, 130, 166, 255]', 'color [0.3.2] [78, 103, 151, 255]', 'color [0.3.3] [63, 85, 145, 255]'], score=12542.40528406165)]
+0.3 best option = Option(cmds=['cut [0.3] [100, 300]', 'cut [0.3.0] [x] [50]', 'color [0.3.0.0] [117, 147, 174, 255]', 'color [0.3.0.1] [47, 55, 53, 255]', 'color [0.3.1] [98, 130, 166, 255]', 'color [0.3.2] [78, 103, 151, 255]', 'color [0.3.3] [63, 85, 145, 255]'], score=12542.40528406165)
+0 options = [Option(cmds=[], score=218612.80745928525), Option(cmds=['color [0] [76, 100, 136, 255]'], score=62486.24748615849), Option(cmds=['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [x] [50]', 'cut [0.0.0.0] [y] [100]', 'color [0.0.0.0.0] [48, 58, 65, 255]', 'color [0.0.0.0.1] [99, 132, 164, 255]', 'color [0.0.0.1] [30, 35, 32, 255]', 'cut [0.0.1] [y] [100]', 'color [0.0.1.0] [29, 34, 31, 255]', 'cut [0.0.1.1] [y] [150]', 'color [0.0.1.1.0] [74, 95, 114, 255]', 'color [0.0.1.1.1] [150, 168, 169, 255]', 'cut [0.0.2] [y] [300]', 'color [0.0.2.0] [98, 130, 166, 255]', 'color [0.0.2.1] [78, 103, 151, 255]', 'cut [0.0.3] [y] [300]', 'cut [0.0.3.0] [x] [50]', 'color [0.0.3.0.0] [117, 147, 174, 255]', 'color [0.0.3.0.1] [47, 55, 53, 255]', 'color [0.0.3.1] [63, 85, 145, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.0] [y] [100]', 'cut [0.1.0.0] [y] [50]', 'color [0.1.0.0.0] [43, 51, 57, 255]', 'color [0.1.0.0.1] [54, 73, 95, 255]', 'cut [0.1.0.1] [y] [150]', 'color [0.1.0.1.0] [67, 90, 133, 255]', 'color [0.1.0.1.1] [108, 140, 165, 255]', 'cut [0.1.1] [y] [300]', 'color [0.1.1.0] [94, 126, 169, 255]', 'cut [0.1.1.1] [y] [350]', 'color [0.1.1.1.0] [91, 118, 161, 255]', 'color [0.1.1.1.1] [69, 90, 146, 255]'], score=43007.33683823822), Option(cmds=['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'color [0.0.0] [32, 38, 35, 255]', 'cut [0.0.1] [y] [50]', 'color [0.0.1.0] [43, 51, 57, 255]', 'color [0.0.1.1] [54, 73, 95, 255]', 'cut [0.0.2] [y] [150]', 'color [0.0.2.0] [67, 90, 133, 255]', 'color [0.0.2.1] [108, 140, 165, 255]', 'cut [0.0.3] [x] [100]', 'cut [0.0.3.0] [x] [50]', 'color [0.0.3.0.0] [99, 132, 164, 255]', 'color [0.0.3.0.1] [29, 35, 32, 255]', 'cut [0.0.3.1] [y] [150]', 'color [0.0.3.1.0] [74, 95, 114, 255]', 'color [0.0.3.1.1] [150, 168, 169, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [x] [100]', 'cut [0.1.0.0] [x] [50]', 'color [0.1.0.0.0] [117, 147, 174, 255]', 'color [0.1.0.0.1] [47, 55, 53, 255]', 'color [0.1.0.1] [98, 130, 166, 255]', 'color [0.1.1] [94, 126, 169, 255]', 'cut [0.1.2] [y] [350]', 'color [0.1.2.0] [91, 118, 161, 255]', 'color [0.1.2.1] [69, 90, 146, 255]', 'color [0.1.3] [69, 92, 147, 255]'], score=43083.623871856864), Option(cmds=['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'cut [0.0.0] [x] [50]', 'cut [0.0.0.0] [y] [100]', 'color [0.0.0.0.0] [48, 58, 65, 255]', 'color [0.0.0.0.1] [99, 132, 164, 255]', 'color [0.0.0.1] [30, 35, 32, 255]', 'cut [0.0.1] [y] [100]', 'color [0.0.1.0] [29, 34, 31, 255]', 'cut [0.0.1.1] [y] [150]', 'color [0.0.1.1.0] [74, 95, 114, 255]', 'color [0.0.1.1.1] [150, 168, 169, 255]', 'cut [0.1] [y] [100]', 'cut [0.1.0] [y] [50]', 'color [0.1.0.0] [43, 51, 57, 255]', 'color [0.1.0.1] [54, 73, 95, 255]', 'cut [0.1.1] [y] [150]', 'color [0.1.1.0] [67, 90, 133, 255]', 'color [0.1.1.1] [108, 140, 165, 255]', 'cut [0.2] [y] [300]', 'color [0.2.0] [94, 126, 169, 255]', 'cut [0.2.1] [y] [350]', 'color [0.2.1.0] [91, 118, 161, 255]', 'color [0.2.1.1] [69, 90, 146, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.0] [x] [50]', 'color [0.3.0.0] [117, 147, 174, 255]', 'color [0.3.0.1] [47, 55, 53, 255]', 'color [0.3.1] [98, 130, 166, 255]', 'color [0.3.2] [78, 103, 151, 255]', 'color [0.3.3] [63, 85, 145, 255]'], score=42932.33683823822)]
+0 best option = Option(cmds=['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'cut [0.0.0] [x] [50]', 'cut [0.0.0.0] [y] [100]', 'color [0.0.0.0.0] [48, 58, 65, 255]', 'color [0.0.0.0.1] [99, 132, 164, 255]', 'color [0.0.0.1] [30, 35, 32, 255]', 'cut [0.0.1] [y] [100]', 'color [0.0.1.0] [29, 34, 31, 255]', 'cut [0.0.1.1] [y] [150]', 'color [0.0.1.1.0] [74, 95, 114, 255]', 'color [0.0.1.1.1] [150, 168, 169, 255]', 'cut [0.1] [y] [100]', 'cut [0.1.0] [y] [50]', 'color [0.1.0.0] [43, 51, 57, 255]', 'color [0.1.0.1] [54, 73, 95, 255]', 'cut [0.1.1] [y] [150]', 'color [0.1.1.0] [67, 90, 133, 255]', 'color [0.1.1.1] [108, 140, 165, 255]', 'cut [0.2] [y] [300]', 'color [0.2.0] [94, 126, 169, 255]', 'cut [0.2.1] [y] [350]', 'color [0.2.1.0] [91, 118, 161, 255]', 'color [0.2.1.1] [69, 90, 146, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.0] [x] [50]', 'color [0.3.0.0] [117, 147, 174, 255]', 'color [0.3.0.1] [47, 55, 53, 255]', 'color [0.3.1] [98, 130, 166, 255]', 'color [0.3.2] [78, 103, 151, 255]', 'color [0.3.3] [63, 85, 145, 255]'], score=42932.33683823822)
+Solution: 42932.33683823822
+cut [0] [200, 200]
+cut [0.0] [x] [100]
+cut [0.0.0] [x] [50]
+cut [0.0.0.0] [y] [100]
+color [0.0.0.0.0] [48, 58, 65, 255]
+color [0.0.0.0.1] [99, 132, 164, 255]
+color [0.0.0.1] [30, 35, 32, 255]
+cut [0.0.1] [y] [100]
+color [0.0.1.0] [29, 34, 31, 255]
+cut [0.0.1.1] [y] [150]
+color [0.0.1.1.0] [74, 95, 114, 255]
+color [0.0.1.1.1] [150, 168, 169, 255]
+cut [0.1] [y] [100]
+cut [0.1.0] [y] [50]
+color [0.1.0.0] [43, 51, 57, 255]
+color [0.1.0.1] [54, 73, 95, 255]
+cut [0.1.1] [y] [150]
+color [0.1.1.0] [67, 90, 133, 255]
+color [0.1.1.1] [108, 140, 165, 255]
+cut [0.2] [y] [300]
+color [0.2.0] [94, 126, 169, 255]
+cut [0.2.1] [y] [350]
+color [0.2.1.0] [91, 118, 161, 255]
+color [0.2.1.1] [69, 90, 146, 255]
+cut [0.3] [100, 300]
+cut [0.3.0] [x] [50]
+color [0.3.0.0] [117, 147, 174, 255]
+color [0.3.0.1] [47, 55, 53, 255]
+color [0.3.1] [98, 130, 166, 255]
+color [0.3.2] [78, 103, 151, 255]
+color [0.3.3] [63, 85, 145, 255]
+fourdman@mikhails-mbp-2 icfpc-2022 %  cd /Users/fourdman/src/icfpc-2022 ; /usr/bin/env /Library/Frameworks/Python.framework/Versions/3.8/bin/python3 /Users/fourdman/.vscode/extensions/ms-python.python-2022.4.1/pythonFiles/lib/python/debugpy/launcher 56006 -- 
+/Users/fourdman/src/icfpc-2022/solver/binar_solver.py 
+/Users/fourdman/src/icfpc-2022/solver/binar_solver.py:1: DeprecationWarning: the imp module is deprecated in favour of importlib; see the module's documentation for alternative uses
+  import imp
+# Solving 1
+OPTIONS FOR 0:
+* Score: 194616.42536818434 Cmds: []  
+* Score: 152015.63112741106 Cmds: ['color [0] [51, 83, 127, 255]']  
+* Score: 129522.14296615467 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [y] [100]', 'cut [0.0.0.0] [y] [50]', 'color [0.0.0.0.0] [0, 74, 173, 255]', 'cut [0.0.0.1] [50, 150]', 'color [0.0.0.1.3] [0, 0, 0, 255]', 'cut [0.0.1] [y] [100]', 'cut [0.0.1.0] [y] [50]', 'color [0.0.1.0.0] [0, 74, 173, 255]', 'cut [0.0.1.1] [150, 150]', 'color [0.0.1.1.2] [0, 0, 0, 255]', 'cut [0.0.2] [x] [150]', 'cut [0.0.2.0] [x] [125]', 'color [0.0.2.0.1] [0, 0, 0, 255]', 'cut [0.0.3] [x] [50]', 'cut [0.0.3.1] [x] [75]', 'color [0.0.3.1.0] [0, 0, 0, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [y] [100]', 'cut [0.1.0.0] [y] [50]', 'color [0.1.0.0.0] [0, 74, 173, 255]', 'color [0.1.0.0.1] [11, 11, 11, 255]', 'cut [0.1.0.1] [x] [250]', 'color [0.1.0.1.1] [126, 126, 126, 255]', 'cut [0.1.1] [x] [350]', 'cut [0.1.1.0] [y] [100]', 'color [0.1.1.0.0] [0, 74, 173, 255]', 'color [0.1.1.0.1] [4, 4, 4, 255]', 'color [0.1.1.1] [0, 74, 173, 255]', 'cut [0.1.2] [x] [350]', 'cut [0.1.2.0] [x] [325]', 'color [0.1.2.0.0] [13, 13, 13, 255]', 'color [0.1.2.1] [0, 74, 173, 255]', 'cut [0.1.3] [x] [250]', 'color [0.1.3.0] [4, 4, 4, 255]', 'cut [0.1.3.1] [x] [275]', 'color [0.1.3.1.1] [4, 4, 4, 255]']  
+* Score: 129119.26268335884 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.0] [0, 74, 173, 255]', 'cut [0.0.0.1] [y] [75]', 'color [0.0.0.1.1] [13, 13, 13, 255]', 'cut [0.0.1] [y] [50]', 'color [0.0.1.0] [0, 74, 173, 255]', 'cut [0.0.1.1] [x] [300]', 'color [0.0.1.1.0] [11, 11, 11, 255]', 'color [0.0.1.1.1] [0, 74, 173, 255]', 'cut [0.0.2] [x] [300]', 'cut [0.0.2.0] [x] [250]', 'color [0.0.2.0.1] [126, 126, 126, 255]', 'cut [0.0.2.1] [x] [350]', 'color [0.0.2.1.0] [4, 4, 4, 255]', 'color [0.0.2.1.1] [0, 74, 173, 255]', 'cut [0.0.3] [y] [150]', 'cut [0.0.3.0] [y] [125]', 'color [0.0.3.0.0] [3, 3, 3, 255]', 'color [0.0.3.1] [3, 3, 3, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [y] [250]', 'cut [0.1.0.1] [y] [275]', 'color [0.1.0.1.0] [0, 0, 0, 255]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [250, 250]', 'color [0.1.1.0.0] [0, 0, 0, 255]', 'cut [0.1.1.1] [x] [350]', 'color [0.1.1.1.1] [0, 74, 173, 255]', 'cut [0.1.2] [x] [300]', 'cut [0.1.2.0] [250, 350]', 'color [0.1.2.0.3] [0, 0, 0, 255]', 'cut [0.1.2.1] [x] [350]', 'color [0.1.2.1.1] [0, 74, 173, 255]', 'cut [0.1.3] [y] [350]', 'cut [0.1.3.0] [y] [325]', 'color [0.1.3.0.1] [0, 0, 0, 255]']  
+* Score: 126599.31923467589 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.0] [0, 74, 173, 255]', 'cut [0.0.0.1] [y] [75]', 'color [0.0.0.1.1] [13, 13, 13, 255]', 'cut [0.0.1] [y] [150]', 'cut [0.0.1.0] [y] [125]', 'color [0.0.1.0.0] [3, 3, 3, 255]', 'color [0.0.1.1] [3, 3, 3, 255]', 'cut [0.1] [300, 100]', 'cut [0.1.0] [y] [50]', 'color [0.1.0.0] [0, 74, 173, 255]', 'cut [0.1.0.1] [y] [75]', 'color [0.1.0.1.0] [0, 0, 0, 255]', 'color [0.1.1] [0, 74, 173, 255]', 'cut [0.1.2] [x] [350]', 'color [0.1.2.0] [4, 4, 4, 255]', 'color [0.1.2.1] [0, 74, 173, 255]', 'cut [0.1.3] [250, 150]', 'cut [0.1.3.0] [y] [125]', 'color [0.1.3.0.1] [0, 0, 0, 255]', 'cut [0.1.3.2] [x] [275]', 'color [0.1.3.2.0] [0, 0, 0, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [x] [250]', 'color [0.2.0.0] [4, 4, 4, 255]', 'cut [0.2.0.1] [x] [275]', 'color [0.2.0.1.1] [4, 4, 4, 255]', 'cut [0.2.1] [x] [350]', 'cut [0.2.1.0] [x] [325]', 'color [0.2.1.0.0] [13, 13, 13, 255]', 'color [0.2.1.1] [0, 74, 173, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.0] [50, 250]', 'cut [0.3.0.1] [x] [75]', 'color [0.3.0.1.0] [0, 0, 0, 255]', 'cut [0.3.0.3] [y] [275]', 'color [0.3.0.3.0] [0, 0, 0, 255]', 'cut [0.3.1] [150, 250]', 'cut [0.3.1.0] [x] [125]', 'color [0.3.1.0.1] [0, 0, 0, 255]', 'cut [0.3.1.2] [y] [275]', 'color [0.3.1.2.0] [0, 0, 0, 255]', 'cut [0.3.2] [150, 350]', 'cut [0.3.2.1] [y] [325]', 'color [0.3.2.1.1] [0, 0, 0, 255]', 'cut [0.3.2.3] [x] [125]', 'color [0.3.2.3.1] [0, 0, 0, 255]', 'cut [0.3.3] [50, 350]', 'cut [0.3.3.0] [y] [325]', 'color [0.3.3.0.1] [0, 0, 0, 255]', 'cut [0.3.3.2] [x] [75]', 'color [0.3.3.2.0] [0, 0, 0, 255]']
+# Solving 2
+OPTIONS FOR 0:
+* Score: 66637.86260932364 Cmds: []  
+* Score: 66642.86260932364 Cmds: ['color [0] [255, 255, 255, 255]']  
+* Score: 31632.378982568574 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [50, 100]', 'cut [0.0.0.2] [75, 150]', 'color [0.0.0.2.2] [255, 22, 22, 255]', 'cut [0.0.1] [y] [100]', 'color [0.0.1.1] [56, 182, 255, 255]', 'cut [0.0.2] [y] [300]', 'cut [0.0.2.0] [150, 250]', 'color [0.0.2.0.0] [56, 182, 255, 255]', 'color [0.0.2.0.1] [56, 182, 255, 255]', 'color [0.0.2.0.2] [0, 74, 173, 255]', 'cut [0.0.2.1] [150, 350]', 'color [0.0.2.1.1] [0, 74, 173, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [y] [100]', 'color [0.1.0.1] [56, 182, 255, 255]', 'cut [0.1.2] [x] [350]', 'cut [0.1.2.0] [325, 300]', 'color [0.1.2.0.0] [0, 128, 55, 255]', 'cut [0.1.3] [y] [300]', 'cut [0.1.3.0] [y] [250]', 'color [0.1.3.0.0] [56, 182, 255, 255]', 'color [0.1.3.0.1] [15, 95, 173, 255]', 'cut [0.1.3.1] [250, 350]', 'color [0.1.3.1.0] [0, 74, 173, 255]']  
+* Score: 33843.137173174335 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut [0.0.0] [100, 100]', 'color [0.0.0.2] [56, 182, 255, 255]', 'cut [0.0.1] [300, 100]', 'color [0.0.1.3] [56, 182, 255, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [100, 250]', 'color [0.1.0.1] [56, 182, 255, 255]', 'cut [0.1.0.2] [x] [150]', 'color [0.1.0.2.1] [0, 74, 173, 255]', 'cut [0.1.1] [300, 250]', 'color [0.1.1.0] [56, 182, 255, 255]', 'color [0.1.1.3] [15, 95, 173, 255]', 'cut [0.1.2] [x] [300]', 'cut [0.1.2.0] [250, 350]', 'color [0.1.2.0.0] [0, 74, 173, 255]', 'cut [0.1.3] [x] [100]', 'cut [0.1.3.1] [150, 350]', 'color [0.1.3.1.1] [0, 74, 173, 255]']  
+* Score: 31303.37898256857 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'color [0.0.2] [56, 182, 255, 255]', 'cut [0.0.3] [x] [50]', 'cut [0.0.3.1] [75, 150]', 'color [0.0.3.1.2] [255, 22, 22, 255]', 'cut [0.1] [300, 100]', 'color [0.1.3] [56, 182, 255, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [y] [300]', 'cut [0.2.0.0] [y] [250]', 'color [0.2.0.0.0] [56, 182, 255, 255]', 'color [0.2.0.0.1] [15, 95, 173, 255]', 'cut [0.2.0.1] [250, 350]', 'color [0.2.0.1.0] [0, 74, 173, 255]', 'cut [0.2.1] [x] [350]', 'cut [0.2.1.0] [325, 300]', 'color [0.2.1.0.0] [0, 128, 55, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.1] [y] [250]', 'color [0.3.1.0] [56, 182, 255, 255]', 'cut [0.3.1.1] [x] [150]', 'color [0.3.1.1.1] [0, 74, 173, 255]', 'cut [0.3.2] [150, 350]', 'color [0.3.2.1] [0, 74, 173, 255]']
+# Solving 3
+OPTIONS FOR 0:
+* Score: 303415.95221132704 Cmds: []  
+* Score: 65066.75868161112 Cmds: ['color [0] [0, 0, 0, 255]']  
+* Score: 52223.17700740316 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'color [0.0.0] [0, 0, 0, 255]', 'cut [0.0.1] [150, 100]', 'color [0.0.1.0] [0, 0, 0, 255]', 'color [0.0.1.1] [22, 84, 150, 255]', 'cut [0.0.1.2] [y] [150]', 'color [0.0.1.2.0] [255, 22, 22, 255]', 'color [0.0.1.2.1] [0, 0, 0, 255]', 'cut [0.0.1.3] [x] [125]', 'color [0.0.1.3.0] [0, 0, 0, 255]', 'color [0.0.1.3.1] [94, 23, 235, 255]', 'cut [0.0.2] [x] [150]', 'color [0.0.2.0] [0, 0, 0, 255]', 'cut [0.0.2.1] [y] [300]', 'color [0.0.2.1.0] [0, 74, 173, 255]', 'color [0.0.2.1.1] [0, 0, 0, 255]', 'cut [0.0.3] [50, 300]', 'color [0.0.3.0] [0, 0, 0, 255]', 'color [0.0.3.1] [0, 0, 0, 255]', 'cut [0.0.3.2] [y] [350]', 'color [0.0.3.2.1] [0, 0, 0, 255]', 'color [0.0.3.3] [0, 0, 0, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.0] [y] [100]', 'cut [0.1.0.0] [300, 50]', 'color [0.1.0.0.0] [144, 199, 84, 255]', 'color [0.1.0.0.1] [254, 221, 89, 255]', 'color [0.1.0.0.2] [131, 135, 96, 255]', 'color [0.1.0.0.3] [0, 0, 0, 255]', 'color [0.1.0.1] [0, 0, 0, 255]', 'color [0.1.1] [0, 0, 0, 255]']  
+* Score: 47741.7757385503 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.0] [0, 0, 0, 255]', 'cut [0.0.0.1] [y] [75]', 'color [0.0.0.1.0] [0, 0, 0, 255]', 'color [0.0.0.1.1] [201, 226, 101, 255]', 'cut [0.0.1] [y] [50]', 'cut [0.0.1.0] [300, 25]', 'color [0.0.1.0.0] [201, 226, 101, 255]', 'color [0.0.1.0.1] [255, 222, 89, 255]', 'color [0.0.1.0.2] [161, 69, 85, 255]', 'color [0.0.1.0.3] [0, 0, 0, 255]', 'cut [0.0.1.1] [x] [300]', 'color [0.0.1.1.0] [0, 0, 0, 255]', 'color [0.0.1.1.1] [131, 135, 96, 255]', 'color [0.0.2] [0, 0, 0, 255]', 'cut [0.0.3] [100, 150]', 'color [0.0.3.0] [0, 0, 0, 255]', 'cut [0.0.3.1] [x] [150]', 'color [0.0.3.1.0] [94, 23, 233, 255]', 'color [0.0.3.1.1] [255, 22, 22, 255]', 'color [0.0.3.2] [0, 0, 0, 255]', 'color [0.0.3.3] [0, 0, 0, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [100, 250]', 'cut [0.1.0.0] [y] [225]', 'color [0.1.0.0.0] [0, 0, 0, 255]', 'color [0.1.0.0.1] [201, 226, 101, 255]', 'color [0.1.0.1] [0, 0, 0, 255]', 'cut [0.1.0.2] [x] [150]', 'color [0.1.0.2.0] [0, 0, 0, 255]', 'color [0.1.0.2.1] [0, 74, 173, 255]', 'color [0.1.0.3] [0, 0, 0, 255]', 'color [0.1.1] [0, 0, 0, 255]', 'color [0.1.2] [0, 0, 0, 255]', 'cut [0.1.3] [100, 350]', 'cut [0.1.3.0] [x] [50]', 'color [0.1.3.0.0] [0, 0, 0, 255]', 'color [0.1.3.1] [0, 0, 0, 255]', 'color [0.1.3.2] [0, 0, 0, 255]', 'color [0.1.3.3] [0, 0, 0, 255]']  
+* Score: 46614.33552040481 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.0] [0, 0, 0, 255]', 'cut [0.0.0.1] [y] [75]', 'color [0.0.0.1.0] [0, 0, 0, 255]', 'color [0.0.0.1.1] [201, 226, 101, 255]', 'cut [0.0.1] [x] [150]', 'color [0.0.1.0] [0, 0, 0, 255]', 'color [0.0.1.1] [22, 84, 150, 255]', 'cut [0.0.2] [x] [150]', 'cut [0.0.2.0] [x] [125]', 'color [0.0.2.0.0] [0, 0, 0, 255]', 'color [0.0.2.0.1] [94, 23, 235, 255]', 'cut [0.0.2.1] [y] [150]', 'color [0.0.2.1.0] [255, 22, 22, 255]', 'color [0.0.2.1.1] [0, 0, 0, 255]', 'color [0.0.3] [0, 0, 0, 255]', 'cut [0.1] [300, 100]', 'cut [0.1.0] [y] [50]', 'cut [0.1.0.0] [y] [25]', 'color [0.1.0.0.0] [201, 226, 101, 255]', 'color [0.1.0.0.1] [0, 0, 0, 255]', 'color [0.1.0.1] [0, 0, 0, 255]', 'cut [0.1.1] [x] [350]', 'cut [0.1.1.0] [x] [325]', 'color [0.1.1.0.0] [255, 22, 22, 255]', 'color [0.1.1.0.1] [117, 153, 61, 255]', 'cut [0.1.1.1] [x] [375]', 'color [0.1.1.1.0] [240, 221, 89, 255]', 'color [0.1.1.1.1] [94, 23, 235, 255]', 'color [0.1.2] [0, 0, 0, 255]', 'color [0.1.3] [0, 0, 0, 255]', 'color [0.2] [0, 0, 0, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.0] [y] [250]', 'cut [0.3.0.0] [y] [225]', 'color [0.3.0.0.0] [0, 0, 0, 255]', 'color [0.3.0.0.1] [201, 226, 101, 255]', 'color [0.3.0.1] [0, 0, 0, 255]', 'cut [0.3.1] [x] [150]', 'color [0.3.1.0] [0, 0, 0, 255]', 'color [0.3.1.1] [0, 74, 173, 255]', 'color [0.3.2] [0, 0, 0, 255]', 'cut [0.3.3] [x] [50]', 'color [0.3.3.0] [0, 0, 0, 255]', 'cut [0.3.3.1] [y] [350]', 'color [0.3.3.1.1] [0, 0, 0, 255]']
+# Solving 4
+OPTIONS FOR 0:
+* Score: 25307.78243250631 Cmds: []  
+* Score: 25312.78243250631 Cmds: ['color [0] [255, 255, 255, 255]']  
+* Score: 25270.09774794696 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.2] [150, 300]', 'cut [0.0.2.1] [175, 250]', 'color [0.0.2.1.1] [0, 0, 0, 255]']  
+* Score: 25314.782432506312 Cmds: ['cut [0] [y] [200]']  
+* Score: 25281.097747946962 Cmds: ['cut [0] [200, 200]', 'cut [0.3] [x] [100]', 'cut [0.3.1] [150, 300]', 'cut [0.3.1.1] [175, 250]', 'color [0.3.1.1.1] [0, 0, 0, 255]']
+# Solving 5
+OPTIONS FOR 0:
+* Score: 42755.025928028525 Cmds: []  
+* Score: 42760.025928028525 Cmds: ['color [0] [255, 255, 255, 255]']  
+* Score: 30455.76430232258 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.1] [y] [100]', 'cut [0.0.1.1] [150, 150]', 'color [0.0.1.1.3] [0, 0, 0, 255]', 'cut [0.0.2] [150, 300]', 'cut [0.0.2.0] [y] [250]', 'color [0.0.2.0.0] [0, 0, 0, 255]', 'color [0.0.2.1] [0, 0, 0, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.3] [250, 300]', 'cut [0.1.3.0] [225, 250]', 'color [0.1.3.0.3] [0, 0, 0, 255]']  
+* Score: 28671.448625189376 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut [0.0.0] [100, 100]', 'cut [0.0.0.2] [150, 150]', 'color [0.0.0.2.3] [0, 0, 0, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [100, 250]', 'color [0.1.0.1] [0, 0, 0, 255]', 'cut [0.1.0.2] [y] [275]', 'color [0.1.0.2.0] [0, 0, 0, 255]', 'cut [0.1.0.3] [50, 275]', 'color [0.1.0.3.1] [0, 0, 0, 255]']  
+* Score: 28318.141500903526 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'cut [0.0.2] [150, 150]', 'color [0.0.2.3] [0, 0, 0, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [250, 300]', 'cut [0.2.0.0] [225, 250]', 'color [0.2.0.0.3] [0, 0, 0, 255]', 'cut [0.3] [y] [300]', 'cut [0.3.0] [100, 250]', 'color [0.3.0.1] [0, 0, 0, 255]', 'cut [0.3.0.2] [y] [275]', 'color [0.3.0.2.0] [0, 0, 0, 255]', 'cut [0.3.0.3] [50, 275]', 'color [0.3.0.3.1] [0, 0, 0, 255]']
+# Solving 6
+OPTIONS FOR 0:
+* Score: 169166.36812288262 Cmds: []  
+* Score: 95304.97988742402 Cmds: ['color [0] [82, 85, 86, 255]']  
+* Score: 32571.25195657424 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut [0.0.0] [y] [100]', 'cut [0.0.0.0] [y] [50]', 'color [0.0.0.0.1] [227, 228, 226, 255]', 'color [0.0.0.1] [79, 79, 80, 255]', 'cut [0.0.1] [y] [300]', 'color [0.0.1.0] [78, 78, 79, 255]', 'cut [0.0.1.1] [y] [350]', 'color [0.0.1.1.0] [78, 78, 79, 255]', 'color [0.0.1.1.1] [0, 147, 185, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.0] [y] [100]', 'cut [0.1.0.0] [y] [50]', 'color [0.1.0.0.1] [227, 228, 226, 255]', 'color [0.1.0.1] [78, 78, 79, 255]', 'cut [0.1.1] [y] [300]', 'color [0.1.1.0] [78, 78, 79, 255]', 'cut [0.1.1.1] [y] [350]', 'color [0.1.1.1.0] [78, 78, 79, 255]', 'color [0.1.1.1.1] [0, 147, 185, 255]']  
+* Score: 20676.607552091577 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [y] [100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.1] [227, 228, 226, 255]', 'cut [0.0.1] [y] [150]', 'cut [0.0.1.0] [y] [125]', 'color [0.0.1.0.0] [227, 228, 226, 255]', 'color [0.0.1.0.1] [78, 78, 79, 255]', 'color [0.0.1.1] [78, 78, 79, 255]', 'cut [0.1] [y] [300]', 'color [0.1.0] [78, 78, 79, 255]', 'cut [0.1.1] [y] [350]', 'color [0.1.1.0] [78, 78, 79, 255]', 'color [0.1.1.1] [0, 147, 185, 255]']  
+* Score: 22193.90625286004 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.1] [227, 228, 226, 255]', 'cut [0.0.1] [y] [150]', 'cut [0.0.1.0] [y] [125]', 'color [0.0.1.0.0] [227, 228, 226, 255]', 'color [0.0.1.0.1] [78, 78, 79, 255]', 'color [0.0.1.1] [79, 79, 79, 255]', 'cut [0.1] [y] [100]', 'cut [0.1.0] [y] [50]', 'cut [0.1.0.0] [x] [300]', 'color [0.1.0.0.0] [227, 228, 226, 255]', 'color [0.1.0.1] [227, 228, 226, 255]', 'cut [0.1.1] [y] [150]', 'cut [0.1.1.0] [y] [125]', 'color [0.1.1.0.0] [227, 228, 226, 255]', 'color [0.1.1.0.1] [78, 78, 79, 255]', 'color [0.1.1.1] [78, 78, 79, 255]', 'cut [0.2] [y] [300]', 'color [0.2.0] [78, 78, 79, 255]', 'cut [0.2.1] [y] [350]', 'color [0.2.1.0] [78, 78, 79, 255]', 'color [0.2.1.1] [0, 147, 185, 255]', 'cut [0.3] [y] [300]', 'color [0.3.0] [78, 78, 79, 255]', 'cut [0.3.1] [y] [350]', 'color [0.3.1.0] [78, 78, 79, 255]', 'color [0.3.1.1] [0, 147, 185, 255]']
+# Solving 7
+OPTIONS FOR 0:
+* Score: 277944.8982466252 Cmds: []  
+* Score: 95989.89533966673 Cmds: ['color [0] [0, 0, 0, 255]']  
+* Score: 47014.61275035419 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [50, 100]', 'color [0.0.0.0] [0, 0, 0, 255]', 'color [0.0.0.1] [0, 0, 0, 255]', 'cut [0.0.0.2] [y] [150]', 'color [0.0.0.2.0] [1, 0, 0, 255]', 'color [0.0.0.2.1] [33, 81, 216, 255]', 'color [0.0.0.3] [0, 0, 0, 255]', 'cut [0.0.1] [y] [100]', 'color [0.0.1.0] [0, 0, 0, 255]', 'cut [0.0.1.1] [y] [150]', 'color [0.0.1.1.0] [234, 0, 32, 255]', 'color [0.0.1.1.1] [33, 81, 216, 255]', 'cut [0.0.2] [y] [300]', 'cut [0.0.2.0] [y] [250]', 'color [0.0.2.0.0] [33, 81, 216, 255]', 'color [0.0.2.1] [0, 0, 0, 255]', 'cut [0.0.3] [50, 300]', 'cut [0.0.3.0] [x] [25]', 'color [0.0.3.0.0] [0, 0, 0, 255]', 'color [0.0.3.0.1] [35, 82, 215, 255]', 'color [0.0.3.1] [33, 81, 216, 255]', 'color [0.0.3.2] [0, 0, 0, 255]', 'color [0.0.3.3] [0, 0, 0, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.0] [300, 100]', 'color [0.1.0.0] [0, 0, 0, 255]', 'color [0.1.0.1] [0, 0, 0, 255]', 'cut [0.1.0.2] [x] [350]', 'color [0.1.0.2.0] [33, 81, 216, 255]', 'color [0.1.0.2.1] [0, 0, 0, 255]', 'cut [0.1.0.3] [y] [150]', 'color [0.1.0.3.0] [234, 0, 32, 255]', 'color [0.1.0.3.1] [33, 81, 216, 255]', 'cut [0.1.1] [300, 300]', 'cut [0.1.1.0] [250, 250]', 'color [0.1.1.0.2] [0, 0, 0, 255]', 'cut [0.1.1.1] [y] [250]', 'color [0.1.1.1.1] [0, 0, 0, 255]', 'color [0.1.1.2] [0, 0, 0, 255]', 'color [0.1.1.3] [0, 0, 0, 255]']  
+* Score: 45164.12275593444 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'color [0.0.0] [0, 0, 0, 255]', 'color [0.0.1] [0, 0, 0, 255]', 'cut [0.0.2] [x] [300]', 'cut [0.0.2.0] [y] [150]', 'color [0.0.2.0.0] [234, 0, 32, 255]', 'color [0.0.2.0.1] [33, 81, 216, 255]', 'cut [0.0.2.1] [x] [350]', 'color [0.0.2.1.0] [33, 81, 216, 255]', 'color [0.0.2.1.1] [0, 0, 0, 255]', 'cut [0.0.3] [100, 150]', 'color [0.0.3.0] [0, 0, 0, 255]', 'color [0.0.3.1] [234, 0, 32, 255]', 'color [0.0.3.2] [33, 81, 216, 255]', 'cut [0.0.3.3] [x] [50]', 'color [0.0.3.3.0] [0, 0, 0, 255]', 'color [0.0.3.3.1] [33, 81, 216, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [y] [250]', 'color [0.1.0.0] [33, 81, 216, 255]', 'cut [0.1.1] [300, 250]', 'cut [0.1.1.0] [y] [225]', 'color [0.1.1.0.0] [33, 81, 216, 255]', 'color [0.1.1.2] [0, 0, 0, 255]', 'cut [0.1.1.3] [y] [275]', 'color [0.1.1.3.1] [0, 0, 0, 255]', 'color [0.1.2] [0, 0, 0, 255]', 'cut [0.1.3] [y] [350]', 'cut [0.1.3.0] [y] [325]', 'color [0.1.3.0.1] [0, 0, 0, 255]', 'color [0.1.3.1] [0, 0, 0, 255]']  
+* Score: 44788.29107461876 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'color [0.0.0] [0, 0, 0, 255]', 'cut [0.0.1] [100, 150]', 'color [0.0.1.0] [0, 0, 0, 255]', 'color [0.0.1.1] [234, 0, 32, 255]', 'color [0.0.1.2] [33, 81, 216, 255]', 'cut [0.0.1.3] [x] [50]', 'color [0.0.1.3.0] [0, 0, 0, 255]', 'color [0.0.1.3.1] [33, 81, 216, 255]', 'cut [0.1] [300, 100]', 'cut [0.1.0] [y] [50]', 'color [0.1.0.0] [0, 0, 0, 255]', 'cut [0.1.0.1] [y] [75]', 'color [0.1.0.1.0] [0, 0, 0, 255]', 'color [0.1.0.1.1] [233, 0, 31, 255]', 'color [0.1.1] [0, 0, 0, 255]', 'cut [0.1.2] [x] [350]', 'color [0.1.2.0] [33, 81, 216, 255]', 'color [0.1.2.1] [0, 0, 0, 255]', 'cut [0.1.3] [y] [150]', 'color [0.1.3.0] [234, 0, 32, 255]', 'color [0.1.3.1] [33, 81, 216, 255]', 'cut [0.2] [y] [300]', 'cut [0.2.0] [300, 250]', 'cut [0.2.0.0] [y] [225]', 'color [0.2.0.0.0] [33, 81, 216, 255]', 'color [0.2.0.2] [0, 0, 0, 255]', 'cut [0.2.0.3] [y] [275]', 'color [0.2.0.3.1] [0, 0, 0, 255]', 'color [0.2.1] [0, 0, 0, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.0] [x] [50]', 'cut [0.3.0.0] [x] [25]', 'color [0.3.0.0.0] [0, 0, 0, 255]', 'color [0.3.0.0.1] [35, 82, 215, 255]', 'color [0.3.0.1] [33, 81, 216, 255]', 'cut [0.3.1] [y] [250]', 'color [0.3.1.0] [33, 81, 216, 255]', 'cut [0.3.2] [y] [350]', 'cut [0.3.2.0] [y] [325]', 'color [0.3.2.0.1] [0, 0, 0, 255]', 'color [0.3.2.1] [0, 0, 0, 255]', 'color [0.3.3] [0, 0, 0, 255]']
+# Solving 8
+OPTIONS FOR 0:
+* Score: 21906.015798810506 Cmds: []  
+* Score: 21911.015798810506 Cmds: ['color [0] [255, 255, 255, 255]']  
+* Score: 21913.015798810506 Cmds: ['cut [0] [x] [200]']  
+* Score: 21913.015798810506 Cmds: ['cut [0] [y] [200]']  
+* Score: 21916.015798810513 Cmds: ['cut [0] [200, 200]']
+# Solving 9
+OPTIONS FOR 0:
+* Score: 198787.46656333862 Cmds: []  
+* Score: 111395.22435126212 Cmds: ['color [0] [140, 142, 110, 255]']  
+* Score: 64208.47736302625 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [50, 100]', 'cut [0.0.0.0] [25, 50]', 'color [0.0.0.0.2] [0, 0, 0, 255]', 'cut [0.0.0.1] [y] [50]', 'color [0.0.0.1.1] [0, 0, 0, 255]', 'cut [0.0.0.2] [y] [150]', 'color [0.0.0.2.0] [0, 0, 0, 255]', 'color [0.0.0.2.1] [142, 145, 112, 255]', 'cut [0.0.0.3] [x] [25]', 'color [0.0.0.3.1] [0, 0, 0, 255]', 'cut [0.0.1] [y] [100]', 'cut [0.0.1.0] [y] [50]', 'color [0.0.1.0.0] [241, 242, 243, 255]', 'color [0.0.1.0.1] [0, 0, 0, 255]', 'cut [0.0.1.1] [x] [150]', 'color [0.0.1.1.0] [142, 145, 112, 255]', 'color [0.0.1.1.1] [225, 196, 123, 255]', 'cut [0.0.2] [y] [300]', 'cut [0.0.2.0] [x] [150]', 'color [0.0.2.0.0] [142, 145, 112, 255]', 'color [0.0.2.0.1] [223, 190, 120, 255]', 'cut [0.0.2.1] [y] [350]', 'color [0.0.2.1.0] [142, 145, 112, 255]', 'color [0.0.2.1.1] [0, 0, 0, 255]', 'cut [0.0.3] [x] [50]', 'cut [0.0.3.0] [x] [25]', 'color [0.0.3.0.0] [245, 246, 247, 255]', 'color [0.0.3.0.1] [0, 0, 0, 255]', 'cut [0.0.3.1] [y] [300]', 'color [0.0.3.1.0] [142, 144, 111, 255]', 'color [0.0.3.1.1] [0, 0, 0, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [y] [100]', 'cut [0.1.0.0] [y] [50]', 'color [0.1.0.0.0] [242, 242, 243, 255]', 'color [0.1.0.0.1] [0, 0, 0, 255]', 'color [0.1.0.1] [101, 85, 81, 255]', 'cut [0.1.1] [x] [350]', 'cut [0.1.1.0] [y] [100]', 'color [0.1.1.0.0] [0, 0, 0, 255]', 'color [0.1.1.0.1] [139, 142, 109, 255]', 'cut [0.1.1.1] [x] [375]', 'color [0.1.1.1.0] [0, 0, 0, 255]', 'color [0.1.1.1.1] [243, 244, 245, 255]', 'cut [0.1.2] [x] [350]', 'cut [0.1.2.0] [y] [300]', 'color [0.1.2.0.0] [140, 143, 110, 255]', 'color [0.1.2.0.1] [0, 0, 0, 255]', 'cut [0.1.2.1] [x] [375]', 'color [0.1.2.1.0] [0, 0, 0, 255]', 'color [0.1.2.1.1] [247, 248, 249, 255]', 'cut [0.1.3] [y] [300]', 'cut [0.1.3.0] [x] [250]', 'color [0.1.3.0.0] [95, 72, 76, 255]', 'color [0.1.3.0.1] [141, 144, 111, 255]', 'cut [0.1.3.1] [y] [350]', 'color [0.1.3.1.0] [141, 143, 109, 255]', 'color [0.1.3.1.1] [0, 0, 0, 255]']  
+* Score: 72032.87662437356 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [y] [50]', 'cut [0.0.0.0] [y] [25]', 'color [0.0.0.0.0] [242, 243, 244, 255]', 'color [0.0.0.0.1] [0, 0, 0, 255]', 'color [0.0.0.1] [0, 0, 0, 255]', 'cut [0.0.1] [y] [50]', 'cut [0.0.1.0] [y] [25]', 'color [0.0.1.0.0] [243, 244, 245, 255]', 'color [0.0.1.0.1] [0, 0, 0, 255]', 'color [0.0.1.1] [0, 0, 0, 255]', 'cut [0.0.2] [y] [150]', 'cut [0.0.2.0] [x] [300]', 'color [0.0.2.0.0] [96, 83, 79, 255]', 'color [0.0.2.0.1] [0, 0, 0, 255]', 'color [0.0.2.1] [140, 142, 110, 255]', 'cut [0.0.3] [x] [100]', 'cut [0.0.3.0] [50, 150]', 'color [0.0.3.0.1] [0, 0, 0, 255]', 'color [0.0.3.0.2] [142, 145, 112, 255]', 'cut [0.0.3.1] [x] [150]', 'color [0.0.3.1.0] [142, 145, 112, 255]', 'color [0.0.3.1.1] [225, 196, 123, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [x] [100]', 'cut [0.1.0.0] [x] [50]', 'color [0.1.0.0.0] [242, 243, 245, 255]', 'color [0.1.0.0.1] [142, 144, 111, 255]', 'cut [0.1.0.1] [x] [150]', 'color [0.1.0.1.0] [142, 145, 112, 255]', 'color [0.1.0.1.1] [223, 190, 120, 255]', 'color [0.1.1] [140, 142, 110, 255]', 'cut [0.1.2] [y] [350]', 'cut [0.1.2.0] [x] [300]', 'color [0.1.2.0.0] [141, 143, 109, 255]', 'color [0.1.2.0.1] [0, 0, 0, 255]', 'cut [0.1.2.1] [y] [375]', 'color [0.1.2.1.0] [0, 0, 0, 255]', 'color [0.1.2.1.1] [246, 247, 248, 255]', 'cut [0.1.3] [y] [350]', 'cut [0.1.3.0] [x] [100]', 'color [0.1.3.0.0] [0, 0, 0, 255]', 'color [0.1.3.0.1] [142, 145, 112, 255]', 'cut [0.1.3.1] [y] [375]', 'color [0.1.3.1.0] [0, 0, 0, 255]', 'color [0.1.3.1.1] [245, 246, 247, 255]']  
+* Score: 58083.886669909174 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'cut [0.0.0] [50, 50]', 'cut [0.0.0.1] [y] [25]', 'color [0.0.0.1.1] [0, 0, 0, 255]', 'color [0.0.0.2] [0, 0, 0, 255]', 'cut [0.0.0.3] [x] [25]', 'color [0.0.0.3.1] [0, 0, 0, 255]', 'cut [0.0.1] [y] [50]', 'cut [0.0.1.0] [y] [25]', 'color [0.0.1.0.1] [0, 0, 0, 255]', 'cut [0.0.1.1] [y] [75]', 'color [0.0.1.1.0] [0, 0, 0, 255]', 'color [0.0.1.1.1] [94, 83, 80, 255]', 'cut [0.0.2] [x] [150]', 'color [0.0.2.0] [142, 145, 112, 255]', 'color [0.0.2.1] [225, 196, 123, 255]', 'cut [0.0.3] [x] [50]', 'cut [0.0.3.0] [x] [25]', 'color [0.0.3.0.1] [0, 0, 0, 255]', 'cut [0.0.3.1] [y] [150]', 'color [0.0.3.1.0] [0, 0, 0, 255]', 'color [0.0.3.1.1] [142, 145, 112, 255]', 'cut [0.1] [300, 100]', 'cut [0.1.0] [y] [50]', 'cut [0.1.0.0] [y] [25]', 'color [0.1.0.0.1] [0, 0, 0, 255]', 'cut [0.1.0.1] [y] [75]', 'color [0.1.0.1.0] [0, 0, 0, 255]', 'color [0.1.0.1.1] [95, 84, 80, 255]', 'cut [0.1.1] [350, 50]', 'cut [0.1.1.0] [y] [25]', 'color [0.1.1.0.1] [0, 0, 0, 255]', 'cut [0.1.1.2] [x] [375]', 'color [0.1.1.2.0] [0, 0, 0, 255]', 'color [0.1.1.3] [0, 0, 0, 255]', 'cut [0.1.2] [x] [350]', 'cut [0.1.2.0] [y] [150]', 'color [0.1.2.0.0] [0, 0, 0, 255]', 'color [0.1.2.0.1] [140, 143, 110, 255]', 'cut [0.1.2.1] [x] [375]', 'color [0.1.2.1.0] [0, 0, 0, 255]', 'cut [0.1.3] [x] [250]', 'cut [0.1.3.0] [x] [225]', 'color [0.1.3.0.0] [226, 196, 122, 255]', 'color [0.1.3.0.1] [94, 71, 75, 255]', 'color [0.1.3.1] [96, 83, 79, 255]', 'cut [0.2] [300, 300]', 'cut [0.2.0] [x] [250]', 'color [0.2.0.0] [95, 72, 76, 255]', 'color [0.2.0.1] [141, 144, 111, 255]', 'cut [0.2.1] [x] [350]', 'color [0.2.1.0] [140, 143, 110, 255]', 'cut [0.2.1.1] [x] [375]', 'color [0.2.1.1.0] [0, 0, 0, 255]', 'cut [0.2.2] [x] [350]', 'color [0.2.2.0] [0, 0, 0, 255]', 'cut [0.2.2.1] [x] [375]', 'color [0.2.2.1.0] [0, 0, 0, 255]', 'cut [0.2.3] [y] [350]', 'color [0.2.3.0] [141, 143, 109, 255]', 'cut [0.2.3.1] [y] [375]', 'color [0.2.3.1.0] [0, 0, 0, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.0] [x] [50]', 'cut [0.3.0.0] [x] [25]', 'color [0.3.0.0.1] [0, 0, 0, 255]', 'color [0.3.0.1] [142, 144, 111, 255]', 'cut [0.3.1] [x] [150]', 'color [0.3.1.0] [142, 145, 112, 255]', 'color [0.3.1.1] [223, 190, 120, 255]', 'cut [0.3.2] [y] [350]', 'color [0.3.2.0] [142, 145, 112, 255]', 'cut [0.3.2.1] [y] [375]', 'color [0.3.2.1.0] [0, 0, 0, 255]', 'cut [0.3.3] [x] [50]', 'cut [0.3.3.0] [x] [25]', 'color [0.3.3.0.1] [0, 0, 0, 255]', 'color [0.3.3.1] [0, 0, 0, 255]']
+# Solving 10
+OPTIONS FOR 0:
+* Score: 210784.30769478861 Cmds: []  
+* Score: 72230.26301217858 Cmds: ['color [0] [58, 74, 169, 255]']  
+* Score: 41707.65599558656 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [50, 100]', 'color [0.0.0.0] [26, 35, 126, 255]', 'color [0.0.0.1] [33, 33, 33, 255]', 'cut [0.0.0.2] [x] [75]', 'color [0.0.0.2.0] [200, 184, 141, 255]', 'color [0.0.0.2.1] [33, 33, 33, 255]', 'cut [0.0.0.3] [y] [150]', 'color [0.0.0.3.0] [255, 236, 179, 255]', 'color [0.0.0.3.1] [57, 73, 171, 255]', 'cut [0.0.1] [x] [150]', 'color [0.0.1.0] [33, 33, 33, 255]', 'cut [0.0.1.1] [y] [100]', 'color [0.0.1.1.0] [33, 33, 33, 255]', 'color [0.0.1.1.1] [255, 236, 179, 255]', 'cut [0.0.2] [y] [300]', 'color [0.0.2.0] [92, 107, 192, 255]', 'color [0.0.2.1] [57, 73, 171, 255]', 'cut [0.0.3] [50, 300]', 'color [0.0.3.0] [92, 107, 192, 255]', 'cut [0.0.3.1] [x] [75]', 'color [0.0.3.1.0] [92, 107, 192, 255]', 'color [0.0.3.1.1] [33, 33, 33, 255]', 'color [0.0.3.2] [57, 73, 171, 255]', 'color [0.0.3.3] [57, 73, 171, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.0] [y] [100]', 'color [0.1.0.0] [26, 35, 126, 255]', 'cut [0.1.0.1] [300, 150]', 'color [0.1.0.1.0] [255, 236, 179, 255]', 'color [0.1.0.1.1] [40, 53, 147, 255]', 'color [0.1.0.1.2] [255, 236, 179, 255]', 'color [0.1.0.1.3] [120, 132, 201, 255]', 'cut [0.1.1] [300, 300]', 'cut [0.1.1.0] [y] [250]', 'color [0.1.1.0.0] [121, 134, 203, 255]', 'color [0.1.1.0.1] [92, 107, 192, 255]', 'cut [0.1.1.1] [x] [350]', 'color [0.1.1.1.0] [121, 134, 203, 255]', 'color [0.1.1.1.1] [57, 73, 171, 255]', 'color [0.1.1.2] [57, 73, 171, 255]', 'color [0.1.1.3] [57, 73, 171, 255]']  
+* Score: 42074.94723570993 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [x] [100]', 'cut [0.0.0.0] [x] [50]', 'color [0.0.0.0.0] [26, 35, 126, 255]', 'color [0.0.0.0.1] [33, 33, 33, 255]', 'color [0.0.0.1] [33, 33, 33, 255]', 'color [0.0.1] [26, 35, 126, 255]', 'cut [0.0.2] [y] [150]', 'cut [0.0.2.0] [300, 125]', 'color [0.0.2.0.0] [26, 35, 126, 255]', 'color [0.0.2.0.1] [40, 53, 147, 255]', 'color [0.0.2.0.2] [26, 35, 126, 255]', 'color [0.0.2.0.3] [255, 236, 179, 255]', 'cut [0.0.2.1] [y] [175]', 'color [0.0.2.1.0] [255, 236, 179, 255]', 'color [0.0.2.1.1] [121, 134, 203, 255]', 'cut [0.0.3] [x] [100]', 'cut [0.0.3.0] [50, 150]', 'color [0.0.3.0.0] [255, 236, 179, 255]', 'color [0.0.3.0.1] [33, 33, 33, 255]', 'color [0.0.3.0.2] [33, 33, 33, 255]', 'color [0.0.3.0.3] [57, 73, 171, 255]', 'cut [0.0.3.1] [x] [150]', 'color [0.0.3.1.0] [33, 33, 33, 255]', 'color [0.0.3.1.1] [255, 236, 179, 255]', 'cut [0.1] [200, 300]', 'color [0.1.0] [92, 107, 192, 255]', 'cut [0.1.1] [y] [250]', 'color [0.1.1.0] [121, 134, 203, 255]', 'cut [0.1.1.1] [x] [300]', 'color [0.1.1.1.0] [92, 107, 192, 255]', 'color [0.1.1.1.1] [57, 73, 171, 255]', 'color [0.1.2] [57, 73, 171, 255]', 'color [0.1.3] [57, 73, 171, 255]']  
+* Score: 40798.6155436516 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'cut [0.0.0] [50, 100]', 'color [0.0.0.0] [26, 35, 126, 255]', 'color [0.0.0.1] [33, 33, 33, 255]', 'cut [0.0.0.2] [x] [75]', 'color [0.0.0.2.0] [200, 184, 141, 255]', 'color [0.0.0.2.1] [33, 33, 33, 255]', 'cut [0.0.0.3] [y] [150]', 'color [0.0.0.3.0] [255, 236, 179, 255]', 'color [0.0.0.3.1] [57, 73, 171, 255]', 'cut [0.0.1] [x] [150]', 'color [0.0.1.0] [33, 33, 33, 255]', 'cut [0.0.1.1] [y] [100]', 'color [0.0.1.1.0] [33, 33, 33, 255]', 'color [0.0.1.1.1] [255, 236, 179, 255]', 'cut [0.1] [y] [100]', 'color [0.1.0] [26, 35, 126, 255]', 'cut [0.1.1] [y] [150]', 'cut [0.1.1.0] [300, 125]', 'color [0.1.1.0.0] [26, 35, 126, 255]', 'color [0.1.1.0.1] [40, 53, 147, 255]', 'color [0.1.1.0.2] [26, 35, 126, 255]', 'color [0.1.1.0.3] [255, 236, 179, 255]', 'cut [0.1.1.1] [y] [175]', 'color [0.1.1.1.0] [255, 236, 179, 255]', 'color [0.1.1.1.1] [121, 134, 203, 255]', 'cut [0.2] [y] [300]', 'cut [0.2.0] [y] [250]', 'color [0.2.0.0] [121, 134, 203, 255]', 'cut [0.2.0.1] [x] [300]', 'color [0.2.0.1.0] [92, 107, 192, 255]', 'color [0.2.0.1.1] [57, 73, 171, 255]', 'color [0.2.1] [57, 73, 171, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.0] [x] [50]', 'color [0.3.0.0] [92, 107, 192, 255]', 'cut [0.3.0.1] [x] [75]', 'color [0.3.0.1.0] [92, 107, 192, 255]', 'color [0.3.0.1.1] [33, 33, 33, 255]', 'color [0.3.1] [92, 107, 192, 255]', 'color [0.3.2] [57, 73, 171, 255]', 'color [0.3.3] [57, 73, 171, 255]']
+# Solving 11
+OPTIONS FOR 0:
+* Score: 235480.12131673517 Cmds: []  
+* Score: 72994.7273706441 Cmds: ['color [0] [182, 70, 22, 255]']  
+* Score: 55703.65301804167 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [50, 100]', 'color [0.0.0.0] [211, 92, 18, 255]', 'color [0.0.0.1] [239, 196, 103, 255]', 'color [0.0.0.2] [155, 89, 55, 255]', 'color [0.0.0.3] [98, 46, 50, 255]', 'cut [0.0.1] [x] [150]', 'cut [0.0.1.0] [x] [125]', 'color [0.0.1.0.0] [192, 54, 11, 255]', 'color [0.0.1.0.1] [101, 50, 52, 255]', 'cut [0.0.1.1] [x] [175]', 'color [0.0.1.1.0] [204, 62, 7, 255]', 'color [0.0.1.1.1] [235, 159, 16, 255]', 'cut [0.0.2] [y] [300]', 'cut [0.0.2.0] [x] [150]', 'color [0.0.2.0.0] [196, 49, 5, 255]', 'color [0.0.2.0.1] [142, 2, 11, 255]', 'cut [0.0.2.1] [y] [350]', 'color [0.0.2.1.0] [91, 55, 45, 255]', 'color [0.0.2.1.1] [230, 127, 9, 255]', 'cut [0.0.3] [y] [300]', 'cut [0.0.3.0] [50, 250]', 'color [0.0.3.0.0] [79, 79, 87, 255]', 'color [0.0.3.0.1] [245, 221, 152, 255]', 'color [0.0.3.0.2] [63, 44, 48, 255]', 'color [0.0.3.0.3] [200, 55, 6, 255]', 'cut [0.0.3.1] [50, 350]', 'color [0.0.3.1.0] [176, 54, 17, 255]', 'color [0.0.3.1.1] [63, 44, 48, 255]', 'color [0.0.3.1.2] [230, 127, 9, 255]', 'color [0.0.3.1.3] [125, 21, 22, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [250, 100]', 'color [0.1.0.0] [184, 28, 5, 255]', 'color [0.1.0.1] [222, 119, 12, 255]', 'color [0.1.0.2] [161, 8, 3, 255]', 'color [0.1.0.3] [236, 160, 15, 255]', 'cut [0.1.1] [y] [100]', 'cut [0.1.1.0] [350, 50]', 'color [0.1.1.0.0] [168, 18, 5, 255]', 'color [0.1.1.0.1] [238, 164, 17, 255]', 'color [0.1.1.0.2] [67, 55, 59, 255]', 'color [0.1.1.0.3] [231, 139, 11, 255]', 'cut [0.1.1.1] [x] [350]', 'color [0.1.1.1.0] [208, 67, 5, 255]', 'color [0.1.1.1.1] [168, 18, 4, 255]', 'cut [0.1.2] [y] [300]', 'cut [0.1.2.0] [x] [350]', 'color [0.1.2.0.0] [209, 71, 5, 255]', 'color [0.1.2.0.1] [87, 54, 63, 255]', 'cut [0.1.2.1] [y] [350]', 'color [0.1.2.1.0] [230, 135, 10, 255]', 'color [0.1.2.1.1] [89, 53, 59, 255]', 'cut [0.1.3] [x] [250]', 'color [0.1.3.0] [207, 77, 11, 255]', 'color [0.1.3.1] [153, 15, 12, 255]']  
+* Score: 54486.30759361175 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [y] [50]', 'cut [0.0.0.0] [y] [25]', 'color [0.0.0.0.0] [183, 34, 6, 255]', 'color [0.0.0.0.1] [240, 202, 108, 255]', 'cut [0.0.0.1] [y] [75]', 'color [0.0.0.1.0] [243, 208, 112, 255]', 'color [0.0.0.1.1] [181, 81, 32, 255]', 'cut [0.0.1] [x] [300]', 'cut [0.0.1.0] [x] [250]', 'color [0.0.1.0.0] [184, 28, 5, 255]', 'color [0.0.1.0.1] [222, 119, 12, 255]', 'cut [0.0.1.1] [350, 50]', 'color [0.0.1.1.0] [168, 18, 5, 255]', 'color [0.0.1.1.1] [238, 164, 17, 255]', 'color [0.0.1.1.2] [67, 55, 59, 255]', 'color [0.0.1.1.3] [231, 139, 11, 255]', 'cut [0.0.2] [x] [300]', 'cut [0.0.2.0] [x] [250]', 'color [0.0.2.0.0] [236, 160, 15, 255]', 'color [0.0.2.0.1] [161, 8, 3, 255]', 'cut [0.0.2.1] [x] [350]', 'color [0.0.2.1.0] [208, 67, 5, 255]', 'color [0.0.2.1.1] [168, 18, 4, 255]', 'cut [0.0.3] [x] [100]', 'cut [0.0.3.0] [y] [150]', 'color [0.0.3.0.0] [98, 46, 50, 255]', 'color [0.0.3.0.1] [85, 81, 86, 255]', 'color [0.0.3.1] [200, 63, 9, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [x] [100]', 'cut [0.1.0.0] [50, 250]', 'color [0.1.0.0.0] [79, 79, 87, 255]', 'color [0.1.0.0.1] [245, 221, 152, 255]', 'color [0.1.0.0.2] [63, 44, 48, 255]', 'color [0.1.0.0.3] [200, 55, 6, 255]', 'cut [0.1.0.1] [x] [150]', 'color [0.1.0.1.0] [196, 49, 5, 255]', 'color [0.1.0.1.1] [142, 2, 11, 255]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [x] [250]', 'color [0.1.1.0.0] [217, 84, 6, 255]', 'color [0.1.1.0.1] [149, 8, 10, 255]', 'cut [0.1.1.1] [x] [350]', 'color [0.1.1.1.0] [209, 71, 5, 255]', 'color [0.1.1.1.1] [87, 54, 63, 255]', 'cut [0.1.2] [300, 350]', 'color [0.1.2.0] [181, 26, 4, 255]', 'color [0.1.2.1] [230, 135, 10, 255]', 'color [0.1.2.2] [89, 53, 59, 255]', 'color [0.1.2.3] [182, 100, 41, 255]', 'cut [0.1.3] [y] [350]', 'cut [0.1.3.0] [y] [325]', 'color [0.1.3.0.0] [64, 45, 49, 255]', 'color [0.1.3.0.1] [210, 113, 19, 255]', 'color [0.1.3.1] [230, 125, 8, 255]']  
+* Score: 54350.99866476779 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut [0.0.0] [y] [50]', 'cut [0.0.0.0] [y] [25]', 'color [0.0.0.0.0] [183, 34, 6, 255]', 'color [0.0.0.0.1] [240, 202, 108, 255]', 'cut [0.0.0.1] [y] [75]', 'color [0.0.0.1.0] [243, 208, 112, 255]', 'color [0.0.0.1.1] [181, 81, 32, 255]', 'cut [0.0.1] [x] [100]', 'cut [0.0.1.0] [y] [150]', 'color [0.0.1.0.0] [98, 46, 50, 255]', 'color [0.0.1.0.1] [85, 81, 86, 255]', 'color [0.0.1.1] [200, 63, 9, 255]', 'cut [0.1] [x] [300]', 'cut [0.1.0] [250, 100]', 'color [0.1.0.0] [184, 28, 5, 255]', 'color [0.1.0.1] [222, 119, 12, 255]', 'color [0.1.0.2] [161, 8, 3, 255]', 'color [0.1.0.3] [236, 160, 15, 255]', 'cut [0.1.1] [y] [100]', 'cut [0.1.1.0] [350, 50]', 'color [0.1.1.0.0] [168, 18, 5, 255]', 'color [0.1.1.0.1] [238, 164, 17, 255]', 'color [0.1.1.0.2] [67, 55, 59, 255]', 'color [0.1.1.0.3] [231, 139, 11, 255]', 'cut [0.1.1.1] [x] [350]', 'color [0.1.1.1.0] [208, 67, 5, 255]', 'color [0.1.1.1.1] [168, 18, 4, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [x] [250]', 'color [0.2.0.0] [207, 77, 11, 255]', 'color [0.2.0.1] [153, 15, 12, 255]', 'cut [0.2.1] [y] [300]', 'cut [0.2.1.0] [x] [350]', 'color [0.2.1.0.0] [209, 71, 5, 255]', 'color [0.2.1.0.1] [87, 54, 63, 255]', 'cut [0.2.1.1] [y] [350]', 'color [0.2.1.1.0] [230, 135, 10, 255]', 'color [0.2.1.1.1] [89, 53, 59, 255]', 'cut [0.3] [y] [300]', 'cut [0.3.0] [x] [100]', 'cut [0.3.0.0] [50, 250]', 'color [0.3.0.0.0] [79, 79, 87, 255]', 'color [0.3.0.0.1] [245, 221, 152, 255]', 'color [0.3.0.0.2] [63, 44, 48, 255]', 'color [0.3.0.0.3] [200, 55, 6, 255]', 'cut [0.3.0.1] [x] [150]', 'color [0.3.0.1.0] [196, 49, 5, 255]', 'color [0.3.0.1.1] [142, 2, 11, 255]', 'cut [0.3.1] [y] [350]', 'cut [0.3.1.0] [y] [325]', 'color [0.3.1.0.0] [64, 45, 49, 255]', 'color [0.3.1.0.1] [210, 113, 19, 255]', 'color [0.3.1.1] [230, 125, 8, 255]']
+# Solving 12
+OPTIONS FOR 0:
+* Score: 24770.241123864835 Cmds: []  
+* Score: 24775.241123864835 Cmds: ['color [0] [255, 255, 255, 255]']  
+* Score: 20053.78865459842 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.2] [150, 300]', 'color [0.0.2.0] [189, 167, 205, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [y] [100]', 'cut [0.1.0.1] [250, 150]', 'color [0.1.0.1.3] [114, 58, 145, 255]', 'cut [0.1.1] [x] [350]', 'cut [0.1.1.0] [325, 100]', 'color [0.1.1.0.3] [114, 59, 145, 255]', 'cut [0.1.3] [250, 300]', 'color [0.1.3.1] [114, 58, 145, 255]']  
+* Score: 20086.95840173802 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.2] [300, 150]', 'cut [0.0.2.1] [350, 125]', 'color [0.0.2.1.3] [114, 58, 145, 255]', 'cut [0.0.2.3] [x] [250]', 'color [0.0.2.3.0] [114, 58, 145, 255]', 'cut [0.1] [x] [200]', 'cut [0.1.0] [x] [100]', 'cut [0.1.0.1] [150, 300]', 'color [0.1.0.1.0] [189, 167, 205, 255]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [250, 300]', 'color [0.1.1.0.1] [114, 58, 145, 255]']  
+* Score: 20063.95840173802 Cmds: ['cut [0] [200, 200]', 'cut [0.1] [300, 100]', 'cut [0.1.2] [y] [150]', 'cut [0.1.2.0] [350, 125]', 'color [0.1.2.0.3] [114, 58, 145, 255]', 'cut [0.1.3] [250, 150]', 'color [0.1.3.3] [114, 58, 145, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [250, 300]', 'color [0.2.0.1] [114, 58, 145, 255]', 'cut [0.3] [x] [100]', 'cut [0.3.1] [150, 300]', 'color [0.3.1.0] [189, 167, 205, 255]']
+# Solving 13
+OPTIONS FOR 0:
+* Score: 179453.1018580572 Cmds: []  
+* Score: 62292.53598154678 Cmds: ['color [0] [132, 110, 100, 255]']  
+* Score: 30742.757940566997 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [x] [50]', 'color [0.0.0.0] [96, 69, 51, 255]', 'color [0.0.0.1] [113, 90, 84, 255]', 'cut [0.0.1] [y] [100]', 'color [0.0.1.0] [82, 73, 86, 255]', 'cut [0.0.1.1] [x] [150]', 'color [0.0.1.1.0] [93, 85, 96, 255]', 'color [0.0.1.1.1] [255, 219, 172, 255]', 'cut [0.0.2] [150, 300]', 'cut [0.0.2.0] [x] [125]', 'color [0.0.2.0.0] [93, 85, 96, 255]', 'color [0.0.2.0.1] [255, 219, 172, 255]', 'color [0.0.2.1] [255, 219, 172, 255]', 'color [0.0.2.2] [201, 187, 142, 255]', 'color [0.0.2.3] [201, 187, 142, 255]', 'cut [0.0.3] [y] [300]', 'color [0.0.3.0] [93, 85, 96, 255]', 'color [0.0.3.1] [201, 187, 142, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [250, 100]', 'color [0.1.0.0] [93, 85, 96, 255]', 'color [0.1.0.1] [94, 86, 96, 255]', 'color [0.1.0.2] [101, 95, 104, 255]', 'cut [0.1.0.3] [x] [225]', 'color [0.1.0.3.0] [255, 219, 172, 255]', 'color [0.1.0.3.1] [93, 85, 96, 255]', 'cut [0.1.1] [y] [100]', 'cut [0.1.1.0] [y] [50]', 'color [0.1.1.0.0] [89, 74, 60, 255]', 'color [0.1.1.0.1] [171, 124, 88, 255]', 'color [0.1.1.1] [177, 131, 83, 255]', 'cut [0.1.2] [y] [300]', 'cut [0.1.2.0] [y] [250]', 'color [0.1.2.0.0] [93, 85, 96, 255]', 'color [0.1.2.0.1] [173, 138, 96, 255]', 'color [0.1.2.1] [201, 187, 142, 255]', 'cut [0.1.3] [250, 300]', 'cut [0.1.3.0] [x] [225]', 'color [0.1.3.0.0] [255, 219, 172, 255]', 'color [0.1.3.0.1] [93, 85, 96, 255]', 'color [0.1.3.1] [101, 95, 104, 255]', 'color [0.1.3.2] [201, 187, 142, 255]', 'cut [0.1.3.3] [y] [350]', 'color [0.1.3.3.0] [101, 95, 104, 255]', 'color [0.1.3.3.1] [201, 187, 142, 255]']  
+* Score: 33162.42992102305 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut [0.0.0] [100, 100]', 'color [0.0.0.0] [117, 90, 74, 255]', 'color [0.0.0.1] [82, 73, 86, 255]', 'cut [0.0.0.2] [x] [150]', 'color [0.0.0.2.0] [93, 85, 96, 255]', 'color [0.0.0.2.1] [255, 219, 172, 255]', 'color [0.0.0.3] [96, 69, 51, 255]', 'cut [0.0.1] [300, 100]', 'color [0.0.1.0] [93, 85, 96, 255]', 'cut [0.0.1.1] [y] [50]', 'color [0.0.1.1.0] [89, 74, 60, 255]', 'color [0.0.1.1.1] [171, 124, 88, 255]', 'color [0.0.1.2] [177, 131, 83, 255]', 'color [0.0.1.3] [101, 95, 104, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [x] [100]', 'color [0.1.0.0] [93, 85, 96, 255]', 'cut [0.1.0.1] [x] [150]', 'color [0.1.0.1.0] [103, 96, 103, 255]', 'color [0.1.0.1.1] [255, 219, 172, 255]', 'cut [0.1.1] [x] [300]', 'color [0.1.1.0] [101, 95, 104, 255]', 'cut [0.1.1.1] [y] [250]', 'color [0.1.1.1.0] [93, 85, 96, 255]', 'color [0.1.1.1.1] [173, 138, 96, 255]', 'color [0.1.2] [201, 187, 142, 255]', 'color [0.1.3] [201, 187, 142, 255]']  
+* Score: 30158.22090785467 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'color [0.0.0] [117, 90, 74, 255]', 'color [0.0.1] [82, 73, 86, 255]', 'cut [0.0.2] [x] [150]', 'color [0.0.2.0] [93, 85, 96, 255]', 'color [0.0.2.1] [255, 219, 172, 255]', 'color [0.0.3] [96, 69, 51, 255]', 'cut [0.1] [300, 100]', 'color [0.1.0] [93, 85, 96, 255]', 'cut [0.1.1] [y] [50]', 'color [0.1.1.0] [89, 74, 60, 255]', 'color [0.1.1.1] [171, 124, 88, 255]', 'color [0.1.2] [177, 131, 83, 255]', 'cut [0.1.3] [x] [250]', 'cut [0.1.3.0] [x] [225]', 'color [0.1.3.0.0] [255, 219, 172, 255]', 'color [0.1.3.0.1] [93, 85, 96, 255]', 'color [0.1.3.1] [101, 95, 104, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [250, 300]', 'cut [0.2.0.0] [x] [225]', 'color [0.2.0.0.0] [255, 219, 172, 255]', 'color [0.2.0.0.1] [93, 85, 96, 255]', 'color [0.2.0.1] [101, 95, 104, 255]', 'color [0.2.0.2] [201, 187, 142, 255]', 'cut [0.2.0.3] [y] [350]', 'color [0.2.0.3.0] [101, 95, 104, 255]', 'color [0.2.0.3.1] [201, 187, 142, 255]', 'cut [0.2.1] [y] [300]', 'cut [0.2.1.0] [y] [250]', 'color [0.2.1.0.0] [93, 85, 96, 255]', 'color [0.2.1.0.1] [173, 138, 96, 255]', 'color [0.2.1.1] [201, 187, 142, 255]', 'cut [0.3] [100, 300]', 'color [0.3.0] [93, 85, 96, 255]', 'cut [0.3.1] [x] [150]', 'cut [0.3.1.0] [x] [125]', 'color [0.3.1.0.0] [93, 85, 96, 255]', 'color [0.3.1.0.1] [255, 219, 172, 255]', 'color [0.3.1.1] [255, 219, 172, 255]', 'cut [0.3.2] [y] [350]', 'cut [0.3.2.0] [y] [325]', 'color [0.3.2.0.0] [255, 219, 172, 255]', 'color [0.3.2.0.1] [101, 95, 104, 255]', 'color [0.3.2.1] [201, 187, 142, 255]', 'color [0.3.3] [201, 187, 142, 255]']
+# Solving 14
+OPTIONS FOR 0:
+* Score: 45198.53862798772 Cmds: []  
+* Score: 45203.53862798772 Cmds: ['color [0] [255, 255, 255, 255]']  
+* Score: 42452.741688929396 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [x] [100]', 'cut [0.0.0] [50, 200]', 'cut [0.0.0.0] [25, 100]', 'color [0.0.0.0.1] [24, 166, 254, 255]', 'cut [0.0.0.1] [75, 100]', 'color [0.0.0.1.0] [17, 184, 254, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.3] [250, 300]', 'color [0.1.3.2] [75, 215, 239, 255]']  
+* Score: 42220.99683225935 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [y] [100]', 'cut [0.0.0] [200, 50]', 'cut [0.0.0.3] [100, 75]', 'color [0.0.0.3.0] [13, 178, 254, 255]', 'cut [0.1] [x] [200]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [250, 300]', 'color [0.1.1.0.2] [75, 215, 239, 255]']  
+* Score: 42239.99683225935 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut [0.0.0] [y] [50]', 'cut [0.0.0.1] [100, 75]', 'color [0.0.0.1.0] [13, 178, 254, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [250, 300]', 'color [0.2.0.2] [75, 215, 239, 255]']
+# Solving 15
+OPTIONS FOR 0:
+* Score: 75113.00336126356 Cmds: []  
+* Score: 62156.75451990906 Cmds: ['color [0] [206, 225, 244, 255]']  
+* Score: 38981.98665203829 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut [0.0.0] [100, 100]', 'cut [0.0.0.1] [y] [50]', 'color [0.0.0.1.0] [206, 225, 244, 255]', 'color [0.0.0.1.1] [136, 137, 185, 255]', 'color [0.0.0.2] [188, 164, 130, 255]', 'color [0.0.0.3] [206, 225, 244, 255]', 'cut [0.0.1] [100, 300]', 'color [0.0.1.0] [206, 225, 244, 255]', 'color [0.0.1.1] [251, 205, 89, 255]', 'cut [0.0.1.2] [150, 350]', 'color [0.0.1.2.0] [206, 225, 244, 255]', 'color [0.0.1.2.1] [251, 205, 89, 255]', 'color [0.0.1.2.2] [206, 225, 244, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.0] [300, 100]', 'cut [0.1.0.0] [y] [50]', 'color [0.1.0.0.0] [206, 225, 244, 255]', 'color [0.1.0.0.1] [136, 137, 185, 255]', 'color [0.1.0.2] [206, 225, 244, 255]', 'color [0.1.0.3] [210, 182, 132, 255]', 'cut [0.1.1] [300, 300]', 'color [0.1.1.0] [251, 205, 89, 255]', 'color [0.1.1.1] [206, 225, 244, 255]', 'cut [0.1.1.3] [250, 350]', 'color [0.1.1.3.0] [251, 205, 89, 255]', 'color [0.1.1.3.1] [206, 225, 244, 255]', 'color [0.1.1.3.3] [206, 225, 244, 255]']  
+* Score: 38955.98665203829 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [100, 50]', 'color [0.0.0.1] [206, 225, 244, 255]', 'color [0.0.0.2] [136, 137, 185, 255]', 'cut [0.0.1] [300, 50]', 'color [0.0.1.0] [206, 225, 244, 255]', 'color [0.0.1.3] [136, 137, 185, 255]', 'cut [0.0.2] [x] [300]', 'color [0.0.2.0] [210, 182, 132, 255]', 'color [0.0.2.1] [206, 225, 244, 255]', 'cut [0.0.3] [x] [100]', 'color [0.0.3.0] [206, 225, 244, 255]', 'color [0.0.3.1] [188, 164, 130, 255]', 'cut [0.1] [x] [200]', 'cut [0.1.0] [100, 300]', 'color [0.1.0.0] [206, 225, 244, 255]', 'color [0.1.0.1] [251, 205, 89, 255]', 'cut [0.1.0.2] [150, 350]', 'color [0.1.0.2.0] [206, 225, 244, 255]', 'color [0.1.0.2.1] [251, 205, 89, 255]', 'color [0.1.0.2.2] [206, 225, 244, 255]', 'cut [0.1.1] [300, 300]', 'color [0.1.1.0] [251, 205, 89, 255]', 'color [0.1.1.1] [206, 225, 244, 255]', 'cut [0.1.1.3] [250, 350]', 'color [0.1.1.3.0] [251, 205, 89, 255]', 'color [0.1.1.3.1] [206, 225, 244, 255]', 'color [0.1.1.3.3] [206, 225, 244, 255]']  
+* Score: 38275.5083050753 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'cut [0.0.1] [y] [50]', 'color [0.0.1.0] [206, 225, 244, 255]', 'color [0.0.1.1] [136, 137, 185, 255]', 'cut [0.0.2] [x] [150]', 'cut [0.0.2.0] [x] [125]', 'color [0.0.2.0.0] [136, 137, 185, 255]', 'color [0.0.2.0.1] [251, 205, 89, 255]', 'color [0.0.2.1] [169, 146, 128, 255]', 'color [0.0.3] [206, 225, 244, 255]', 'cut [0.1] [300, 100]', 'cut [0.1.0] [y] [50]', 'color [0.1.0.0] [206, 225, 244, 255]', 'color [0.1.0.1] [136, 137, 185, 255]', 'color [0.1.2] [206, 225, 244, 255]', 'cut [0.1.3] [x] [250]', 'color [0.1.3.0] [189, 159, 122, 255]', 'cut [0.1.3.1] [x] [275]', 'color [0.1.3.1.0] [251, 205, 89, 255]', 'color [0.1.3.1.1] [206, 225, 244, 255]', 'cut [0.2] [300, 300]', 'color [0.2.0] [251, 205, 89, 255]', 'color [0.2.1] [206, 225, 244, 255]', 'cut [0.2.3] [250, 350]', 'color [0.2.3.0] [251, 205, 89, 255]', 'color [0.2.3.1] [206, 225, 244, 255]', 'color [0.2.3.3] [206, 225, 244, 255]', 'cut [0.3] [100, 300]', 'color [0.3.0] [206, 225, 244, 255]', 'color [0.3.1] [251, 205, 89, 255]', 'cut [0.3.2] [150, 350]', 'color [0.3.2.0] [206, 225, 244, 255]', 'color [0.3.2.1] [251, 205, 89, 255]', 'color [0.3.2.2] [206, 225, 244, 255]']
+# Solving 16
+OPTIONS FOR 0:
+* Score: 246370.7931387563 Cmds: []  
+* Score: 50746.13762354371 Cmds: ['color [0] [83, 69, 47, 255]']  
+* Score: 32717.8300801574 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut [0.0.0] [100, 100]', 'color [0.0.0.0] [74, 49, 33, 255]', 'color [0.0.0.1] [51, 39, 27, 255]', 'cut [0.0.0.2] [150, 150]', 'color [0.0.0.2.0] [57, 44, 33, 255]', 'color [0.0.0.2.1] [209, 162, 97, 255]', 'color [0.0.0.2.2] [55, 42, 33, 255]', 'color [0.0.0.2.3] [69, 59, 44, 255]', 'color [0.0.0.3] [81, 63, 40, 255]', 'cut [0.0.1] [y] [300]', 'cut [0.0.1.0] [y] [250]', 'color [0.0.1.0.0] [79, 70, 49, 255]', 'color [0.0.1.0.1] [148, 131, 89, 255]', 'cut [0.0.1.1] [y] [350]', 'color [0.0.1.1.0] [148, 142, 105, 255]', 'color [0.0.1.1.1] [110, 108, 83, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.0] [y] [100]', 'color [0.1.0.0] [43, 30, 21, 255]', 'cut [0.1.0.1] [y] [150]', 'color [0.1.0.1.0] [90, 64, 34, 255]', 'color [0.1.0.1.1] [64, 54, 38, 255]', 'cut [0.1.1] [y] [300]', 'cut [0.1.1.0] [300, 250]', 'color [0.1.1.0.0] [58, 49, 39, 255]', 'color [0.1.1.0.1] [72, 69, 51, 255]', 'color [0.1.1.0.2] [150, 143, 94, 255]', 'color [0.1.1.0.3] [76, 64, 46, 255]', 'cut [0.1.1.1] [y] [350]', 'color [0.1.1.1.0] [141, 137, 102, 255]', 'color [0.1.1.1.1] [120, 119, 96, 255]']  
+* Score: 31028.75089947351 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.0] [50, 38, 27, 255]', 'color [0.0.0.1] [84, 54, 34, 255]', 'color [0.0.1] [43, 30, 21, 255]', 'cut [0.0.2] [y] [150]', 'color [0.0.2.0] [90, 64, 34, 255]', 'color [0.0.2.1] [64, 54, 38, 255]', 'cut [0.0.3] [100, 150]', 'color [0.0.3.0] [92, 61, 34, 255]', 'cut [0.0.3.1] [x] [150]', 'color [0.0.3.1.0] [57, 44, 33, 255]', 'color [0.0.3.1.1] [209, 162, 97, 255]', 'color [0.0.3.2] [63, 49, 37, 255]', 'color [0.0.3.3] [72, 64, 47, 255]', 'cut [0.1] [y] [300]', 'cut [0.1.0] [200, 250]', 'color [0.1.0.0] [79, 70, 49, 255]', 'color [0.1.0.1] [67, 63, 47, 255]', 'cut [0.1.0.2] [x] [300]', 'color [0.1.0.2.0] [76, 64, 46, 255]', 'color [0.1.0.2.1] [150, 143, 94, 255]', 'cut [0.1.0.3] [y] [275]', 'color [0.1.0.3.0] [115, 101, 68, 255]', 'color [0.1.0.3.1] [174, 161, 114, 255]', 'cut [0.1.1] [y] [350]', 'color [0.1.1.0] [144, 139, 103, 255]', 'cut [0.1.1.1] [y] [375]', 'color [0.1.1.1.0] [127, 125, 99, 255]', 'color [0.1.1.1.1] [98, 99, 77, 255]']  
+* Score: 31796.25419325485 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.0] [50, 38, 27, 255]', 'color [0.0.0.1] [84, 54, 34, 255]', 'cut [0.0.1] [100, 150]', 'color [0.0.1.0] [92, 61, 34, 255]', 'cut [0.0.1.1] [x] [150]', 'color [0.0.1.1.0] [57, 44, 33, 255]', 'color [0.0.1.1.1] [209, 162, 97, 255]', 'color [0.0.1.2] [63, 49, 37, 255]', 'color [0.0.1.3] [72, 64, 47, 255]', 'cut [0.1] [y] [100]', 'color [0.1.0] [43, 30, 21, 255]', 'cut [0.1.1] [y] [150]', 'color [0.1.1.0] [90, 64, 34, 255]', 'color [0.1.1.1] [64, 54, 38, 255]', 'cut [0.2] [y] [300]', 'cut [0.2.0] [x] [300]', 'color [0.2.0.0] [64, 54, 41, 255]', 'cut [0.2.0.1] [y] [250]', 'color [0.2.0.1.0] [72, 69, 51, 255]', 'color [0.2.0.1.1] [150, 143, 94, 255]', 'cut [0.2.1] [y] [350]', 'color [0.2.1.0] [141, 137, 102, 255]', 'cut [0.2.1.1] [y] [375]', 'color [0.2.1.1.0] [130, 128, 104, 255]', 'color [0.2.1.1.1] [103, 104, 83, 255]', 'cut [0.3] [y] [300]', 'cut [0.3.0] [y] [250]', 'color [0.3.0.0] [79, 70, 49, 255]', 'cut [0.3.0.1] [y] [275]', 'color [0.3.0.1.0] [115, 101, 68, 255]', 'color [0.3.0.1.1] [174, 161, 114, 255]', 'cut [0.3.1] [y] [350]', 'color [0.3.1.0] [148, 142, 105, 255]', 'color [0.3.1.1] [110, 108, 83, 255]']
+# Solving 17
+OPTIONS FOR 0:
+* Score: 218612.80745928525 Cmds: []  
+* Score: 62486.24748615849 Cmds: ['color [0] [76, 100, 136, 255]']  
+* Score: 43007.33683823822 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [x] [50]', 'cut [0.0.0.0] [y] [100]', 'color [0.0.0.0.0] [48, 58, 65, 255]', 'color [0.0.0.0.1] [99, 132, 164, 255]', 'color [0.0.0.1] [30, 35, 32, 255]', 'cut [0.0.1] [y] [100]', 'color [0.0.1.0] [29, 34, 31, 255]', 'cut [0.0.1.1] [y] [150]', 'color [0.0.1.1.0] [74, 95, 114, 255]', 'color [0.0.1.1.1] [150, 168, 169, 255]', 'cut [0.0.2] [y] [300]', 'color [0.0.2.0] [98, 130, 166, 255]', 'color [0.0.2.1] [78, 103, 151, 255]', 'cut [0.0.3] [y] [300]', 'cut [0.0.3.0] [x] [50]', 'color [0.0.3.0.0] [117, 147, 174, 255]', 'color [0.0.3.0.1] [47, 55, 53, 255]', 'color [0.0.3.1] [63, 85, 145, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.0] [y] [100]', 'cut [0.1.0.0] [y] [50]', 'color [0.1.0.0.0] [43, 51, 57, 255]', 'color [0.1.0.0.1] [54, 73, 95, 255]', 'cut [0.1.0.1] [y] [150]', 'color [0.1.0.1.0] [67, 90, 133, 255]', 'color [0.1.0.1.1] [108, 140, 165, 255]', 'cut [0.1.1] [y] [300]', 'color [0.1.1.0] [94, 126, 169, 255]', 'cut [0.1.1.1] [y] [350]', 'color [0.1.1.1.0] [91, 118, 161, 255]', 'color [0.1.1.1.1] [69, 90, 146, 255]']  
+* Score: 43083.623871856864 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'color [0.0.0] [32, 38, 35, 255]', 'cut [0.0.1] [y] [50]', 'color [0.0.1.0] [43, 51, 57, 255]', 'color [0.0.1.1] [54, 73, 95, 255]', 'cut [0.0.2] [y] [150]', 'color [0.0.2.0] [67, 90, 133, 255]', 'color [0.0.2.1] [108, 140, 165, 255]', 'cut [0.0.3] [x] [100]', 'cut [0.0.3.0] [x] [50]', 'color [0.0.3.0.0] [99, 132, 164, 255]', 'color [0.0.3.0.1] [29, 35, 32, 255]', 'cut [0.0.3.1] [y] [150]', 'color [0.0.3.1.0] [74, 95, 114, 255]', 'color [0.0.3.1.1] [150, 168, 169, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [x] [100]', 'cut [0.1.0.0] [x] [50]', 'color [0.1.0.0.0] [117, 147, 174, 255]', 'color [0.1.0.0.1] [47, 55, 53, 255]', 'color [0.1.0.1] [98, 130, 166, 255]', 'color [0.1.1] [94, 126, 169, 255]', 'cut [0.1.2] [y] [350]', 'color [0.1.2.0] [91, 118, 161, 255]', 'color [0.1.2.1] [69, 90, 146, 255]', 'color [0.1.3] [69, 92, 147, 255]']  
+* Score: 42932.33683823822 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'cut [0.0.0] [x] [50]', 'cut [0.0.0.0] [y] [100]', 'color [0.0.0.0.0] [48, 58, 65, 255]', 'color [0.0.0.0.1] [99, 132, 164, 255]', 'color [0.0.0.1] [30, 35, 32, 255]', 'cut [0.0.1] [y] [100]', 'color [0.0.1.0] [29, 34, 31, 255]', 'cut [0.0.1.1] [y] [150]', 'color [0.0.1.1.0] [74, 95, 114, 255]', 'color [0.0.1.1.1] [150, 168, 169, 255]', 'cut [0.1] [y] [100]', 'cut [0.1.0] [y] [50]', 'color [0.1.0.0] [43, 51, 57, 255]', 'color [0.1.0.1] [54, 73, 95, 255]', 'cut [0.1.1] [y] [150]', 'color [0.1.1.0] [67, 90, 133, 255]', 'color [0.1.1.1] [108, 140, 165, 255]', 'cut [0.2] [y] [300]', 'color [0.2.0] [94, 126, 169, 255]', 'cut [0.2.1] [y] [350]', 'color [0.2.1.0] [91, 118, 161, 255]', 'color [0.2.1.1] [69, 90, 146, 255]', 'cut [0.3] [100, 300]', 'cut [0.3.0] [x] [50]', 'color [0.3.0.0] [117, 147, 174, 255]', 'color [0.3.0.1] [47, 55, 53, 255]', 'color [0.3.1] [98, 130, 166, 255]', 'color [0.3.2] [78, 103, 151, 255]', 'color [0.3.3] [63, 85, 145, 255]']
+# Solving 18
+OPTIONS FOR 0:
+* Score: 204734.03909619935 Cmds: []  
+* Score: 58496.52395339182 Cmds: ['color [0] [143, 124, 65, 255]']  
+* Score: 42757.78484315503 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut [0.0.0] [100, 100]', 'color [0.0.0.0] [100, 130, 81, 255]', 'color [0.0.0.1] [122, 130, 84, 255]', 'color [0.0.0.2] [230, 196, 67, 255]', 'color [0.0.0.3] [135, 120, 70, 255]', 'cut [0.0.1] [100, 300]', 'color [0.0.1.0] [149, 129, 72, 255]', 'color [0.0.1.1] [237, 203, 69, 255]', 'color [0.0.1.2] [201, 166, 74, 255]', 'color [0.0.1.3] [132, 113, 64, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [y] [100]', 'color [0.1.0.0] [156, 139, 69, 255]', 'color [0.1.0.1] [236, 195, 63, 255]', 'cut [0.1.1] [y] [100]', 'color [0.1.1.0] [95, 81, 39, 255]', 'color [0.1.1.1] [126, 105, 49, 255]', 'cut [0.1.2] [y] [300]', 'color [0.1.2.0] [125, 104, 50, 255]', 'color [0.1.2.1] [93, 79, 42, 255]', 'cut [0.1.3] [250, 300]', 'color [0.1.3.0] [206, 166, 74, 255]', 'color [0.1.3.1] [240, 200, 59, 255]', 'color [0.1.3.2] [115, 97, 53, 255]', 'cut [0.1.3.3] [y] [350]', 'color [0.1.3.3.0] [214, 186, 116, 255]', 'color [0.1.3.3.1] [17, 23, 22, 255]']  
+* Score: 42784.538140187826 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut [0.0.0] [100, 100]', 'color [0.0.0.0] [100, 130, 81, 255]', 'color [0.0.0.1] [122, 130, 84, 255]', 'color [0.0.0.2] [230, 196, 67, 255]', 'color [0.0.0.3] [135, 120, 70, 255]', 'cut [0.0.1] [300, 100]', 'color [0.0.1.0] [156, 139, 69, 255]', 'color [0.0.1.1] [95, 81, 39, 255]', 'color [0.0.1.2] [126, 105, 49, 255]', 'color [0.0.1.3] [236, 195, 63, 255]', 'cut [0.1] [x] [200]', 'cut [0.1.0] [100, 300]', 'color [0.1.0.0] [149, 129, 72, 255]', 'color [0.1.0.1] [237, 203, 69, 255]', 'color [0.1.0.2] [201, 166, 74, 255]', 'color [0.1.0.3] [132, 113, 64, 255]', 'cut [0.1.1] [300, 300]', 'color [0.1.1.0] [224, 183, 66, 255]', 'color [0.1.1.1] [125, 104, 50, 255]', 'color [0.1.1.2] [93, 79, 42, 255]', 'cut [0.1.1.3] [y] [350]', 'color [0.1.1.3.0] [181, 156, 94, 255]', 'color [0.1.1.3.1] [81, 74, 43, 255]']  
+* Score: 42646.49998679862 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'color [0.0.0] [100, 130, 81, 255]', 'color [0.0.1] [122, 130, 84, 255]', 'color [0.0.2] [230, 196, 67, 255]', 'color [0.0.3] [135, 120, 70, 255]', 'cut [0.1] [300, 100]', 'color [0.1.0] [156, 139, 69, 255]', 'color [0.1.1] [95, 81, 39, 255]', 'color [0.1.2] [126, 105, 49, 255]', 'color [0.1.3] [236, 195, 63, 255]', 'cut [0.2] [300, 300]', 'color [0.2.0] [224, 183, 66, 255]', 'color [0.2.1] [125, 104, 50, 255]', 'color [0.2.2] [93, 79, 42, 255]', 'cut [0.2.3] [x] [250]', 'cut [0.2.3.0] [y] [350]', 'color [0.2.3.0.0] [214, 186, 116, 255]', 'color [0.2.3.0.1] [17, 23, 22, 255]', 'color [0.2.3.1] [115, 97, 53, 255]', 'cut [0.3] [100, 300]', 'color [0.3.0] [149, 129, 72, 255]', 'color [0.3.1] [237, 203, 69, 255]', 'color [0.3.2] [201, 166, 74, 255]', 'color [0.3.3] [132, 113, 64, 255]']
+# Solving 19
+OPTIONS FOR 0:
+* Score: 253304.47792566774 Cmds: []  
+* Score: 72227.22344813586 Cmds: ['color [0] [27, 37, 52, 255]']  
+* Score: 41863.86735355579 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'color [0.0.0] [11, 20, 30, 255]', 'cut [0.0.1] [x] [150]', 'color [0.0.1.0] [15, 23, 33, 255]', 'color [0.0.1.1] [141, 133, 132, 255]', 'cut [0.0.2] [150, 300]', 'cut [0.0.2.0] [x] [125]', 'color [0.0.2.0.0] [24, 34, 50, 255]', 'color [0.0.2.0.1] [219, 201, 208, 255]', 'color [0.0.2.1] [185, 172, 178, 255]', 'cut [0.0.2.2] [y] [350]', 'color [0.0.2.2.0] [157, 188, 221, 255]', 'color [0.0.2.2.1] [8, 16, 28, 255]', 'color [0.0.2.3] [11, 21, 39, 255]', 'color [0.0.3] [15, 27, 45, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [x] [250]', 'cut [0.1.0.0] [y] [100]', 'color [0.1.0.0.0] [158, 148, 128, 255]', 'color [0.1.0.0.1] [109, 104, 111, 255]', 'color [0.1.0.1] [53, 66, 76, 255]', 'cut [0.1.1] [x] [350]', 'cut [0.1.1.0] [x] [325]', 'color [0.1.1.0.0] [45, 58, 71, 255]', 'color [0.1.1.0.1] [167, 165, 159, 255]', 'cut [0.1.1.1] [x] [375]', 'color [0.1.1.1.0] [68, 89, 119, 255]', 'color [0.1.1.1.1] [20, 31, 52, 255]', 'cut [0.1.2] [y] [300]', 'cut [0.1.2.0] [x] [350]', 'color [0.1.2.0.0] [76, 79, 83, 255]', 'color [0.1.2.0.1] [10, 13, 21, 255]', 'color [0.1.2.1] [12, 19, 34, 255]', 'cut [0.1.3] [y] [300]', 'color [0.1.3.0] [37, 72, 119, 255]', 'cut [0.1.3.1] [y] [350]', 'color [0.1.3.1.0] [115, 152, 192, 255]', 'color [0.1.3.1.1] [48, 53, 63, 255]']  
+* Score: 43604.036414772854 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut [0.0.0] [x] [100]', 'color [0.0.0.0] [11, 20, 30, 255]', 'cut [0.0.0.1] [x] [150]', 'color [0.0.0.1.0] [15, 23, 33, 255]', 'color [0.0.0.1.1] [141, 133, 132, 255]', 'cut [0.0.1] [300, 100]', 'cut [0.0.1.0] [x] [250]', 'color [0.0.1.0.0] [158, 148, 128, 255]', 'color [0.0.1.0.1] [54, 67, 76, 255]', 'cut [0.0.1.1] [y] [50]', 'color [0.0.1.1.0] [33, 48, 70, 255]', 'color [0.0.1.1.1] [112, 130, 146, 255]', 'cut [0.0.1.2] [x] [350]', 'color [0.0.1.2.0] [123, 119, 115, 255]', 'color [0.0.1.2.1] [37, 51, 75, 255]', 'cut [0.0.1.3] [x] [250]', 'color [0.0.1.3.0] [109, 104, 111, 255]', 'color [0.0.1.3.1] [52, 63, 75, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [x] [100]', 'color [0.1.0.0] [16, 27, 42, 255]', 'color [0.1.0.1] [179, 168, 175, 255]', 'cut [0.1.1] [x] [300]', 'color [0.1.1.0] [37, 72, 119, 255]', 'cut [0.1.1.1] [x] [350]', 'color [0.1.1.1.0] [76, 79, 83, 255]', 'color [0.1.1.1.1] [10, 13, 21, 255]', 'cut [0.1.2] [300, 350]', 'color [0.1.2.0] [115, 152, 192, 255]', 'color [0.1.2.1] [14, 21, 35, 255]', 'color [0.1.2.2] [10, 19, 33, 255]', 'cut [0.1.2.3] [y] [375]', 'color [0.1.2.3.0] [179, 173, 162, 255]', 'color [0.1.2.3.1] [11, 20, 35, 255]', 'cut [0.1.3] [100, 350]', 'color [0.1.3.0] [16, 29, 51, 255]', 'cut [0.1.3.1] [x] [150]', 'color [0.1.3.1.0] [14, 26, 46, 255]', 'color [0.1.3.1.1] [157, 188, 221, 255]', 'color [0.1.3.2] [8, 15, 27, 255]', 'color [0.1.3.3] [12, 24, 43, 255]']  
+* Score: 40815.496109201085 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'color [0.0.0] [11, 20, 30, 255]', 'cut [0.0.1] [x] [150]', 'color [0.0.1.0] [15, 23, 33, 255]', 'color [0.0.1.1] [141, 133, 132, 255]', 'cut [0.1] [x] [300]', 'cut [0.1.0] [x] [250]', 'cut [0.1.0.0] [y] [100]', 'color [0.1.0.0.0] [158, 148, 128, 255]', 'color [0.1.0.0.1] [109, 104, 111, 255]', 'color [0.1.0.1] [53, 66, 76, 255]', 'cut [0.1.1] [x] [350]', 'cut [0.1.1.0] [x] [325]', 'color [0.1.1.0.0] [45, 58, 71, 255]', 'color [0.1.1.0.1] [167, 165, 159, 255]', 'cut [0.1.1.1] [x] [375]', 'color [0.1.1.1.0] [68, 89, 119, 255]', 'color [0.1.1.1.1] [20, 31, 52, 255]', 'cut [0.2] [300, 300]', 'color [0.2.0] [37, 72, 119, 255]', 'cut [0.2.1] [x] [350]', 'color [0.2.1.0] [76, 79, 83, 255]', 'color [0.2.1.1] [10, 13, 21, 255]', 'color [0.2.2] [12, 19, 34, 255]', 'cut [0.2.3] [y] [350]', 'color [0.2.3.0] [115, 152, 192, 255]', 'cut [0.2.3.1] [y] [375]', 'color [0.2.3.1.0] [179, 173, 162, 255]', 'color [0.2.3.1.1] [11, 20, 35, 255]', 'cut [0.3] [x] [100]', 'color [0.3.0] [15, 27, 45, 255]', 'cut [0.3.1] [150, 300]', 'cut [0.3.1.0] [x] [125]', 'color [0.3.1.0.0] [24, 34, 50, 255]', 'color [0.3.1.0.1] [219, 201, 208, 255]', 'color [0.3.1.1] [185, 172, 178, 255]', 'cut [0.3.1.2] [y] [350]', 'color [0.3.1.2.0] [157, 188, 221, 255]', 'color [0.3.1.2.1] [8, 16, 28, 255]', 'color [0.3.1.3] [11, 21, 39, 255]']
+# Solving 20
+OPTIONS FOR 0:
+* Score: 135112.13076717616 Cmds: []  
+* Score: 74141.24290247576 Cmds: ['color [0] [196, 195, 190, 255]']  
+* Score: 30474.955749864075 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [y] [100]', 'cut [0.0.0.0] [y] [50]', 'color [0.0.0.0.0] [105, 92, 94, 255]', 'color [0.0.0.0.1] [153, 165, 174, 255]', 'cut [0.0.0.1] [y] [150]', 'color [0.0.0.1.0] [186, 197, 208, 255]', 'color [0.0.0.1.1] [232, 227, 223, 255]', 'cut [0.0.1] [x] [150]', 'cut [0.0.1.0] [x] [125]', 'color [0.0.1.0.0] [167, 175, 181, 255]', 'color [0.0.1.0.1] [58, 47, 53, 255]', 'color [0.0.1.1] [39, 31, 36, 255]', 'color [0.0.2] [200, 199, 193, 255]', 'color [0.0.3] [205, 204, 198, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [x] [250]', 'color [0.1.0.0] [24, 21, 22, 255]', 'cut [0.1.0.1] [x] [275]', 'color [0.1.0.1.0] [34, 30, 33, 255]', 'color [0.1.0.1.1] [167, 176, 184, 255]', 'cut [0.1.1] [y] [100]', 'cut [0.1.1.0] [y] [50]', 'color [0.1.1.0.0] [104, 91, 93, 255]', 'color [0.1.1.0.1] [158, 170, 179, 255]', 'cut [0.1.1.1] [y] [150]', 'color [0.1.1.1.0] [189, 199, 212, 255]', 'color [0.1.1.1.1] [230, 226, 221, 255]', 'cut [0.1.2] [y] [300]', 'color [0.1.2.0] [216, 213, 208, 255]', 'color [0.1.2.1] [204, 203, 197, 255]', 'color [0.1.3] [203, 202, 196, 255]']  
+* Score: 33052.08110027062 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [x] [200]', 'cut [0.0.0] [100, 100]', 'cut [0.0.0.0] [y] [50]', 'color [0.0.0.0.0] [105, 92, 94, 255]', 'color [0.0.0.0.1] [153, 165, 174, 255]', 'cut [0.0.0.1] [x] [150]', 'color [0.0.0.1.0] [96, 80, 83, 255]', 'color [0.0.0.1.1] [28, 22, 26, 255]', 'cut [0.0.0.2] [x] [150]', 'color [0.0.0.2.0] [181, 186, 192, 255]', 'color [0.0.0.2.1] [47, 38, 44, 255]', 'cut [0.0.0.3] [y] [150]', 'color [0.0.0.3.0] [186, 197, 208, 255]', 'color [0.0.0.3.1] [232, 227, 223, 255]', 'cut [0.0.1] [300, 100]', 'cut [0.0.1.0] [x] [250]', 'color [0.0.1.0.0] [16, 15, 15, 255]', 'color [0.0.1.0.1] [89, 82, 81, 255]', 'cut [0.0.1.1] [y] [50]', 'color [0.0.1.1.0] [104, 91, 93, 255]', 'color [0.0.1.1.1] [158, 170, 179, 255]', 'cut [0.0.1.2] [y] [150]', 'color [0.0.1.2.0] [189, 199, 212, 255]', 'color [0.0.1.2.1] [230, 226, 221, 255]', 'cut [0.0.1.3] [x] [250]', 'color [0.0.1.3.0] [33, 27, 31, 255]', 'color [0.0.1.3.1] [183, 187, 191, 255]', 'cut [0.1] [y] [300]', 'cut [0.1.0] [x] [200]', 'color [0.1.0.0] [203, 201, 195, 255]', 'cut [0.1.0.1] [x] [300]', 'color [0.1.0.1.0] [202, 200, 194, 255]', 'color [0.1.0.1.1] [216, 213, 208, 255]', 'color [0.1.1] [204, 203, 197, 255]']  
+* Score: 30530.222235074998 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [x] [100]', 'cut [0.0.0] [y] [100]', 'cut [0.0.0.0] [y] [50]', 'color [0.0.0.0.0] [105, 92, 94, 255]', 'color [0.0.0.0.1] [153, 165, 174, 255]', 'cut [0.0.0.1] [y] [150]', 'color [0.0.0.1.0] [186, 197, 208, 255]', 'color [0.0.0.1.1] [232, 227, 223, 255]', 'cut [0.0.1] [x] [150]', 'cut [0.0.1.0] [x] [125]', 'color [0.0.1.0.0] [167, 175, 181, 255]', 'color [0.0.1.0.1] [58, 47, 53, 255]', 'color [0.0.1.1] [39, 31, 36, 255]', 'cut [0.1] [x] [300]', 'cut [0.1.0] [x] [250]', 'color [0.1.0.0] [24, 21, 22, 255]', 'cut [0.1.0.1] [x] [275]', 'color [0.1.0.1.0] [34, 30, 33, 255]', 'color [0.1.0.1.1] [167, 176, 184, 255]', 'cut [0.1.1] [y] [100]', 'cut [0.1.1.0] [y] [50]', 'color [0.1.1.0.0] [104, 91, 93, 255]', 'color [0.1.1.0.1] [158, 170, 179, 255]', 'cut [0.1.1.1] [y] [150]', 'color [0.1.1.1.0] [189, 199, 212, 255]', 'color [0.1.1.1.1] [230, 226, 221, 255]', 'cut [0.2] [y] [300]', 'cut [0.2.0] [x] [300]', 'color [0.2.0.0] [202, 200, 194, 255]', 'color [0.2.0.1] [216, 213, 208, 255]', 'color [0.2.1] [204, 203, 197, 255]', 'color [0.3] [203, 202, 196, 255]']
+# Solving 21
+OPTIONS FOR 0:
+* Score: 160851.83226690238 Cmds: []  
+* Score: 110952.0760255187 Cmds: ['color [0] [198, 158, 133, 255]']  
+* Score: 55811.40304041875 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'cut [0.0.0] [50, 100]', 'color [0.0.0.0] [232, 206, 119, 255]', 'cut [0.0.0.1] [y] [50]', 'color [0.0.0.1.0] [219, 218, 206, 255]', 'color [0.0.0.1.1] [29, 9, 12, 255]', 'cut [0.0.0.2] [y] [150]', 'color [0.0.0.2.0] [29, 9, 13, 255]', 'color [0.0.0.2.1] [197, 71, 45, 255]', 'color [0.0.0.3] [225, 230, 223, 255]', 'cut [0.0.1] [y] [100]', 'cut [0.0.1.0] [150, 50]', 'color [0.0.1.0.0] [229, 228, 217, 255]', 'color [0.0.1.0.1] [22, 9, 14, 255]', 'color [0.0.1.0.2] [199, 200, 200, 255]', 'color [0.0.1.0.3] [26, 9, 14, 255]', 'cut [0.0.1.1] [150, 150]', 'color [0.0.1.1.0] [25, 8, 14, 255]', 'color [0.0.1.1.1] [201, 199, 197, 255]', 'color [0.0.1.1.2] [201, 71, 41, 255]', 'color [0.0.1.1.3] [195, 70, 43, 255]', 'cut [0.0.2] [y] [300]', 'color [0.0.2.0] [210, 81, 52, 255]', 'cut [0.0.2.1] [y] [350]', 'color [0.0.2.1.0] [211, 84, 57, 255]', 'color [0.0.2.1.1] [240, 235, 222, 255]', 'cut [0.0.3] [50, 300]', 'color [0.0.3.0] [236, 237, 228, 255]', 'color [0.0.3.1] [215, 84, 57, 255]', 'cut [0.0.3.2] [y] [350]', 'color [0.0.3.2.0] [219, 89, 64, 255]', 'color [0.0.3.2.1] [222, 224, 218, 255]', 'color [0.0.3.3] [242, 245, 236, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [250, 100]', 'cut [0.1.0.0] [y] [50]', 'color [0.1.0.0.0] [12, 5, 7, 255]', 'color [0.1.0.0.1] [196, 197, 196, 255]', 'color [0.1.0.1] [46, 43, 161, 255]', 'color [0.1.0.2] [226, 226, 215, 255]', 'cut [0.1.0.3] [y] [150]', 'color [0.1.0.3.0] [204, 202, 198, 255]', 'color [0.1.0.3.1] [204, 74, 44, 255]', 'cut [0.1.1] [350, 100]', 'color [0.1.1.0] [46, 42, 162, 255]', 'cut [0.1.1.1] [x] [375]', 'color [0.1.1.1.0] [40, 48, 163, 255]', 'color [0.1.1.1.1] [207, 86, 57, 255]', 'color [0.1.1.2] [232, 235, 228, 255]', 'color [0.1.1.3] [230, 231, 221, 255]', 'cut [0.1.2] [y] [300]', 'cut [0.1.2.0] [y] [250]', 'color [0.1.2.0.0] [245, 243, 230, 255]', 'color [0.1.2.0.1] [242, 216, 134, 255]', 'color [0.1.2.1] [242, 219, 137, 255]', 'cut [0.1.3] [250, 300]', 'color [0.1.3.0] [209, 81, 52, 255]', 'cut [0.1.3.1] [y] [250]', 'color [0.1.3.1.0] [231, 229, 212, 255]', 'color [0.1.3.1.1] [237, 209, 129, 255]', 'color [0.1.3.2] [237, 211, 132, 255]', 'cut [0.1.3.3] [y] [350]', 'color [0.1.3.3.0] [206, 83, 59, 255]', 'color [0.1.3.3.1] [237, 233, 221, 255]']  
+* Score: 56282.67476733678 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [x] [100]', 'cut [0.0.0.0] [50, 50]', 'color [0.0.0.0.0] [227, 202, 117, 255]', 'color [0.0.0.0.1] [219, 218, 206, 255]', 'color [0.0.0.0.2] [29, 9, 12, 255]', 'color [0.0.0.0.3] [242, 212, 121, 255]', 'cut [0.0.0.1] [150, 50]', 'color [0.0.0.1.0] [229, 228, 217, 255]', 'color [0.0.0.1.1] [22, 9, 14, 255]', 'color [0.0.0.1.2] [199, 200, 200, 255]', 'color [0.0.0.1.3] [26, 9, 14, 255]', 'cut [0.0.1] [y] [50]', 'cut [0.0.1.0] [y] [25]', 'color [0.0.1.0.0] [215, 215, 209, 255]', 'color [0.0.1.0.1] [43, 39, 152, 255]', 'color [0.0.1.1] [49, 45, 159, 255]', 'cut [0.0.2] [x] [300]', 'cut [0.0.2.0] [250, 150]', 'color [0.0.2.0.0] [204, 202, 198, 255]', 'color [0.0.2.0.1] [225, 225, 217, 255]', 'color [0.0.2.0.2] [227, 227, 213, 255]', 'color [0.0.2.0.3] [204, 74, 44, 255]', 'color [0.0.2.1] [231, 233, 224, 255]', 'cut [0.0.3] [100, 150]', 'cut [0.0.3.0] [x] [50]', 'color [0.0.3.0.0] [226, 231, 224, 255]', 'color [0.0.3.0.1] [29, 9, 13, 255]', 'cut [0.0.3.1] [x] [150]', 'color [0.0.3.1.0] [25, 8, 14, 255]', 'color [0.0.3.1.1] [201, 199, 197, 255]', 'color [0.0.3.2] [198, 71, 42, 255]', 'cut [0.0.3.3] [x] [50]', 'color [0.0.3.3.0] [224, 230, 223, 255]', 'color [0.0.3.3.1] [197, 71, 45, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [x] [100]', 'cut [0.1.0.0] [x] [50]', 'color [0.1.0.0.0] [236, 237, 228, 255]', 'color [0.1.0.0.1] [215, 84, 57, 255]', 'color [0.1.0.1] [210, 81, 52, 255]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [x] [250]', 'color [0.1.1.0.0] [209, 81, 52, 255]', 'color [0.1.1.0.1] [232, 212, 152, 255]', 'cut [0.1.1.1] [y] [250]', 'color [0.1.1.1.0] [245, 243, 230, 255]', 'color [0.1.1.1.1] [242, 216, 134, 255]', 'cut [0.1.2] [x] [300]', 'cut [0.1.2.0] [250, 350]', 'color [0.1.2.0.0] [206, 83, 59, 255]', 'color [0.1.2.0.1] [238, 213, 134, 255]', 'color [0.1.2.0.2] [236, 208, 129, 255]', 'color [0.1.2.0.3] [237, 233, 221, 255]', 'color [0.1.2.1] [242, 219, 137, 255]', 'cut [0.1.3] [100, 350]', 'cut [0.1.3.0] [x] [50]', 'color [0.1.3.0.1] [219, 89, 64, 255]', 'color [0.1.3.1] [211, 84, 57, 255]', 'color [0.1.3.2] [240, 235, 222, 255]', 'color [0.1.3.3] [227, 231, 225, 255]']  
+* Score: 55006.512922373666 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'cut [0.0.0] [x] [50]', 'color [0.0.0.0] [232, 206, 119, 255]', 'cut [0.0.0.1] [y] [50]', 'color [0.0.0.1.0] [219, 218, 206, 255]', 'color [0.0.0.1.1] [29, 9, 12, 255]', 'cut [0.0.1] [150, 50]', 'color [0.0.1.0] [229, 228, 217, 255]', 'color [0.0.1.1] [22, 9, 14, 255]', 'color [0.0.1.2] [199, 200, 200, 255]', 'color [0.0.1.3] [26, 9, 14, 255]', 'cut [0.0.2] [y] [150]', 'cut [0.0.2.0] [x] [150]', 'color [0.0.2.0.0] [25, 8, 14, 255]', 'color [0.0.2.0.1] [201, 199, 197, 255]', 'color [0.0.2.1] [198, 71, 42, 255]', 'cut [0.0.3] [x] [50]', 'color [0.0.3.0] [225, 230, 223, 255]', 'cut [0.0.3.1] [y] [150]', 'color [0.0.3.1.0] [29, 9, 13, 255]', 'color [0.0.3.1.1] [197, 71, 45, 255]', 'cut [0.1] [y] [100]', 'cut [0.1.0] [y] [50]', 'cut [0.1.0.0] [y] [25]', 'color [0.1.0.0.0] [215, 215, 209, 255]', 'color [0.1.0.0.1] [43, 39, 152, 255]', 'color [0.1.0.1] [49, 45, 159, 255]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [250, 150]', 'color [0.1.1.0.0] [204, 202, 198, 255]', 'color [0.1.1.0.1] [225, 225, 217, 255]', 'color [0.1.1.0.2] [227, 227, 213, 255]', 'color [0.1.1.0.3] [204, 74, 44, 255]', 'color [0.1.1.1] [231, 233, 224, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [250, 300]', 'color [0.2.0.0] [209, 81, 52, 255]', 'cut [0.2.0.1] [y] [250]', 'color [0.2.0.1.0] [231, 229, 212, 255]', 'color [0.2.0.1.1] [237, 209, 129, 255]', 'color [0.2.0.2] [237, 211, 132, 255]', 'cut [0.2.0.3] [y] [350]', 'color [0.2.0.3.0] [206, 83, 59, 255]', 'color [0.2.0.3.1] [237, 233, 221, 255]', 'cut [0.2.1] [y] [300]', 'cut [0.2.1.0] [y] [250]', 'color [0.2.1.0.0] [245, 243, 230, 255]', 'color [0.2.1.0.1] [242, 216, 134, 255]', 'color [0.2.1.1] [242, 219, 137, 255]', 'cut [0.3] [y] [300]', 'cut [0.3.0] [x] [100]', 'cut [0.3.0.0] [x] [50]', 'color [0.3.0.0.0] [236, 237, 228, 255]', 'color [0.3.0.0.1] [215, 84, 57, 255]', 'color [0.3.0.1] [210, 81, 52, 255]', 'cut [0.3.1] [100, 350]', 'cut [0.3.1.0] [x] [50]', 'color [0.3.1.0.1] [219, 89, 64, 255]', 'color [0.3.1.1] [211, 84, 57, 255]', 'color [0.3.1.2] [240, 235, 222, 255]', 'color [0.3.1.3] [227, 231, 225, 255]']
+# Solving 22
+OPTIONS FOR 0:
+* Score: 297675.6757820344 Cmds: []  
+* Score: 54942.58194981401 Cmds: ['color [0] [1, 1, 1, 255]']  
+* Score: 39236.32211540075 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [100, 200]', 'color [0.0.0] [1, 1, 1, 255]', 'color [0.0.1] [1, 1, 3, 255]', 'cut [0.0.2] [y] [300]', 'color [0.0.2.0] [1, 1, 1, 255]', 'color [0.0.2.1] [248, 248, 248, 255]', 'cut [0.0.3] [50, 300]', 'color [0.0.3.0] [1, 1, 1, 255]', 'color [0.0.3.1] [1, 1, 1, 255]', 'cut [0.0.3.2] [x] [75]', 'color [0.0.3.2.0] [1, 1, 1, 255]', 'color [0.0.3.3] [1, 1, 1, 255]', 'cut [0.1] [300, 200]', 'color [0.1.0] [3, 3, 5, 255]', 'color [0.1.1] [1, 1, 1, 255]', 'color [0.1.2] [1, 1, 1, 255]', 'cut [0.1.3] [y] [300]', 'color [0.1.3.0] [1, 1, 1, 255]', 'cut [0.1.3.1] [y] [350]', 'color [0.1.3.1.1] [18, 18, 18, 255]']  
+* Score: 40208.453707245004 Cmds: ['cut [0] [y] [200]', 'color [0.0] [1, 1, 1, 255]', 'cut [0.1] [200, 300]', 'color [0.1.0] [1, 1, 1, 255]', 'color [0.1.1] [1, 1, 1, 255]', 'cut [0.1.2] [x] [300]', 'cut [0.1.2.0] [y] [350]', 'color [0.1.2.0.1] [18, 18, 18, 255]', 'color [0.1.2.1] [1, 1, 1, 255]', 'cut [0.1.3] [x] [100]', 'cut [0.1.3.0] [x] [50]', 'color [0.1.3.0.0] [1, 1, 1, 255]', 'color [0.1.3.0.1] [123, 123, 123, 255]', 'color [0.1.3.1] [248, 248, 248, 255]']  
+* Score: 38875.960305665285 Cmds: ['cut [0] [200, 200]', 'color [0.0] [1, 1, 1, 255]', 'color [0.1] [1, 1, 1, 255]', 'cut [0.2] [300, 300]', 'cut [0.2.0] [x] [250]', 'cut [0.2.0.0] [x] [225]', 'color [0.2.0.0.0] [179, 153, 134, 255]', 'color [0.2.0.0.1] [1, 1, 1, 255]', 'color [0.2.0.1] [1, 1, 1, 255]', 'color [0.2.1] [1, 1, 1, 255]', 'color [0.2.2] [1, 1, 1, 255]', 'cut [0.2.3] [y] [350]', 'color [0.2.3.1] [18, 18, 18, 255]', 'cut [0.3] [100, 300]', 'color [0.3.0] [1, 1, 1, 255]', 'color [0.3.1] [1, 1, 1, 255]', 'color [0.3.2] [248, 248, 248, 255]', 'cut [0.3.3] [x] [50]', 'color [0.3.3.0] [1, 1, 1, 255]', 'cut [0.3.3.1] [x] [75]', 'color [0.3.3.1.0] [1, 1, 1, 255]']
+# Solving 23
+OPTIONS FOR 0:
+* Score: 93952.77371575392 Cmds: []  
+* Score: 93952.88192744971 Cmds: ['color [0] [254, 254, 254, 255]']  
+* Score: 48712.161158126066 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut [0.0.1] [100, 300]', 'cut [0.0.1.0] [x] [50]', 'color [0.0.1.0.1] [58, 74, 81, 255]', 'color [0.0.1.1] [66, 78, 74, 255]', 'cut [0.0.1.2] [y] [350]', 'color [0.0.1.2.0] [62, 75, 70, 255]', 'cut [0.0.1.3] [50, 350]', 'color [0.0.1.3.1] [11, 14, 22, 255]', 'cut [0.1] [y] [200]', 'cut [0.1.1] [300, 300]', 'color [0.1.1.0] [72, 78, 72, 255]', 'cut [0.1.1.1] [x] [350]', 'color [0.1.1.1.0] [125, 130, 112, 255]', 'cut [0.1.1.2] [350, 350]', 'color [0.1.1.2.0] [16, 17, 24, 255]', 'cut [0.1.1.3] [y] [350]', 'color [0.1.1.3.0] [59, 62, 59, 255]']  
+* Score: 44489.807233656844 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [y] [100]', 'cut [0.0.1] [y] [150]', 'cut [0.0.1.1] [y] [175]', 'color [0.0.1.1.1] [238, 249, 227, 255]', 'cut [0.1] [200, 300]', 'cut [0.1.0] [x] [100]', 'cut [0.1.0.0] [x] [50]', 'color [0.1.0.0.1] [58, 74, 81, 255]', 'color [0.1.0.1] [66, 78, 74, 255]', 'cut [0.1.1] [x] [300]', 'color [0.1.1.0] [72, 78, 72, 255]', 'cut [0.1.1.1] [x] [350]', 'color [0.1.1.1.0] [125, 130, 112, 255]', 'cut [0.1.2] [300, 350]', 'color [0.1.2.0] [59, 62, 59, 255]', 'cut [0.1.2.1] [x] [350]', 'color [0.1.2.1.0] [16, 17, 24, 255]', 'cut [0.1.2.2] [350, 375]', 'color [0.1.2.2.0] [10, 10, 18, 255]', 'cut [0.1.2.3] [y] [375]', 'color [0.1.2.3.0] [43, 61, 49, 255]', 'cut [0.1.3] [100, 350]', 'cut [0.1.3.0] [x] [50]', 'color [0.1.3.0.1] [11, 14, 22, 255]', 'color [0.1.3.1] [62, 75, 70, 255]', 'cut [0.1.3.2] [y] [375]', 'color [0.1.3.2.0] [48, 68, 60, 255]', 'cut [0.1.3.3] [50, 375]', 'color [0.1.3.3.1] [12, 16, 23, 255]']  
+* Score: 45062.394237711094 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'cut [0.0.1] [y] [150]', 'cut [0.0.1.1] [y] [175]', 'color [0.0.1.1.1] [238, 249, 227, 255]', 'cut [0.1] [y] [100]', 'cut [0.1.1] [y] [150]', 'cut [0.1.1.1] [y] [175]', 'color [0.1.1.1.1] [238, 249, 226, 255]', 'cut [0.2] [y] [300]', 'cut [0.2.0] [x] [300]', 'color [0.2.0.0] [72, 78, 72, 255]', 'cut [0.2.0.1] [x] [350]', 'color [0.2.0.1.0] [125, 130, 112, 255]', 'cut [0.2.1] [300, 350]', 'color [0.2.1.0] [59, 62, 59, 255]', 'cut [0.2.1.1] [x] [350]', 'color [0.2.1.1.0] [16, 17, 24, 255]', 'cut [0.2.1.2] [350, 375]', 'color [0.2.1.2.0] [10, 10, 18, 255]', 'cut [0.2.1.3] [y] [375]', 'color [0.2.1.3.0] [43, 61, 49, 255]', 'cut [0.3] [y] [300]', 'cut [0.3.0] [x] [100]', 'cut [0.3.0.0] [x] [50]', 'color [0.3.0.0.1] [58, 74, 81, 255]', 'color [0.3.0.1] [66, 78, 74, 255]', 'cut [0.3.1] [100, 350]', 'cut [0.3.1.0] [x] [50]', 'color [0.3.1.0.1] [11, 14, 22, 255]', 'color [0.3.1.1] [62, 75, 70, 255]', 'cut [0.3.1.2] [y] [375]', 'color [0.3.1.2.0] [48, 68, 60, 255]', 'cut [0.3.1.3] [50, 375]', 'color [0.3.1.3.1] [12, 16, 23, 255]']
+# Solving 24
+OPTIONS FOR 0:
+* Score: 164586.8261087473 Cmds: []  
+* Score: 46751.37852864089 Cmds: ['color [0] [172, 152, 117, 255]']  
+* Score: 29116.527701262592 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut [0.0.0] [100, 100]', 'cut [0.0.0.0] [y] [50]', 'color [0.0.0.0.0] [183, 168, 142, 255]', 'color [0.0.0.0.1] [221, 202, 164, 255]', 'cut [0.0.0.1] [y] [50]', 'color [0.0.0.1.0] [115, 103, 89, 255]', 'color [0.0.0.1.1] [205, 186, 150, 255]', 'cut [0.0.0.2] [x] [150]', 'color [0.0.0.2.0] [214, 196, 155, 255]', 'color [0.0.0.2.1] [54, 48, 41, 255]', 'cut [0.0.0.3] [y] [150]', 'color [0.0.0.3.0] [214, 195, 154, 255]', 'color [0.0.0.3.1] [193, 171, 130, 255]', 'cut [0.0.1] [y] [300]', 'cut [0.0.1.0] [y] [250]', 'color [0.0.1.0.0] [184, 164, 127, 255]', 'color [0.0.1.0.1] [173, 153, 118, 255]', 'cut [0.0.1.1] [y] [350]', 'color [0.0.1.1.0] [171, 149, 112, 255]', 'color [0.0.1.1.1] [148, 128, 93, 255]', 'cut [0.1] [300, 200]', 'cut [0.1.0] [y] [100]', 'cut [0.1.0.0] [y] [50]', 'color [0.1.0.0.0] [101, 92, 80, 255]', 'color [0.1.0.0.1] [197, 180, 146, 255]', 'cut [0.1.0.1] [x] [250]', 'color [0.1.0.1.0] [29, 25, 24, 255]', 'color [0.1.0.1.1] [212, 194, 153, 255]', 'cut [0.1.1] [y] [100]', 'cut [0.1.1.0] [y] [50]', 'color [0.1.1.0.0] [135, 125, 107, 255]', 'color [0.1.1.0.1] [190, 173, 138, 255]', 'color [0.1.1.1] [207, 188, 149, 255]', 'cut [0.1.2] [y] [300]', 'color [0.1.2.0] [173, 153, 117, 255]', 'cut [0.1.2.1] [y] [350]', 'color [0.1.2.1.0] [140, 121, 90, 255]', 'color [0.1.2.1.1] [97, 84, 63, 255]', 'cut [0.1.3] [250, 300]', 'cut [0.1.3.0] [x] [225]', 'color [0.1.3.0.0] [9, 8, 9, 255]', 'color [0.1.3.0.1] [171, 149, 113, 255]', 'color [0.1.3.1] [170, 148, 110, 255]', 'color [0.1.3.2] [148, 129, 95, 255]', 'color [0.1.3.3] [153, 133, 98, 255]']  
+* Score: 29155.882056243776 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'cut [0.0.0] [y] [50]', 'cut [0.0.0.0] [x] [100]', 'color [0.0.0.0.0] [183, 168, 142, 255]', 'color [0.0.0.0.1] [115, 103, 89, 255]', 'color [0.0.0.1] [217, 197, 158, 255]', 'cut [0.0.1] [y] [50]', 'cut [0.0.1.0] [x] [300]', 'color [0.0.1.0.0] [101, 92, 80, 255]', 'color [0.0.1.0.1] [135, 125, 107, 255]', 'cut [0.0.1.1] [y] [75]', 'color [0.0.1.1.0] [176, 161, 133, 255]', 'color [0.0.1.1.1] [210, 191, 150, 255]', 'cut [0.0.2] [x] [300]', 'cut [0.0.2.0] [x] [250]', 'color [0.0.2.0.0] [29, 25, 24, 255]', 'color [0.0.2.0.1] [212, 194, 153, 255]', 'color [0.0.2.1] [207, 188, 149, 255]', 'cut [0.0.3] [100, 150]', 'color [0.0.3.0] [214, 195, 154, 255]', 'color [0.0.3.1] [218, 198, 157, 255]', 'cut [0.0.3.2] [x] [150]', 'color [0.0.3.2.0] [182, 160, 123, 255]', 'color [0.0.3.2.1] [28, 25, 24, 255]', 'color [0.0.3.3] [193, 171, 130, 255]', 'cut [0.1] [y] [300]', 'cut [0.1.0] [y] [250]', 'cut [0.1.0.0] [x] [200]', 'color [0.1.0.0.0] [184, 164, 127, 255]', 'color [0.1.0.0.1] [171, 148, 111, 255]', 'color [0.1.0.1] [173, 153, 118, 255]', 'cut [0.1.1] [200, 350]', 'color [0.1.1.0] [171, 149, 112, 255]', 'color [0.1.1.1] [152, 132, 98, 255]', 'cut [0.1.1.2] [x] [300]', 'color [0.1.1.2.0] [134, 115, 84, 255]', 'color [0.1.1.2.1] [97, 84, 63, 255]', 'cut [0.1.1.3] [y] [375]', 'color [0.1.1.3.0] [158, 138, 102, 255]', 'color [0.1.1.3.1] [135, 116, 84, 255]']  
+* Score: 27873.00748907814 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [100, 100]', 'cut [0.0.0] [y] [50]', 'color [0.0.0.0] [183, 168, 142, 255]', 'color [0.0.0.1] [221, 202, 164, 255]', 'cut [0.0.1] [y] [50]', 'color [0.0.1.0] [115, 103, 89, 255]', 'color [0.0.1.1] [205, 186, 150, 255]', 'cut [0.0.2] [x] [150]', 'color [0.0.2.0] [214, 196, 155, 255]', 'cut [0.0.2.1] [x] [175]', 'color [0.0.2.1.0] [212, 192, 153, 255]', 'color [0.0.2.1.1] [22, 19, 18, 255]', 'cut [0.0.3] [y] [150]', 'color [0.0.3.0] [214, 195, 154, 255]', 'color [0.0.3.1] [193, 171, 130, 255]', 'cut [0.1] [y] [100]', 'cut [0.1.0] [y] [50]', 'cut [0.1.0.0] [x] [300]', 'color [0.1.0.0.0] [101, 92, 80, 255]', 'color [0.1.0.0.1] [135, 125, 107, 255]', 'cut [0.1.0.1] [y] [75]', 'color [0.1.0.1.0] [176, 161, 133, 255]', 'color [0.1.0.1.1] [210, 191, 150, 255]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [x] [250]', 'color [0.1.1.0.0] [29, 25, 24, 255]', 'color [0.1.1.0.1] [212, 194, 153, 255]', 'color [0.1.1.1] [207, 188, 149, 255]', 'cut [0.2] [300, 300]', 'cut [0.2.0] [x] [250]', 'cut [0.2.0.0] [x] [225]', 'color [0.2.0.0.0] [9, 8, 9, 255]', 'color [0.2.0.0.1] [171, 149, 113, 255]', 'color [0.2.0.1] [170, 148, 110, 255]', 'color [0.2.1] [173, 153, 117, 255]', 'cut [0.2.2] [y] [350]', 'color [0.2.2.0] [140, 121, 90, 255]', 'color [0.2.2.1] [97, 84, 63, 255]', 'color [0.2.3] [151, 131, 97, 255]', 'cut [0.3] [y] [300]', 'cut [0.3.0] [y] [250]', 'color [0.3.0.0] [184, 164, 127, 255]', 'color [0.3.0.1] [173, 153, 118, 255]', 'cut [0.3.1] [y] [350]', 'color [0.3.1.0] [171, 149, 112, 255]', 'cut [0.3.1.1] [y] [375]', 'color [0.3.1.1.0] [158, 138, 102, 255]', 'color [0.3.1.1.1] [135, 116, 84, 255]']
+# Solving 25
+OPTIONS FOR 0:
+* Score: 287941.00092290435 Cmds: []  
+* Score: 51426.395924823715 Cmds: ['color [0] [39, 47, 31, 255]']  
+* Score: 34823.85225268133 Cmds: ['cut [0] [x] [200]', 'cut [0.0] [y] [200]', 'cut [0.0.0] [y] [100]', 'color [0.0.0.0] [92, 13, 7, 255]', 'cut [0.0.0.1] [100, 150]', 'color [0.0.0.1.0] [122, 34, 20, 255]', 'color [0.0.0.1.1] [128, 75, 56, 255]', 'color [0.0.0.1.2] [181, 125, 100, 255]', 'color [0.0.0.1.3] [24, 5, 3, 255]', 'cut [0.0.1] [100, 300]', 'color [0.0.1.0] [19, 6, 4, 255]', 'cut [0.0.1.1] [y] [250]', 'color [0.0.1.1.0] [158, 109, 86, 255]', 'color [0.0.1.1.1] [71, 41, 32, 255]', 'color [0.0.1.2] [30, 18, 11, 255]', 'color [0.0.1.3] [17, 38, 24, 255]', 'cut [0.1] [x] [300]', 'cut [0.1.0] [250, 200]', 'color [0.1.0.0] [83, 12, 8, 255]', 'cut [0.1.0.1] [y] [100]', 'color [0.1.0.1.0] [48, 108, 65, 255]', 'color [0.1.0.1.1] [22, 52, 32, 255]', 'color [0.1.0.2] [25, 49, 34, 255]', 'cut [0.1.0.3] [y] [300]', 'color [0.1.0.3.0] [82, 44, 29, 255]', 'color [0.1.0.3.1] [48, 93, 62, 255]', 'cut [0.1.1] [y] [200]', 'cut [0.1.1.0] [y] [100]', 'color [0.1.1.0.0] [30, 74, 43, 255]', 'color [0.1.1.0.1] [23, 45, 33, 255]', 'cut [0.1.1.1] [350, 300]', 'color [0.1.1.1.0] [17, 40, 24, 255]', 'color [0.1.1.1.1] [26, 57, 37, 255]', 'color [0.1.1.1.2] [53, 105, 74, 255]', 'color [0.1.1.1.3] [33, 67, 48, 255]']  
+* Score: 34586.33689596139 Cmds: ['cut [0] [y] [200]', 'cut [0.0] [200, 100]', 'color [0.0.0] [92, 13, 7, 255]', 'cut [0.0.1] [y] [50]', 'color [0.0.1.0] [52, 107, 65, 255]', 'color [0.0.1.1] [25, 56, 34, 255]', 'cut [0.0.2] [x] [300]', 'cut [0.0.2.0] [x] [250]', 'color [0.0.2.0.0] [83, 5, 3, 255]', 'color [0.0.2.0.1] [22, 52, 32, 255]', 'color [0.0.2.1] [23, 45, 33, 255]', 'cut [0.0.3] [100, 150]', 'color [0.0.3.0] [122, 34, 20, 255]', 'color [0.0.3.1] [128, 75, 56, 255]', 'color [0.0.3.2] [181, 125, 100, 255]', 'color [0.0.3.3] [24, 5, 3, 255]', 'cut [0.1] [x] [200]', 'cut [0.1.0] [100, 300]', 'color [0.1.0.0] [19, 6, 4, 255]', 'cut [0.1.0.1] [y] [250]', 'color [0.1.0.1.0] [158, 109, 86, 255]', 'color [0.1.0.1.1] [71, 41, 32, 255]', 'color [0.1.0.2] [30, 18, 11, 255]', 'color [0.1.0.3] [17, 38, 24, 255]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [x] [250]', 'color [0.1.1.0.0] [63, 78, 51, 255]', 'color [0.1.1.0.1] [25, 49, 34, 255]', 'cut [0.1.1.1] [350, 300]', 'color [0.1.1.1.0] [17, 40, 24, 255]', 'color [0.1.1.1.1] [26, 57, 37, 255]', 'color [0.1.1.1.2] [53, 105, 74, 255]', 'color [0.1.1.1.3] [33, 67, 48, 255]']  
+* Score: 34465.52861269146 Cmds: ['cut [0] [200, 200]', 'cut [0.0] [y] [100]', 'color [0.0.0] [92, 13, 7, 255]', 'cut [0.0.1] [100, 150]', 'color [0.0.1.0] [122, 34, 20, 255]', 'color [0.0.1.1] [128, 75, 56, 255]', 'color [0.0.1.2] [181, 125, 100, 255]', 'color [0.0.1.3] [24, 5, 3, 255]', 'cut [0.1] [y] [100]', 'cut [0.1.0] [y] [50]', 'color [0.1.0.0] [52, 107, 65, 255]', 'color [0.1.0.1] [25, 56, 34, 255]', 'cut [0.1.1] [x] [300]', 'cut [0.1.1.0] [x] [250]', 'color [0.1.1.0.0] [83, 5, 3, 255]', 'color [0.1.1.0.1] [22, 52, 32, 255]', 'color [0.1.1.1] [23, 45, 33, 255]', 'cut [0.2] [x] [300]', 'cut [0.2.0] [x] [250]', 'cut [0.2.0.0] [y] [300]', 'color [0.2.0.0.0] [82, 44, 29, 255]', 'color [0.2.0.0.1] [48, 93, 62, 255]', 'color [0.2.0.1] [25, 49, 34, 255]', 'cut [0.2.1] [y] [300]', 'color [0.2.1.0] [22, 48, 31, 255]', 'cut [0.2.1.1] [x] [350]', 'color [0.2.1.1.0] [33, 67, 48, 255]', 'color [0.2.1.1.1] [53, 105, 74, 255]', 'cut [0.3] [y] [300]', 'cut [0.3.0] [x] [100]', 'color [0.3.0.0] [19, 6, 4, 255]', 'cut [0.3.0.1] [y] [250]', 'color [0.3.0.1.0] [158, 109, 86, 255]', 'color [0.3.0.1.1] [71, 41, 32, 255]', 'cut [0.3.1] [y] [350]', 'color [0.3.1.0] [20, 11, 7, 255]', 'cut [0.3.1.1] [y] [375]', 'color [0.3.1.1.0] [88, 35, 14, 255]', 'color [0.3.1.1.1] [12, 29, 18, 255]']
+DONE
+fourdman@mikhails-mbp-2 icfpc-2022 % 
