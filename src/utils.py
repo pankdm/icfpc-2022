@@ -22,3 +22,7 @@ def open_as_np(n):
     a=np.asarray(img)
     return a[::-1,:].swapaxes(0,1)
     
+def save_from_np(path, np_array):
+    img = Image.fromarray(np_array.swapaxes(0, 1)[::-1,:])
+    img.save(path, "PNG")
+
