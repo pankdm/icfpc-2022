@@ -191,7 +191,10 @@ export class Block extends Rect {
 
 function executeCommand(blocks: Object, instruction: String, actionsCost: Number[], drawCtx: CanvasRenderingContext2D, shadowDrawCtx: CanvasRenderingContext2D) {
     let _instruction = instruction.split('#', 1).toString().trim()
-    if (!_instruction) return
+    if (!_instruction) {
+        actionsCost.push(0)
+        return
+    }
     let cmd, blockId, args
     cmd = instruction.match(/^\w+/)[0]
     // split into wrapped args wrapped in [ ]
