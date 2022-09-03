@@ -19,7 +19,7 @@ def download_pic(n):
 
 
 def open_as_np(n):
-    img=Image.open(f"{sys.path[0]}/../problems/{n}.png")
+    img=Image.open(f"problems/{n}.png")
     a=np.asarray(img)
     return a[::-1,:].swapaxes(0,1)
     
