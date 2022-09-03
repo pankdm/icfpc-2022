@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import _ from "lodash";
 import { useStore } from "@nanostores/react";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +19,7 @@ import {
   getCtxFullImageData,
   getCtxPixels,
   getPictureDifferenceCost,
+  getBlockDifferenceCost,
   useRaf,
 } from "../utils";
 import { Select, TextArea } from "./Inputs";
@@ -373,6 +374,32 @@ function Face2FaceView() {
   const _solutionResult = useStore(solutionResult);
   const actionsCots = _solutionResult?.actionsCost;
   const totalActionsCost = _.sum(actionsCots);
+
+  const _clickedBlock = useStore(clickedBlock);
+  const blockDifferenceCost = useMemo(() => {
+    const picturePixelData = problemPicture.get()?.pixelData;
+    const solutionPixelData = solutionPicture.get()?.pixelData;
+    if (picturePixelData && solutionPixelData) {
+      return getBlockDifferenceCost(
+        picturePixelData,
+        solutionPixelData,
+        _clickedBlock
+      );
+    }
+  }, [_clickedBlock]);
+  const blockInfo = _clickedBlock ? (
+    <div>
+      <p>Block {_clickedBlock.name}</p>
+      <p>
+        begin: ({_clickedBlock.begin.x}, {_clickedBlock.begin.y}) end: (
+        {_clickedBlock.end.x}, {_clickedBlock.end.y})
+      </p>
+      <p> differenceCost: {blockDifferenceCost}</p>
+    </div>
+  ) : (
+    <div></div>
+  );
+
   return (
     <Row className={tw`flex-1 overflow-auto`}>
       <Spacer flex />
@@ -387,6 +414,8 @@ function Face2FaceView() {
           <p>Total actions cost: {totalActionsCost}</p>
           <p>Grand total: {differenceCost + totalActionsCost}</p>
         </div>
+        <p></p>
+        <div className={tw`min-w-64 items-start`}>{blockInfo}</div>
       </Col>
       <Spacer flex />
     </Row>
@@ -394,20 +423,7 @@ function Face2FaceView() {
 }
 
 function Footer() {
-  const _clickedBlock = useStore(clickedBlock);
-  const blockInfo = _clickedBlock ? (
-    <div>
-      <p>block {_clickedBlock.name}</p>
-      <p>
-        begin: ({_clickedBlock.begin.x}, {_clickedBlock.begin.y}) end: (
-        {_clickedBlock.end.x}, {_clickedBlock.end.y})
-      </p>
-    </div>
-  ) : (
-    <div></div>
-  );
-
-  return <div className={tw`h-24 bg-gray-200`}>{blockInfo}</div>;
+  return <div className={tw`h-24 bg-gray-200`}></div>;
 }
 
 export default function Inspector() {

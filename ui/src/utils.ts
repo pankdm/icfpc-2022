@@ -385,3 +385,31 @@ export function getPictureDifferenceCost(pixelData1: Uint8ClampedArray, pixelDat
     const diffCost = Math.round(diff * alpha)
     return diffCost
 }
+
+export function getBlockDifferenceCost(pixelData1: Uint8ClampedArray, pixelData2: Uint8ClampedArray, block) {
+    const rgba1 = pixelData1
+    const rgba2 = pixelData2
+    const alpha = 0.005
+    let pixels = 0
+    let diff = 0
+
+    for (let y = block.begin.y; y < block.end.y; ++y) {
+        for (let x = block.begin.x ; x < block.end.x; ++x) {
+            const j = (x + y * 400) * 4;
+            pixels += 1
+            const r1 = rgba1[j+0]
+            const g1 = rgba1[j+1]
+            const b1 = rgba1[j+2]
+            const a1 = rgba1[j+3]
+    
+            const r2 = rgba2[j+0]
+            const g2 = rgba2[j+1]
+            const b2 = rgba2[j+2]
+            const a2 = rgba2[j+3]
+            diff += Math.sqrt((r1-r2)**2 + (g1-g2)**2 + (b1-b2)**2 + (a1-a2)**2)    
+        }
+    }
+    const diffCost = Math.round(diff * alpha)
+    // console.log("difference for block", block, diff);
+    return diffCost
+}
