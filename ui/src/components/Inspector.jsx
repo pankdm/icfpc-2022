@@ -120,7 +120,7 @@ function SideBar({ className }) {
       <Spacer size={1} />
       <Col className={tw`flex-1`}>
         <Col className={tw`relative flex-1 w-full items-stretch`}>
-          {actionsCost && <FlameGraph className={tw(apply`absolute top-0 right-[-13.25rem] w-[16rem] py-3 px-4 text-red-700`, `translate-y-[-${scroll}px]`)} items={actionsCost} />}
+          {actionsCost && <FlameGraph className={tw(apply`absolute top-0 pointer-events-none right-[-13.25rem] w-[16rem] py-3 px-4 text-red-700`, `translate-y-[-${scroll}px]`)} items={actionsCost} />}
           <TextArea ref={textAreaRef} value={code} onChangeValue={onChangeCode} className={tw(apply`flex-1 font-mono whitespace-pre resize-none`, error && 'bg-red-300 focus:bg-red-200 active:bg-red-200')} />
         </Col>
       </Col>
@@ -220,7 +220,7 @@ function BlockDiv({ block }) {
     block.name == _hoveredBlockId && `bg-[rgba(255,255,255,0.35)] border-red-500`,
   )
   const labelCls = tw(
-    apply`absolute bottom-full text-red-500 font-bold hidden`,
+    apply`absolute bottom-full text-red-500 font-bold hidden z-10`,
     block.name == _hoveredBlockId && `inline`,
   )
   return (
