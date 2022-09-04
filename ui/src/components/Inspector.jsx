@@ -826,45 +826,53 @@ async function generateBinarySolverCmds(cmdContext, blockId) {
 }
 
 async function generateRectCmds(cmdContext, pt1, pt2) {
-  x0 = Math.min(pt1.x, pt2.x);
-  y0 = Math.min(pt1.y, pt2.y);
-  x1 = Math.max(pt1.x, pt2.x);
-  y1 = Math.max(pt1.y, pt2.y);
+  const x0 = Math.min(pt1.x, pt2.x);
+  const y0 = Math.min(pt1.y, pt2.y);
+  const x1 = Math.max(pt1.x, pt2.x);
+  const y1 = Math.max(pt1.y, pt2.y);
+
+  const problemId = cmdContext.problemId;
+  const geometricMedianData = await getGeometricMedian(problemId, x0, x1, y0, y1);
 
 
   let cmds = []
-  cmds.push(`### RECT ${pt1} ${pt2}`)
+  cmds.push(`\n### RECT ###`)
 
   const split = (a, pt) => {
-    cmds.push(`cut [${a}] [${pt.x}, ${pt.y}] `)
+    cmds.push(`cut [${a}] [${pt[0]}, ${pt[1]}] `)
     return [`${a}.0`, `${a}.1`, `${a}.2`, `${a}.3`]
   }
 
 
   // const currentBlockId = "0";
   const blocks = cmdContext.solutionResult.blocks;
+  console.log(blocks);
   let maxBlockId = parseInt(_.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0]))));
+  console.log(maxBlockId);
 
   const merge = (a, b) => {
-    result.push(`merge [${a}] [${b}]`);
+    cmds.push(`merge [${a}] [${b}]`);
     maxBlockId = maxBlockId + 1;
     return maxBlockId;
   }
 
 
-  let cur = maxBlockId
-  [a0, a1, cur, a3] = split(cur, (x0, y0))
-  [cur, b1, b2, b3] = split(cur, (x1, y1))
+  let cur = maxBlockId;
+  let [a0, a1, a2, a3] = split(cur, [x0, y0]);
+  cur = a2;
 
-  cmds.push(`color [${cur}] [6, 6, 6, 6]`)
+  let [b0, b1, b2, b3] = split(cur, [x1, y1]);
+  cur = b0;
 
-  const top = merge(b2, b3)
-  cur = merge(cur, b1)
-  cur = merge(cur, top)
+  cmds.push(`color [${cur}] [${geometricMedianData?.color.join(", ")}]`);
 
-  bottom = merge(a0, a1)
-  cur = merge(cur, a3)
-  cur = merge(cur, bottom)
+  const top = merge(b2, b3);
+  cur = merge(cur, b1);
+  cur = merge(cur, top);
+
+  const bottom = merge(a0, a1);
+  cur = merge(cur, a3);
+  cur = merge(cur, bottom);
 
   return cmds.join("\n")
 }
