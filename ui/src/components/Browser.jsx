@@ -5,7 +5,7 @@ import { useQuery } from "@tanstack/react-query";
 import { tw } from "twind";
 import Spacer from "./common/Spacer";
 import { Col, Row } from "./common/Flex";
-import API, { getProblemImgUrl, ICFPC } from "../api";
+import API, { getProblemImgUrl, getProblemStartImgUrl, ICFPC } from "../api";
 import { HeaderLink } from "./common/HeaderLink";
 import { css } from "twind/css";
 import { format } from "date-fns";
@@ -30,6 +30,7 @@ function ProblemItem({problem, ...props}) {
   }
   return (
     <Row gutter={2} className={tw`px-3 py-2 shadow hover:shadow-md transition cursor-pointer`} onClick={onClick} {...props}>
+      <img width={120} height={120} src={getProblemStartImgUrl(id)} />
       <img width={120} height={120} src={getProblemImgUrl(id)} />
       <p className={tw`flex-1`}>{id}: {name}</p>
       <p className={tw`w-24`}>{min_cost}</p>

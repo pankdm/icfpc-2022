@@ -91,6 +91,9 @@ export async function getBestSolution(solutionId): Promise<String> {
 export function getProblemImgUrl(problemId) {
   return getAPIpath(`/problems/${problemId}`)
 }
+export function getProblemStartImgUrl(problemId) {
+  return getAPIpath(`/problems_start/${problemId}`)
+}
 
 
 // ICFPC API
