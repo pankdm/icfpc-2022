@@ -50,6 +50,11 @@ def post_check_auth():
 def get_problem(id):
     return send_from_directory('../problems', id+'.png')
 
+@app.get("/problems_start/<id>")
+def get_problem_start(id):
+    return send_from_directory('../problems', id+'.initial.png')
+
+
 
 @app.get("/problem_initial_states/<id>")
 def get_problem_initial_state(id):
