@@ -3,7 +3,7 @@ import _ from 'lodash'
 import { apply, tw } from "twind";
 
 
-const Block = (props) => {
+const Block = ({className, ...props}) => {
     const { block, highlighted, color = 'red', onClick, onMouseOver, onMouseLeave, ...otherProps } = props
     const size = block.getSize();
     const borderWidth = 2;
@@ -14,7 +14,8 @@ const Block = (props) => {
             bg-transparent border-${borderWidth} box-content border-transparent
         `,
         highlighted &&
-        `bg-[rgba(255,255,255,0.35)] border-${color}-500`
+        `bg-[rgba(255,255,255,0.35)] border-${color}-500`,
+        className,
     );
     const labelCls = tw(
         apply`absolute bottom-full text-${color}-500 font-bold hidden z-10 pointer-events-none`,
@@ -37,16 +38,21 @@ const Block = (props) => {
 //   $blockId: $color
 // }
 
-export function HintBlocks({ blocks, onClickBlock, onMouseOverBlock, onMouseLeaveBlock, highlightedBlocks={} }) {
-    return _.map(blocks, block => (
-        <Block
-            key={block.name}
-            block={block}
-            color={highlightedBlocks[block.name]}
-            highlighted={block.name in highlightedBlocks}
-            onClick={(ev) => onClickBlock(block.name, ev)}
-            onMouseOver={(ev) => onMouseOverBlock(block.name, ev)}
-            onMouseLeave={(ev) => onMouseLeaveBlock(block.name, ev)}
-        />
-    ))
+export function HintBlocks({ className, blocks, onClickBlock, onMouseOverBlock, onMouseLeaveBlock, highlightedBlocks = {}, disablePointerEvents=false }) {
+    console.log({disablePointerEvents})
+    return (
+        <div className={tw(disablePointerEvents && apply`pointer-events-none`, className)}>
+            {_.map(blocks, block => (
+                <Block
+                    key={block.name}
+                    block={block}
+                    color={highlightedBlocks[block.name]}
+                    highlighted={block.name in highlightedBlocks}
+                    onClick={(ev) => onClickBlock(block.name, ev)}
+                    onMouseOver={(ev) => onMouseOverBlock(block.name, ev)}
+                    onMouseLeave={(ev) => onMouseLeaveBlock(block.name, ev)}
+                />
+            ))}
+        </div>
+    )
 }

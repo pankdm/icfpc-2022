@@ -319,16 +319,14 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
     }
   }
   return (
-    <div onClick={onClickPixel}>
-      <canvas
-        id="picture-canvas"
-        ref={canvasRef}
-        width={width}
-        height={height}
-        {...props}
-      />
-      <HintBlocksView/>
-    </div>
+    <canvas
+      id="picture-canvas"
+      onClick={onClickPixel}
+      ref={canvasRef}
+      width={width}
+      height={height}
+      {...props}
+    />
   );
 }
 
@@ -348,6 +346,7 @@ function ProblemView() {
               Picture will show here
             </div>
         }
+        <HintBlocksView disablePointerEvents />
       </div>
     </div>
   );
@@ -417,7 +416,7 @@ function SolutionCanvas({ solution, width, height, ...props }) {
   );
 }
 
-function HintBlocksView({ showPreviewBlocks=true, disablePointerEvents=false }) {
+function HintBlocksView({ className, showPreviewBlocks=true, disablePointerEvents=false }) {
   const _solutionResult = useStore(solutionResult);
   const blocks = _solutionResult?.blocks
 
@@ -462,6 +461,7 @@ function HintBlocksView({ showPreviewBlocks=true, disablePointerEvents=false }) 
 
   return blocks && (
     <HintBlocks
+      className={className}
       blocks={blocks}
       highlightedBlocks={highlightedBlocks}
       disablePointerEvents={disablePointerEvents}
