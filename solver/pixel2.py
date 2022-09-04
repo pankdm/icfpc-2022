@@ -6,25 +6,25 @@ import solver.pixel as pixel_solver
 import solver.costs as costs_m
 
 class PixelSolver2:
-    def __init__(self, problem, pixel_size, start = 0):
-        assert isinstance(start, int)
+    def __init__(self, problem, block_id = 0, pixel_size=20):
+        assert isinstance(block_id, int)
         self.prog = []
-        self.global_counter = start
-        self.start = str(start)
+        self.global_counter = block_id
+        self.start = str(block_id)
 
         self.pixel_size = pixel_size
         self.img = open_as_np(problem)
 
         self.BACKGROUND = (255, 255, 255, 255)
         # self.BACKGROUND = (0, 0, 0, 255)
-        self.prog.append(f"color [{start}] {pixel_solver.to_color(self.BACKGROUND)}")
+        self.prog.append(f"color [{block_id}] {pixel_solver.to_color(self.BACKGROUND)}")
 
         self.pixel_color = {}
         for x in range(0, 400, pixel_size):
             for y in range(0, 400, pixel_size):
                 self.pixel_color[(x,y)] = self.BACKGROUND
 
-        
+
     def merge(self, a, b):
         assert isinstance(a, str)
         assert isinstance(b, str)
@@ -32,11 +32,11 @@ class PixelSolver2:
         self.prog.append(f"merge [{a}] [{b}]")
         self.global_counter += 1
         return str(self.global_counter)
-    
+
     def swap(self, b1, b2):
         self.prog.append(f"swap [{b1.name}] [{b2.name}]")
         [b1.name, b2.name] = [b2.name, b1.name]
-    
+
     # # draws rect starting from (0,0) to (x1, y1)
     # def draw_prefix_rect(self, cur, x1, y1, color):
     #     if not isinstance(color, str):

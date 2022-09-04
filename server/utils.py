@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 import functools
+import re
 
 class CachedData:
     data = None
@@ -27,3 +28,26 @@ def cached(ttl):
             return result
         return wrapper_cached
     return decorator_cached
+
+
+def sanitize_arg(arg):
+    '''
+    return argument essence.
+    examples:
+    " 2, " -> 2
+    "2," -> 2
+    "2" -> 2
+    " helo, " -> "helo"
+    "helo," -> "helo"
+    "helo" -> "helo"
+    '''
+    clean_arg = re.sub(r'[^\w\d\_]', '', arg, re.IGNORECASE)
+    if not clean_arg:
+        raise Exception(f'Incorrect solver argument: "{arg}"')
+    try:
+        return int(clean_arg)
+    except Exception:
+        return arg
+
+def get_sanitized_args(args_str):
+    return [sanitize_arg(arg.strip()) for arg in args_str.split()]

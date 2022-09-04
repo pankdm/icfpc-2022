@@ -1,3 +1,6 @@
+import _ from "lodash"
+import { getAppState } from "./app-state"
+
 async function genericApiRequest(SERVER_URL, path, params) {
   const result = await fetch(`${SERVER_URL}${path}`, params)
   let body: any
@@ -70,22 +73,26 @@ export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2
       x2: x2,
       y1: y1,
       y2: y2,
-      initial_color: initialColor
+      initial_color: initialColor,
     })
   });
 }
 
-export async function getPixelSolverSolution(problemId, pixelSize, blockId) {
+export async function getPixelSolverSolution(problemId, blockId, extraArgs) {
+  const body = _.pickBy(
+    {
+      problem_id: problemId,
+      block_id: blockId,
+      extra_args: extraArgs,
+    },
+    v => v !== undefined,
+  )
   return await localApiRequest(`/run_pixel_solver`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
     },
-    body: JSON.stringify({
-      problem_id: problemId,
-      pixel_size: pixelSize,
-      block_id: blockId,
-    })
+    body: JSON.stringify(body)
   });
 }
 

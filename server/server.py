@@ -1,10 +1,15 @@
+import logging
 from concurrent.futures import ThreadPoolExecutor
 import os
+from pickle import GLOBAL
+import re
+from traceback import print_stack, print_tb
 from flask_cors import CORS
 from flask import Flask, request, send_from_directory
 
 from solver.pixel2 import PixelSolver2
 from .api import icfpc as ICFPC
+from .utils import get_sanitized_args
 from itertools import chain
 from dotenv import load_dotenv
 import solver.geometric_median as gm
@@ -14,6 +19,9 @@ import solver.binar_solver as binary_solver
 
 from os import listdir
 from os.path import isfile, join
+
+logger = logging.getLogger(__name__)
+
 
 load_dotenv()
 
@@ -107,20 +115,25 @@ def post_run_solver():
 
     return {'cmds': program.cmds}
 
+
+
+
 @app.post("/run_pixel_solver")
 def post_run_pixel_solver():
     payload = request.get_json()
-    print('>>>', payload)
+    print('Payload', payload)
     problem_id = payload["problem_id"]
-    pixel_size = payload["pixel_size"]
     block_id = payload["block_id"]
-    args = { 'problem': problem_id }
-    if pixel_size:
-        args['pixel_size'] = int(pixel_size)
+    args = [problem_id]
     if block_id:
-        args['start'] = int(block_id)
+        args.append(int(block_id))
+    if "extra_args" in payload:
+        extra_args = payload["extra_args"]
+        extra_args = get_sanitized_args(extra_args)
+        args += extra_args
 
-    solver = PixelSolver2(**args)
+    print('Solver args', args)
+    solver = PixelSolver2(*args)
     solver.run()
 
     return {'cmds': solver.prog }
@@ -201,4 +214,5 @@ def get_icfpc_endpoint(path):
 @app.errorhandler(Exception)
 def unhandled_error(error):
     print(error)
+    # print_stack(error)
     return str(error), getattr(error, 'code', 500)

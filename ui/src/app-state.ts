@@ -24,15 +24,20 @@ export function updateEntireAppState(update) {
 }
 
 export function getAppState(key) {
-    return getEntireAppState()[key]
+    return _.get(getEntireAppState(), key)
 }
 
 export function setAppState(key, newState) {
-    return setEntireAppState({...persistedState.get(), [key]: newState})
+    const _copyState = _.cloneDeep(persistedState.get())
+    const _update = newState
+    const _newState = _.set(_copyState, key, _update)
+    return setEntireAppState(_newState)
 }
 
 export function updateAppState(key, update) {
-    return setEntireAppState(_.merge({}, persistedState.get(), { [key]: update }))
+    const _update = _.set({}, key, update)
+    const _newState = _.merge({}, persistedState.get(), _.set({}, key, update))
+    return setEntireAppState(_newState)
 }
 
 export function useAppState(key): [any, Function] {
@@ -50,5 +55,3 @@ export function useAppState(key): [any, Function] {
     }
     return [state, setState]
 }
-
-window.setEntireAppState = setEntireAppState

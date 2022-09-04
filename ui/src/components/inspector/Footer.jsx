@@ -13,10 +13,12 @@ import {
 } from "../Inspector.stores";
 import { CMDs } from '../../utils/codegen';
 import { pushCmdArg, tryRunCmd } from "./utils";
+import { Input } from "../common/Inputs";
 
 export function Footer() {
   const [viewMode, setViewMode] = useAppState("viewMode");
   const _activeCmd = useStore(activeCmd);
+  const [solverExtraArgs, setSolverExtraArgs] = useAppState(`solverExtraArgs.${_activeCmd?.key}`);
   const _activeCmdArgs = useStore(activeCmdArgs);
   const isCmdStackEmpty = !_activeCmd && _.size(_activeCmdArgs) == 0
   const resetCmdStack = () => {
@@ -38,8 +40,8 @@ export function Footer() {
   useHotkeys('B', () => activateCmd(CMDs.binarySolver));
   useHotkeys('L', () => activateCmd(CMDs.pixelSolver));
   return (
-    <Row className={tw`h-24 bg-gray-200 px-4`}>
-      {!isCmdStackEmpty &&
+    <Row className={tw`relative h-24 bg-gray-200 px-4`}>
+      {_activeCmd &&
         <Button color='red' onClick={resetCmdStack}>Esc</Button>}
       <Spacer size={2} />
       <h2 className={tw`text-xl font-bold mb-1 flex-shrink-1`}>{_activeCmd?.name} {_activeCmdArgs?.map(arg => JSON.stringify(arg)).join(", ")}</h2>
@@ -55,6 +57,14 @@ export function Footer() {
         <Button color='blue' onClick={() => activateCmd(CMDs.binarySolver)}>(B)inary Solver</Button>
         <Button color='blue' onClick={() => activateCmd(CMDs.pixelSolver)}>Pixe(L) Solver</Button>
         <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>
+        {_activeCmd &&
+          <Input
+            className={tw`absolute right-[1rem] bottom-[calc(100%+1rem)] w-96 font-mono`}
+            placeholder='Solver args'
+            value={solverExtraArgs || ''}
+            onChangeValue={setSolverExtraArgs}
+          />
+        }
       </Row>
     </Row>
   );
