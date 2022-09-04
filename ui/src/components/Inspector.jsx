@@ -793,6 +793,16 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
     return [`${a}.0`, `${a}.1`, `${a}.2`, `${a}.3`]
   }
 
+  const cut_y = (a, y) => {
+    cmds.push(`cut [${a}] [y] [${y}]`)
+    return [`${a}.0`, `${a}.1`]
+  }
+
+  const cut_x = (a, x) => {
+    cmds.push(`cut [${a}] [x] [${x}]`)
+    return [`${a}.0`, `${a}.1`]
+  }
+
 
   // const currentBlockId = "0";
   const blocks = cmdContext.solutionResult.blocks;
@@ -807,22 +817,33 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
   }
 
 
-  let cur = maxBlockId;
-  let [a0, a1, a2, a3] = split(cur, [x0, y0]);
-  cur = a2;
-
-  let [b0, b1, b2, b3] = split(cur, [x1, y1]);
-  cur = b0;
+  let cur = maxBlockId, b1, b2, b3, b4;
+  [b1, cur] = cut_y(cur, y0);
+  [b2, cur] = cut_x(cur, x0);
+  [cur, b3] = cut_y(cur, y1);
+  [cur, b4] = cut_x(cur, x1);
 
   cmds.push(`color [${cur}] [${geometricMedianData?.color.join(", ")}]`);
 
-  const top = merge(b2, b3);
-  cur = merge(cur, b1);
-  cur = merge(cur, top);
+  cur = merge(cur, b4)
+  cur = merge(cur, b3)
+  cur = merge(cur, b2)
+  cur = merge(cur, b1)
 
-  const bottom = merge(a0, a1);
-  cur = merge(cur, a3);
-  cur = merge(cur, bottom);
+  // let [a0, a1, a2, a3] = split(cur, [x0, y0]);
+  // cur = a2;
+  // let [b0, b1, b2, b3] = split(cur, [x1, y1]);
+  // cur = b0;
+  // const top = merge(b2, b3);
+  // 
+  // cur = merge(cur, b1);
+  // cur = merge(cur, top);
+
+  // const bottom = merge(a0, a1);
+  // cur = merge(cur, a3);
+  // cur = merge(cur, bottom);
+
+
 
   return cmds.join("\n")
 }
