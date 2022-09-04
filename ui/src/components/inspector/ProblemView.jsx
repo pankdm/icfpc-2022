@@ -78,7 +78,6 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
     if (_activeCmd) {
       const { x, y } = pixel;
       const _hoveredBlock = hoveredBlock.get()
-      console.log({ x,y }, _hoveredBlock)
       pushCmdArg({ point: { x, y }, block: _hoveredBlock?.name });
     }
   };
@@ -90,7 +89,7 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
     selectedPixel.set(pixel);
   };
   const onMouseMove = (event) => {
-    if (!dragging)
+    if (!dragging && !_activeCmd)
       return;
     const pixel = getPixel(event);
     selectedPixel.set(pixel);

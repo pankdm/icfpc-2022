@@ -1,3 +1,4 @@
+import _ from "lodash";
 import React from "react";
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useStore } from "@nanostores/react";
@@ -16,6 +17,7 @@ export function Footer() {
   const [viewMode, setViewMode] = useAppState("viewMode");
   const _activeCmd = useStore(activeCmd);
   const _activeCmdArgs = useStore(activeCmdArgs);
+  const isCmdStackEmpty = !_activeCmd && _.size(_activeCmdArgs) == 0
   const resetCmdStack = () => {
     activeCmd.set();
     activeCmdArgs.set([]);
@@ -33,7 +35,7 @@ export function Footer() {
   useHotkeys('Enter', () => activateCmd(CMDs.binarySolver));
   return (
     <Row className={tw`h-24 bg-gray-200 px-4`}>
-      {(activeCmd.get() || activeCmdArgs.get()) &&
+      {!isCmdStackEmpty &&
         <Button color='red' onClick={resetCmdStack}>Esc</Button>}
       <Spacer size={2} />
       <h2 className={tw`text-xl font-bold mb-1 flex-shrink-1`}>{_activeCmd?.name} {_activeCmdArgs?.map(arg => JSON.stringify(arg)).join(", ")}</h2>
