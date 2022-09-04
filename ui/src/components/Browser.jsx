@@ -28,7 +28,7 @@ function ProblemItem({problem, ...props}) {
     window.location.href = `/problems/${id}`
     // navigate(`/problems/${id}`)
   }
-  const showStart = id >= 36;
+  const showStart = id >= 26;
   return (
     <Row gutter={2} className={tw`px-3 py-2 shadow hover:shadow-md transition cursor-pointer`} onClick={onClick} {...props}>
       {showStart ? 
