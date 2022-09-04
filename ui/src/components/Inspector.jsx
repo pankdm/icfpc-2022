@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useHotkeys } from 'react-hotkeys-hook'
 import { useNavigate, useParams } from "react-router-dom";
 import _ from "lodash";
 import { useStore } from "@nanostores/react";
@@ -15,7 +16,7 @@ import {
   getGeometricMedian,
   getBinarySolverSolution,
 } from "../api";
-import { useAppState } from "../app-state";
+import { getAppState, setAppState, useAppState } from "../app-state";
 import Spacer, { Interspaced } from "./Spacer";
 import Button from "./Button";
 import { Col, Row } from "./Flex";
@@ -79,6 +80,10 @@ window.getSolutionPixel = getSolutionPixel;
 function Header() {
   const { data } = useQuery(["problems"], getProblems);
   const { problemId } = useParams()
+  const [hoverBlocksBothSides, setHoverBlocksBothSides] = useAppState('config.hoverBlocksOnBothSides')
+  useEffect(() => {
+    setAppState('currentProblemId', problemId)
+  }, [problemId])
   const navigate = useNavigate()
   const setProblemId = (id) => {
     navigate(`/problems/${id}`)
@@ -88,6 +93,7 @@ function Header() {
       gutter={2}
       className={tw`min-h-[4rem] py-2 px-4 bg-blue-500 text-white justify-center`}
     >
+      <Spacer flex={1}/>
       <p className={tw`font-bold text-xl`}>ICFPC 2022</p>
       <Spacer size={2} />
       <p className={tw`font-bold text-xl`}>Problem:</p>
@@ -103,6 +109,9 @@ function Header() {
           </option>
         ))}
       </Select>
+      <Spacer flex={0.5}/>
+      <p className={tw`text-lg font-bold`}>Hover on both sides:</p>
+      <Button className={tw`w-24`} onClick={() => setHoverBlocksBothSides(!hoverBlocksBothSides)}>{hoverBlocksBothSides ? 'Enabled' : 'Disabled'}</Button>
     </Row>
   );
 }
@@ -118,7 +127,7 @@ const InstructionLog = forwardRef(({ code, className }, ref) => {
     <Col ref={ref} onMouseLeave={unpreviewLOC} className={tw(`flex-1 font-mono items-start overflow-auto whitespace-nowrap`, css({flexBasis: 0}), className)}>
       {instructions.map((line, idx) => {
         const selected = selectedLOC == idx
-        const cls = tw(apply`w-full px-1 -mx-1 cursor-pointer rounded`, selected ? `bg-[rgba(255,120,120,0.75)]` : `hover:bg-[rgba(255,255,255,0.75)]`)
+        const cls = tw(apply`min-w-full min-h-[1.25rem] h-[1.25rem] px-1 -mx-1 cursor-pointer rounded`, selected ? `bg-[rgba(255,120,120,0.75)]` : `hover:bg-[rgba(255,255,255,0.75)]`)
         const hoverLOC = () => {
           previewLOC.set(idx);
           let blockIds = parseBlockIdsFromCommand(line);
@@ -141,20 +150,23 @@ const InstructionLog = forwardRef(({ code, className }, ref) => {
 })
 
 function FlameGraph({ className, items, maxSize }) {
-  const labelsCls = tw(apply`whitespace-pre-wrap leading-tight`, className);
+  const labelsCls = tw(apply`block whitespace-pre-wrap leading-tight`, className);
+  const labelCls = tw(apply`h-[1.25rem]`);
   let cumulative = items.reduce((acc, v) => acc+v, 0);
   const maxItems = maxSize ? Math.max(maxSize, items.length) : items.length
-  const labelsText = _.times(maxItems, idx => {
+  const labels = _.times(maxItems, idx => {
     const lineLabel = `${idx + 1}:`.padEnd(3)
     const actionCostLabel = items[idx] && ('+'+items[idx]).padEnd(4)
     const sumLabel = cumulative[idx] && '= '+cumulative[idx]
     const str = _.filter([lineLabel, actionCostLabel, sumLabel], v => v).join(' ')
     return str
-  }).join('\n')
+  })
 
   return (
     <pre className={labelsCls}>
-      {labelsText}
+      {labels.map((label, idx) => (
+        <div key={idx} className={labelCls}>{label}</div>
+      ))}
     </pre>
   );
 }
@@ -171,6 +183,15 @@ function SideBar({ className }) {
   const errorLine = _solutionResult?.errorLine;
   const actionsCost = _solutionResult?.actionsCost;
   const [editMode, setEditMode] = useAppState("codeEditMode") || false
+  const removeLastLine = () => {
+    if (!code || editMode) {
+      return
+    }
+    const newCode = code.split('\n').slice(0, -1).join('\n')
+    console.log({code, newCode})
+    setCode(newCode)
+  }
+  useHotkeys('Shift+D', removeLastLine, [code])
   const onToggleEditMode = () => setEditMode(!editMode)
   const onSelectSolution = async (_solutionId) => {
     setSolutionId(_solutionId);
@@ -264,6 +285,7 @@ function SideBar({ className }) {
 
 function TargetPictureCanvas({ problemId, width, height, ...props }) {
   const canvasRef = useRef();
+  const [hoverBlocks] = useAppState('config.hoverBlocksOnBothSides')
   useEffect(() => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -297,12 +319,10 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
     });
   }, [problemId]);
 
-
-  const [code, setCode] = useAppState("currentCode");
   const _activeCmd = useStore(activeCmd);
-  const _solutionResult = useStore(solutionResult);
+  const _selectedPixel = useStore(selectedPixel)
 
-  const onClickPixel = (event) => {
+  const getPixel = (event) => {
     const canvasBoundingRect = canvasRef.current.getBoundingClientRect();
     const ctx = problemPicture.get().ctx;
     const x = event.clientX - canvasBoundingRect.x;
@@ -313,56 +333,54 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
       y: Math.floor(yFlip),
       rgba: getCtxPixel(ctx, x, y).data
     };
+    return pixel
+  }
+
+  const onClickPixel = (event) => {
+    const pixel = getPixel(event)
     selectedPixel.set(pixel);
     if (_activeCmd) {
-      console.log(pixel)
-      pushCmdArg({
-        code,
-        setCode,
-        solutionResult: _solutionResult,
-        problemId
-      }, pixel);
+      pushCmdArg({point: pixel, block: hoveredBlock.get()?.name});
     }
   }
+
   const [dragging, setDragging] = useState(false)
   const onMouseDown = (event) => {
     setDragging(true)
+    const pixel = getPixel(event)
+    selectedPixel.set(pixel);
   }
   const onMouseMove = (event) => {
     if (!dragging) return
-    const canvasBoundingRect = canvasRef.current.getBoundingClientRect();
-    const ctx = problemPicture.get().ctx;
-    const x = event.clientX - canvasBoundingRect.x;
-    const y = event.clientY - canvasBoundingRect.y;
-    const yFlip = canvasBoundingRect.height - (event.clientY - canvasBoundingRect.y);
-    const pixel = {
-      x: Math.floor(x),
-      y: Math.floor(yFlip),
-      rgba: getCtxPixel(ctx, x, y).data
-    };
+    const pixel = getPixel(event)
     selectedPixel.set(pixel);
   }
   const onMouseUp = () => {
     setDragging(false)
   }
   return (
-    <canvas
-      id="picture-canvas"
+    <div
       onClick={onClickPixel}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
       onMouseUp={onMouseUp}
-      ref={canvasRef}
-      width={width}
-      height={height}
-      {...props}
-    />
+    >
+      <canvas
+        id="picture-canvas"
+        ref={canvasRef}
+        width={width}
+        height={height}
+        {...props}
+      />
+      {_selectedPixel && <Crosshair width={400} height={400} x={_selectedPixel.x} y={_selectedPixel.y} />}
+      <HintBlocksView showPreviewBlocks={false} disablePointerEvents={!hoverBlocks} showLabels={false} highlightedBlockBg='transparent' />
+    </div>
   );
 }
 
 function ProblemView() {
   const { problemId } = useParams()
-  const _selectedPixel = useStore(selectedPixel)
+
   return (
     <div className={tw`flex-1 flex flex-col items-center justify-center`}>
       <h1 className={tw`text-4xl font-bold mb-4`}>Problem {problemId}</h1>
@@ -377,8 +395,6 @@ function ProblemView() {
               Picture will show here
             </div>
         }
-        {_selectedPixel && <Crosshair width={400} height={400} x={_selectedPixel.x} y={_selectedPixel.y} />}
-        <HintBlocksView showPreviewBlocks={false} disablePointerEvents />
       </div>
     </div>
   );
@@ -448,7 +464,7 @@ function SolutionCanvas({ solution, width, height, ...props }) {
   );
 }
 
-function HintBlocksView({ className, showPreviewBlocks=true, disablePointerEvents=false }) {
+function HintBlocksView({ className, onClickBlock, showLabels=true, showPreviewBlocks=true, highlightedBlockBg, disablePointerEvents=false }) {
   const _solutionResult = useStore(solutionResult);
   const blocks = _solutionResult?.blocks
 
@@ -475,29 +491,15 @@ function HintBlocksView({ className, showPreviewBlocks=true, disablePointerEvent
     hoveredBlock.set(blocks && blocks[blockId]);
   }
 
-  const _activeCmd = useStore(activeCmd);
-  const [code, setCode] = useAppState("currentCode");
-  const { problemId } = useParams()
-  const onClick = (blockId, ev) => {
-    const block = blocks[blockId]
-    clickedBlock.set(block);
-    if (_activeCmd) {
-      pushCmdArg({
-        code,
-        setCode,
-        solutionResult: _solutionResult,
-        problemId
-      }, _hoveredBlock.name);
-    }
-  };
-
   return blocks && (
     <HintBlocks
       className={className}
       blocks={blocks}
       highlightedBlocks={highlightedBlocks}
+      highlightedBlockBg={highlightedBlockBg}
+      showLabels={showLabels}
       disablePointerEvents={disablePointerEvents}
-      onClickBlock={onClick}
+      onClickBlock={onClickBlock}
       onMouseOverBlock={onMouseEnterBlock}
       onMouseLeaveBlock={onMouseLeaveBlock}
     />
@@ -508,15 +510,23 @@ function SolutionView() {
   const [code] = useAppState("currentCode");
   const _solutionResult = useStore(solutionResult);
   const _previewLOC = useStore(previewLOC);
+  const _activeCmd = useStore(activeCmd);
   let filteredCode = code
   if (_previewLOC && code) {
     filteredCode = code.split('\n').slice(0, _previewLOC + 1).join('\n')
   }
+  const onClickBlock = (blockId, ev) => {
+    const block = _solutionResult?.blocks[blockId]
+    clickedBlock.set(block);
+    if (_activeCmd) {
+      pushCmdArg({block: hoveredBlock.get().name});
+    }
+  };
   const body = filteredCode && (
     <>
       <div className={tw`relative border`}>
         <SolutionCanvas solution={filteredCode} width={400} height={400} />
-        <HintBlocksView />
+        <HintBlocksView onClickBlock={onClickBlock} />
       </div>
     </>
   );
@@ -905,12 +915,24 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
   return cmds.join("\n")
 }
 
-async function pushCmdArg(cmdContext, arg) {
-  const {code, setCode} = cmdContext;
+async function pushCmdArg({block, point}) {
+  const code = getAppState('currentCode')
+  const setCode = (code) => setAppState('currentCode', code)
+  const problemId = getAppState('currentProblemId')
+  const cmdContext = {
+    solutionResult: solutionResult.get(),
+    problemId: problemId,
+    code: code,
+  }
 
   const cmd = activeCmd.get();
   if (!cmd) {
     return;
+  }
+  const expectedArgType = cmd.argTypes[_.size(activeCmdArgs.get())]
+  const arg = { block, point }[expectedArgType]
+  if (!arg) {
+    return
   }
 
   activeCmdArgs.set([...activeCmdArgs.get(), arg]);
@@ -943,34 +965,38 @@ function Footer() {
         activeCmd.set({
           name: "rect (clickTwoPoints)",
           codeGenerator: generateRectCmds,
-          numArgs: 2
+          numArgs: 2,
+          argTypes: ['point', 'point'],
         });
         activeCmdArgs.set([]);
       }}>Rect</Button>
       <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
-          name: "cut X (click on a block, and then point to split)",
+          name: "cutX (click on a block, and then point to split)",
           codeGenerator: generateSplitXCmds,
-          numArgs: 2
+          numArgs: 2,
+          argTypes: ['block', 'point'],
         });
         activeCmdArgs.set([]);
       }}>Cut X</Button>
       <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
-          name: "cut Y (click on a block, and then point to split)",
+          name: "cutY (click on a block, and then point to split)",
           codeGenerator: generateSplitYCmds,
-          numArgs: 2
+          numArgs: 2,
+          argTypes: ['block', 'point'],
         });
         activeCmdArgs.set([]);
       }}>Cut Y</Button>
       <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
-          name: "cut XY (click on a block, and then point to split)",
+          name: "cutXY (click on a block, and then point to split)",
           codeGenerator: generateSplitXYCmds,
-          numArgs: 2
+          numArgs: 2,
+          argTypes: ['block', 'point'],
         });
         activeCmdArgs.set([]);
       }}>Cut XY</Button>
@@ -979,7 +1005,8 @@ function Footer() {
         activeCmd.set({
           name: "swap (click two blocks)",
           codeGenerator: generateSwapCmds,
-          numArgs: 2
+          numArgs: 2,
+          argTypes: ['block', 'block'],
         });
         activeCmdArgs.set([]);
       }}>Swap</Button>
@@ -988,7 +1015,8 @@ function Footer() {
         activeCmd.set({
           name: "color (click block to color to median)",
           codeGenerator: generateColorToMedCmds,
-          numArgs: 1
+          numArgs: 1,
+          argTypes: ['block'],
         });
         activeCmdArgs.set([]);
       }}>Color to Med</Button>
@@ -997,7 +1025,8 @@ function Footer() {
         activeCmd.set({
           name: "merge range (click left/bottom block first, then the last one)",
           codeGenerator: generateMergeUpCmds,
-          numArgs: 2
+          numArgs: 2,
+          argTypes: ['block', 'block'],
         });
         activeCmdArgs.set([]);
       }}>Merge Range</Button>
@@ -1006,7 +1035,8 @@ function Footer() {
         activeCmd.set({
           name: "run solver (click block)",
           codeGenerator: generateBinarySolverCmds,
-          numArgs: 1
+          numArgs: 1,
+          argTypes: ['block'],
         });
         activeCmdArgs.set([]);
       }}>Binary Solver</Button>

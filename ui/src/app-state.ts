@@ -5,7 +5,7 @@ import { useStore } from '@nanostores/react'
 
 export const persistedState = atom({})
 
-export function getAppState() {
+export function getEntireAppState() {
     return persistedState.get()
 }
 function loadState() {
@@ -13,24 +13,42 @@ function loadState() {
     persistedState.set(state)
     return state
 }
-export function setAppState(state) {
+export function setEntireAppState(state) {
     persistedState.set(state)
     sessionStorage.setItem('icfpc', JSON.stringify(state))
 }
 loadState()
 
+export function updateEntireAppState(update) {
+    return setEntireAppState(_.merge({}, persistedState.get(), update))
+}
+
+export function getAppState(key) {
+    return getEntireAppState()[key]
+}
+
+export function setAppState(key, newState) {
+    return setEntireAppState({...persistedState.get(), [key]: newState})
+}
+
+export function updateAppState(key, update) {
+    return setEntireAppState(_.merge({}, persistedState.get(), { [key]: update }))
+}
+
 export function useAppState(key): [any, Function] {
     if (!key) {
         throw new Error('useAppState() needs a store item key')
     }
-    const wholeAppState = useStore(persistedState)
-    const state = key === 'ROOT' ? wholeAppState : _.get(wholeAppState, key)
+    useStore(persistedState)
+    const state = key === 'ROOT' ? getEntireAppState() : getAppState(key)
     const setState = (newState) => {
-        const update = key === 'ROOT' ? newState : _.set({}, key, newState)
-        const _newState = _.merge({}, persistedState.get(), update)
-        setAppState(_newState)
+        if (key === 'ROOT') {
+            updateEntireAppState(newState)
+        } else {
+            updateAppState(key, newState)
+        }
     }
     return [state, setState]
 }
 
-window.setAppState = setAppState
+window.setEntireAppState = setEntireAppState
