@@ -55,6 +55,24 @@ export async function getGeometricMedian(problemId, x1, x2, y1, y2): Promise<Arr
   });
 }
 
+export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2, initialColor): Promise<ArrayBuffer> {
+  return await api_request(`/run_solver`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      problem_id: problemId,
+      block_id: blockId,
+      x1: x1,
+      x2: x2,
+      y1: y1,
+      y2: y2,
+      initial_color: initialColor
+    })
+  });
+}
+
 export async function getSolutions() {
   return await api_request(`/solutions`, { method: 'GET' })
 }

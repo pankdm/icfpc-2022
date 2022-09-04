@@ -5,7 +5,12 @@ import numbers
 from turtle import shape
 from matplotlib.pyplot import flag
 from soupsieve import match
-import costs
+
+try:
+    import costs
+except ImportError:
+    import solver.costs as costs
+
 import dataclasses
 import numpy as np
 import typing
@@ -17,7 +22,12 @@ from PIL import Image
 import numpy as np
 import sys
 import time
-import geometric_median as gm
+
+try:
+    import geometric_median as gm
+except ImportError:
+    import solver.geometric_median as gm
+    
 import json
 
 PROBLEMS_DIR = "./problems"

@@ -125,7 +125,7 @@ export class Block extends Rect {
     name: String
     constructor(name, begin, end) {
         super(begin, end)
-        this.name = name
+        this.name = name;
     }
 
     static serializeMap(blocksMap) {

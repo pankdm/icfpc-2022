@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 import solver.geometric_median as gm
 from PIL import Image
 import numpy as np
+import solver.binar_solver as binary_solver
 
 load_dotenv()
 
@@ -16,6 +17,7 @@ CORS(app)
 os.path.basename(__file__)
 
 IMG_CACHE = {}
+
 
 def open_image_as_np(n):
     global IMG_CACHE
@@ -28,6 +30,7 @@ def open_image_as_np(n):
     result = a[::-1, :].swapaxes(0, 1)
     IMG_CACHE[n] = result
     return result
+
 
 @app.route("/")
 def ping():
@@ -61,6 +64,7 @@ def get_problem_initial_state(id):
                 }]
         }
 
+
 @app.post("/geometric_median")
 def get_geometric_median():
     payload = request.get_json()
@@ -69,11 +73,29 @@ def get_geometric_median():
     img = open_image_as_np(id)
     subimg = img[x1:x2, y1:y2]
 
-    print(f"{img}")
-
     color = [round(v) for v in gm.geometric_median(
-            subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)), eps=1e-2)]
+        subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)), eps=1e-2)]
     return {'color': color}
+
+
+@app.post("/run_solver")
+def post_run_solver():
+    payload = request.get_json()
+    problem_id = payload["problem_id"]
+    block_id = payload["block_id"]
+    x1, x2, y1, y2 = payload["x1"], payload["x2"], payload["y1"], payload["y2"]
+    initial_color = payload["initial_color"]
+
+    img = open_image_as_np(problem_id)
+    solver = binary_solver.Solver(ref_img=img, max_depth=4, initial_blocks=[])
+    program = solver.improve(
+        block_id=block_id,
+        sp=binary_solver.Shape(x1, y1, x2, y2),
+        current_color=initial_color,
+        depth=0)
+
+    return {'cmds': program.cmds}
+
 
 @app.get("/problems")
 @app.get("/problems/")
