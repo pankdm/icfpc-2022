@@ -825,6 +825,50 @@ async function generateBinarySolverCmds(cmdContext, blockId) {
   return "# solver response\n" + responseData?.cmds.join("\n");
 }
 
+async function generateRectCmds(cmdContext, pt1, pt2) {
+  x0 = Math.min(pt1.x, pt2.x);
+  y0 = Math.min(pt1.y, pt2.y);
+  x1 = Math.max(pt1.x, pt2.x);
+  y1 = Math.max(pt1.y, pt2.y);
+
+
+  let cmds = []
+  cmds.push(`### RECT ${pt1} ${pt2}`)
+
+  const split = (a, pt) => {
+    cmds.push(`cut [${a}] [${pt.x}, ${pt.y}] `)
+    return [`${a}.0`, `${a}.1`, `${a}.2`, `${a}.3`]
+  }
+
+
+  // const currentBlockId = "0";
+  const blocks = cmdContext.solutionResult.blocks;
+  let maxBlockId = parseInt(_.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0]))));
+
+  const merge = (a, b) => {
+    result.push(`merge [${a}] [${b}]`);
+    maxBlockId = maxBlockId + 1;
+    return maxBlockId;
+  }
+
+
+  let cur = maxBlockId
+  [a0, a1, cur, a3] = split(cur, (x0, y0))
+  [cur, b1, b2, b3] = split(cur, (x1, y1))
+
+  cmds.push(`color [${cur}] [6, 6, 6, 6]`)
+
+  const top = merge(b2, b3)
+  cur = merge(cur, b1)
+  cur = merge(cur, top)
+
+  bottom = merge(a0, a1)
+  cur = merge(cur, a3)
+  cur = merge(cur, bottom)
+
+  return cmds.join("\n")
+}
+
 async function pushCmdArg(cmdContext, arg) {
   const {code, setCode} = cmdContext;
 
@@ -858,6 +902,15 @@ function Footer() {
         activeCmd.set();
         activeCmdArgs.set();
       }}>Cancel</Button>
+      <Spacer size={5}/>
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "rect (clickTwoPoints)",
+          codeGenerator: generateRectCmds,
+          numArgs: 2
+        });
+        activeCmdArgs.set([]);
+      }}>Rect</Button>
       <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
