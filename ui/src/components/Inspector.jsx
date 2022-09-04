@@ -58,6 +58,7 @@ const hoveredBlock = atom();
 const previewBlockIds = atom();
 
 const clickedBlock = atom();
+const clickedBlockMedianColor = atom();
 const previewLOC = atom();
 const selectedPixel = atom();
 const activeCmd = atom();
@@ -250,6 +251,10 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
   const canvasRef = useRef();
   const _hoveredBlock = useStore(hoveredBlock);
 
+  const [code, setCode] = useAppState("currentCode");
+  const _activeCmd = useStore(activeCmd);
+  const _solutionResult = useStore(solutionResult);
+
   useEffect(() => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -305,11 +310,21 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
         const x = event.clientX - canvasBoundingRect.x;
         const y = event.clientY - canvasBoundingRect.y;
         const yFlip = canvasBoundingRect.height - (event.clientY - canvasBoundingRect.y);
-        selectedPixel.set({
+        const pixel = {
           x: Math.floor(x),
           y: Math.floor(yFlip),
           rgba: getCtxPixel(ctx, x, y).data
-        });
+        };
+        selectedPixel.set(pixel);
+
+        if (_activeCmd) {
+          pushCmdArg({
+            code,
+            setCode,
+            solutionResult:_solutionResult,
+            problemId
+          }, pixel);
+        }
       }}
       {...props}
     />
@@ -406,9 +421,9 @@ function SolutionCanvas({ solution, width, height, ...props }) {
 function BlockDiv({ block }) {
   const _hoveredBlockId = useStore(hoveredBlockId);
   const _activeCmd = useStore(activeCmd);
-  const _activeCmdArgs = useStore(activeCmdArgs);
   const [code, setCode] = useAppState("currentCode");
   const _solutionResult = useStore(solutionResult);
+  const [problemId] = useAppState("currentProblemId");
 
   const onBlockMouseLeave = () => {
     hoveredBlockId.set();
@@ -421,17 +436,13 @@ function BlockDiv({ block }) {
   const onClick = () => { 
     clickedBlock.set(block);
 
-    if (_activeCmd && _activeCmdArgs) {
-      activeCmdArgs.set([..._activeCmdArgs, _hoveredBlockId]);
-      console.log(`activeCmdArgs.get().length = ${activeCmdArgs.get().length} _activeCmd.numArgs ${_activeCmd.numArgs}`);
-      if (activeCmdArgs.get().length >= _activeCmd.numArgs) {
-        const newCode = _activeCmd.codeGenerator(code, _solutionResult, ...activeCmdArgs.get());
-        if (newCode) {
-          setCode(code + "\n" + newCode);
-        }
-        activeCmd.set();
-        activeCmdArgs.set();
-      }
+    if (_activeCmd) {
+      pushCmdArg({
+        code,
+        setCode,
+        solutionResult:_solutionResult,
+        problemId
+      }, _hoveredBlockId);
     }
   };
   const size = block.getSize();
@@ -554,6 +565,12 @@ function Face2FaceView() {
     }
   });
 
+  if (problemId && _clickedBlock) {
+    clickedBlockMedianColor.set(geometricMedianData);
+  } else {
+    clickedBlockMedianColor.set();
+  }
+
   const blockDifferenceCost = useMemo(() => {
     const picturePixelData = problemPicture.get()?.pixelData;
     const solutionPixelData = solutionPicture.get()?.pixelData;
@@ -611,7 +628,12 @@ function Face2FaceView() {
   );
 }
 
-function generateMergeUpCmds(code, solutionResult, startBlockId, endBlockId) {
+function generateMergeUpCmds(cmdContext, startBlockId, endBlockId) {
+  const {solutionResult} = cmdContext
+
+  if (typeof startBlockId !== 'string') { throw Error(`startBlockId must be a string: ${startBlockId}`); }
+  if (typeof endBlockId !== 'string') { throw Error(`startBlockId must be a string: ${startBlockId}`); }
+
   function findNextUp(thisBlock) {
     for (let otherBlockId in solutionResult.blocks) {
       const otherBlock = solutionResult.blocks[otherBlockId];
@@ -674,6 +696,50 @@ function generateMergeUpCmds(code, solutionResult, startBlockId, endBlockId) {
   return cmds.join("\n");
 }
 
+function generateSplitXCmds(cmdContext, blockId, point) {
+  return [`cut [${blockId}] [x] [${point.x}]`];
+}
+
+function generateSplitYCmds(cmdContext, blockId, point) {
+  return [`cut [${blockId}] [y] [${point.y}]`];
+}
+
+function generateSplitXYCmds(cmdContext, blockId, point) {
+  return [`cut [${blockId}] [${point.x}, ${point.y}]`];
+}
+
+function generateSwapCmds(cmdContext, blockId1, blockId2) {
+  return [`swap [${blockId1}] [${blockId2}]`];
+}
+
+async function generateColorToMedCmds(cmdContext, blockId) {
+  const block = cmdContext.solutionResult.blocks[blockId];
+  const problemId = cmdContext.problemId;
+  const geometricMedianData = await getGeometricMedian(problemId, block.begin.x, block.end.x, block.begin.y, block.end.y);
+
+  return [`color [${blockId}] [${geometricMedianData?.color.join(", ")}]`];
+}
+
+async function pushCmdArg(cmdContext, arg) {
+  const {code, setCode} = cmdContext;
+
+  const cmd = activeCmd.get();
+  if (!cmd) {
+    return;
+  }
+
+  activeCmdArgs.set([...activeCmdArgs.get(), arg]);
+  const args = activeCmdArgs.get();
+  if (args.length >= cmd.numArgs) {
+    const newCode = await cmd.codeGenerator(cmdContext, ...args);
+    if (newCode) {
+      setCode(code + "\n" + newCode);
+    }
+    activeCmd.set();
+    activeCmdArgs.set();
+  }
+}
+
 function Footer() {
   const [viewMode, setViewMode] = useAppState("viewMode");
   const _activeCmd = useStore(activeCmd);
@@ -690,7 +756,52 @@ function Footer() {
       <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
-          name: "merge range",
+          name: "cut X (click on a block, and then point to split)",
+          codeGenerator: generateSplitXCmds,
+          numArgs: 2
+        });
+        activeCmdArgs.set([]);
+      }}>Cut X</Button>
+      <Spacer size={5}/>
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "cut Y (click on a block, and then point to split)",
+          codeGenerator: generateSplitYCmds,
+          numArgs: 2
+        });
+        activeCmdArgs.set([]);
+      }}>Cut Y</Button>
+      <Spacer size={5}/> 
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "cut XY (click on a block, and then point to split)",
+          codeGenerator: generateSplitXYCmds,
+          numArgs: 2
+        });
+        activeCmdArgs.set([]);
+      }}>Cut XY</Button>
+      <Spacer size={5}/>
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "swap (click two blocks)",
+          codeGenerator: generateSwapCmds,
+          numArgs: 2
+        });
+        activeCmdArgs.set([]);
+      }}>Swap</Button>
+      <Spacer size={5}/>      
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "color (click block to color to median)",
+          codeGenerator: generateColorToMedCmds,
+          numArgs: 1
+        });
+        activeCmdArgs.set([]);
+      }}>Color to Med</Button>
+      <Spacer size={5}/>      
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "merge range (click left/bottom block first, then the last one)",
           codeGenerator: generateMergeUpCmds,
           numArgs: 2
         });
