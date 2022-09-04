@@ -12,6 +12,7 @@ import {
   activeCmdArgs
 } from "../Inspector.stores";
 import { CMDs } from '../../utils/codegen';
+import { pushCmdArg, tryRunCmd } from "./utils";
 
 export function Footer() {
   const [viewMode, setViewMode] = useAppState("viewMode");
@@ -25,6 +26,7 @@ export function Footer() {
   const activateCmd = (cmd) => {
     activeCmd.set(cmd);
     activeCmdArgs.set([]);
+    tryRunCmd()
   };
   useHotkeys('Esc', () => resetCmdStack());
   useHotkeys('R', () => activateCmd(CMDs.rect));
@@ -34,6 +36,7 @@ export function Footer() {
   useHotkeys('C', () => activateCmd(CMDs.colorToMed));
   useHotkeys('M', () => activateCmd(CMDs.mergeRange));
   useHotkeys('B', () => activateCmd(CMDs.binarySolver));
+  useHotkeys('L', () => activateCmd(CMDs.pixelSolver));
   return (
     <Row className={tw`h-24 bg-gray-200 px-4`}>
       {!isCmdStackEmpty &&
@@ -50,6 +53,7 @@ export function Footer() {
         <Button color='blue' onClick={() => activateCmd(CMDs.colorToMed)}>(C)olor to Med</Button>
         <Button color='blue' onClick={() => activateCmd(CMDs.mergeRange)}>(M)erge Range</Button>
         <Button color='blue' onClick={() => activateCmd(CMDs.binarySolver)}>(B)inary Solver</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.pixelSolver)}>Pixe(L) Solver</Button>
         <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>
       </Row>
     </Row>

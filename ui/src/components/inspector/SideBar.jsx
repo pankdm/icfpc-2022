@@ -116,7 +116,7 @@ export function SideBar({ className }) {
       const code = await getBestSolution(problemId);
       setCode(code);
     } else if (_solutionId == "__new") {
-      setCode("# Let's go!!!\ncolor [0] [255, 255, 255, 255]");
+      setCode("# Let's go!!!\n");
     } else {
       const code = await getSolution(_solutionId);
       setCode(code);

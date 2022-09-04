@@ -75,6 +75,20 @@ export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2
   });
 }
 
+export async function getPixelSolverSolution(problemId, pixelSize, blockId) {
+  return await localApiRequest(`/run_pixel_solver`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify({
+      problem_id: problemId,
+      pixel_size: pixelSize,
+      block_id: blockId,
+    })
+  });
+}
+
 export async function getSolutions() {
   return await localApiRequest(`/solutions`, { method: 'GET' })
 }

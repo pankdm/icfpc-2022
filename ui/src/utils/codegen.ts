@@ -2,6 +2,7 @@ import _ from "lodash";
 import {
   getGeometricMedian,
   getBinarySolverSolution,
+  getPixelSolverSolution,
 } from "../api";
 import { isRunningSolver } from "../components/Inspector.stores";
 
@@ -184,6 +185,17 @@ export async function generateBinarySolverCmds(cmdContext, blockId) {
   return "# solver response\n" + responseData?.cmds.join("\n");
 }
 
+export async function generatePixelSolverCmds(cmdContext, blockId) {
+  const problemId = cmdContext.problemId;
+  const pixelSize = 20
+
+  isRunningSolver.set(true);
+  const responseData = await getPixelSolverSolution(problemId, pixelSize, blockId);
+  isRunningSolver.set(false);
+
+  return "# solver response\n" + responseData?.cmds.join("\n");
+}
+
 export async function generateRectCmds(cmdContext, pt1, pt2) {
   let x0 = Math.min(pt1.x, pt2.x);
   let y0 = Math.min(pt1.y, pt2.y);
@@ -337,8 +349,14 @@ export const CMDs: CommandsMap = {
     argTypes: ['block', 'block'],
   },
   binarySolver: {
-    name: "run solver (click block)",
+    name: "run binary solver (click block)",
     codeGenerator: generateBinarySolverCmds,
+    numArgs: 1,
+    argTypes: ['block'],
+  },
+  pixelSolver: {
+    name: "run pixel solver (click block)",
+    codeGenerator: generatePixelSolverCmds,
     numArgs: 1,
     argTypes: ['block'],
   },

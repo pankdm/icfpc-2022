@@ -2,6 +2,8 @@ from concurrent.futures import ThreadPoolExecutor
 import os
 from flask_cors import CORS
 from flask import Flask, request, send_from_directory
+
+from solver.pixel2 import PixelSolver2
 from .api import icfpc as ICFPC
 from itertools import chain
 from dotenv import load_dotenv
@@ -104,6 +106,24 @@ def post_run_solver():
         depth=0)
 
     return {'cmds': program.cmds}
+
+@app.post("/run_pixel_solver")
+def post_run_pixel_solver():
+    payload = request.get_json()
+    print('>>>', payload)
+    problem_id = payload["problem_id"]
+    pixel_size = payload["pixel_size"]
+    block_id = payload["block_id"]
+    args = { 'problem': problem_id }
+    if pixel_size:
+        args['pixel_size'] = int(pixel_size)
+    if block_id:
+        args['start'] = int(block_id)
+
+    solver = PixelSolver2(**args)
+    solver.run()
+
+    return {'cmds': solver.prog }
 
 
 @app.get("/problems")

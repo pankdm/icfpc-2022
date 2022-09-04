@@ -5,6 +5,28 @@ import {
   activeCmdArgs
 } from "../Inspector.stores";
 
+export async function tryRunCmd() {
+  const code = getAppState('currentCode');
+  const setCode = (code) => setAppState('currentCode', code);
+  const problemId = getAppState('currentProblemId');
+  const cmdContext = {
+    solutionResult: solutionResult.get(),
+    problemId: problemId,
+    code: code,
+  };
+  const cmd = activeCmd.get()
+  const args = activeCmdArgs.get()
+  if (!cmd || args.length < cmd.numArgs) {
+    return
+  }
+  const newCode = await cmd.codeGenerator(cmdContext, ...args);
+  if (newCode) {
+    setCode(code + "\n" + newCode);
+  }
+  activeCmd.set();
+  activeCmdArgs.set();
+}
+
 export async function pushCmdArg({ block, point }) {
   const code = getAppState('currentCode');
   const setCode = (code) => setAppState('currentCode', code);
