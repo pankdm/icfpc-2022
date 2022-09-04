@@ -181,11 +181,11 @@ export class Block extends Rect {
         drawCtx.fillStyle = `rgba(${r}, ${g}, ${b}, ${a / 255})`
         // NOTE: contest's Y axis is headed bottom-up
         //       while 2D canvas are aimed top-down
-        const x = this.begin.x
-        const y = 400 - this.end.y
-        const width = this.end.x - this.begin.x
-        const height = this.end.y - this.begin.y
-        drawCtx.fillRect(x, y, width, height)
+        const x = this.begin.x;
+        const y = 400 - this.end.y;
+        const width = this.end.x - this.begin.x;
+        const height = this.end.y - this.begin.y;
+        drawCtx.fillRect(x, y, width, height);
     }
 
     swap(drawCtx: CanvasRenderingContext2D, other: Block) {
@@ -230,7 +230,7 @@ export class Block extends Rect {
         const { x: x3, y: y3 } = other.end
         const merged = new Block(newName, new Vec(_.min([x0, x2]), _.min([y0, y2])), new Vec(_.max([x1, x3]), _.max([y1, y3])))
         if (merged.getSqSize() != this.getSqSize() + other.getSqSize()) {
-            throw new Error(`Invalid merge for blocks ((${x0}, ${y0}), (${x1}, ${y1})) and ((${x2}, ${y2}), (${x3}, ${y3}))`)
+            throw new Error(`Invalid merge for blocks ((${x0}, ${y0}), (${x1}, ${y1})) and ((${x2}, ${y2}), (${x3}, ${y3})).`);
         }
 
         return merged;
@@ -331,7 +331,7 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
         blocks[nextBlockId] = newBlock
         delete blocks[blockId]
         delete blocks[otherBlockId]
-        actionsCost.push(getTotalActionCost(ActionsBaseCost.SWAP, _.max([block.getSqSize(), otherBlock.getSqSize])))
+        actionsCost.push(getTotalActionCost(ActionsBaseCost.MERGE, _.max([block.getSqSize(), otherBlock.getSqSize()])));
     }
     return actionsCost
 }
