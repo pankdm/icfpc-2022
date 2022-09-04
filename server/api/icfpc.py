@@ -127,7 +127,8 @@ def download_best_submissions():
         # print (problem_id, score, id, detailed_info)
         url = detailed_info['file_url']
         code_response = requests.get(url)
+        content = code_response.content.decode()
         print (f'Downloading {id} as {problem_id}_{score}.txt')
         with open(f"{folder}/{problem_id}_{score}.txt", "wt") as f:
-            f.write(str(code_response.content))
+            f.write(content)
     

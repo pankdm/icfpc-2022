@@ -10,6 +10,9 @@ from PIL import Image
 import numpy as np
 import solver.binar_solver as binary_solver
 
+from os import listdir
+from os.path import isfile, join
+
 load_dotenv()
 
 app = Flask(__name__)
@@ -136,6 +139,24 @@ def get_solutions():
 def get_solution(path):
     print(path)
     return send_from_directory('../solutions', path)
+
+
+@app.get("/best_solutions/<path:path>")
+def get_best_solution(path):
+    print('get_best_solution::', path)
+    solutions_dir = os.path.dirname(__file__)+'/../best_solutions'
+    timestamps = os.listdir(solutions_dir)
+    last_ts = max(timestamps)
+    print (last_ts)
+
+    for solution in os.listdir(f"{solutions_dir}/{last_ts}"):
+        if solution.startswith(f"{path}_"):
+            print ('Best = ', solution)
+            return send_from_directory(f"{solutions_dir}/{last_ts}", solution)
+    return ""
+
+
+
 
 
 @app.post("/submit")
