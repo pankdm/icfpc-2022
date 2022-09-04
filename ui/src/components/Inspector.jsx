@@ -266,17 +266,6 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
     img.addEventListener("load", async () => {
       ctx.drawImage(img, 0, 0);
 
-      if (_hoveredBlock) {
-        ctx.beginPath();
-        ctx.lineWidth = "2";
-        ctx.strokeStyle = "red";
-        ctx.rect(_hoveredBlock.begin.x,
-          height - _hoveredBlock.end.y,
-          _hoveredBlock.end.x - _hoveredBlock.begin.x,
-          _hoveredBlock.end.y - _hoveredBlock.begin.y);
-        ctx.stroke();
-      }
-
       img.style.display = "none";
       const picturePixelData = getCtxFullImageData(ctx, width, height);
       problemPicture.set({ img: img, ctx: ctx, pixelData: picturePixelData });
@@ -290,6 +279,17 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
             400
           )
         );
+      }
+
+      if (_hoveredBlock) {
+        ctx.beginPath();
+        ctx.lineWidth = "2";
+        ctx.strokeStyle = "red";
+        ctx.rect(_hoveredBlock.begin.x,
+          height - _hoveredBlock.end.y,
+          _hoveredBlock.end.x - _hoveredBlock.begin.x,
+          _hoveredBlock.end.y - _hoveredBlock.begin.y);
+        ctx.stroke();
       }
     });
   }, [problemId, _hoveredBlock]);

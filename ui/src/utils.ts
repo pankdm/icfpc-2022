@@ -455,7 +455,8 @@ export function getBlockDifferenceCost(pixelData1: Uint8ClampedArray, pixelData2
 
     for (let y = block.begin.y; y < block.end.y; ++y) {
         for (let x = block.begin.x; x < block.end.x; ++x) {
-            const j = (x + y * 400) * 4;
+            const invY = 400 - (y + 1);
+            const j = (x + invY * 400) * 4;
             pixels += 1
             const r1 = rgba1[j + 0]
             const g1 = rgba1[j + 1]
