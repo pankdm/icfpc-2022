@@ -241,12 +241,15 @@ public class Main {
 
     public static long executeProgram(Canvas canvas, BufferedImage target, List<Command> program) {
         long score = 0;
-        for (Command command: program) {
-            long cost = command.apply(canvas, target);
-            //System.out.println(command.getType() + " cost: " + cost);
-            score += cost;
+        try {
+            for (Command command : program) {
+                long cost = command.apply(canvas, target);
+                score += cost;
+            }
+            return score;
+        } catch (Exception ex) {
+            return Integer.MAX_VALUE;
         }
-        return score;
     }
 
     public static long imageDiff(BufferedImage img1, BufferedImage img2) {
