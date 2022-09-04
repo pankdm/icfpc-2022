@@ -2,6 +2,8 @@
 
 from src.utils import open_as_np
 
+from solver.geometric_median import geometric_median
+
 from collections import defaultdict
 import math
 
@@ -132,7 +134,7 @@ class TextSolver:
 
         taken = [(255, 255, 255, 255)]
 
-        for item in items[:30]:
+        for item in items[:20]:
             col = item[0]
             should_skip = False
             for prev in taken:
@@ -150,8 +152,13 @@ class TextSolver:
 
             x1 = max(map(lambda a: a[0], colors[col]))
             y1 = max(map(lambda a: a[1], colors[col]))
+            
+            subimg = pixels[x0:x1, y0:y1]
 
-            block = self.draw_rect(block, [x0, y0], [x1, y1], to_color(col))
+            color = [round(v) for v in geometric_median(
+                    subimg.reshape((subimg.shape[0] * subimg.shape[1], 4)), eps=1e-2)]
+
+            block = self.draw_rect(block, [x0, y0], [x1, y1], to_color(color))
 
         
     def run(self):
