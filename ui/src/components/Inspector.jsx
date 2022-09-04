@@ -134,7 +134,7 @@ export default function Inspector() {
   return (
     <div className={tw`min-w-[900px] min-h-screen flex flex-col overflow-hidden`}>
       <Header />
-      <div className={tw`flex-1 flex`}>
+      <div className={tw`flex-1 flex overflow-hidden`}>
         <SideBar className={tw`z-10`} />
         <MainView />
       </div>

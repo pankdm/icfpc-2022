@@ -64,7 +64,8 @@ const InstructionLog = forwardRef(({ code, className }, ref) => {
 function FlameGraph({ className, items, maxSize }) {
   const labelsCls = tw(apply`block whitespace-pre-wrap leading-tight`, className);
   const labelCls = tw(apply`h-[1.25rem]`);
-  let cumulative = items.reduce((acc, v) => acc + v, 0);
+  let cumulative = []
+  items.forEach((v, idx) => { cumulative[idx] = v + (cumulative[idx-1]||0) });
   const maxItems = maxSize ? Math.max(maxSize, items.length) : items.length;
   const labels = _.times(maxItems, idx => {
     const lineLabel = `${idx + 1}:`.padEnd(3);
@@ -161,7 +162,7 @@ export function SideBar({ className }) {
           {actionsCost && (
             <FlameGraph
               className={tw(
-                apply`absolute top-0 pointer-events-none right-[-13.25rem] w-[16rem] py-3 px-4 text-red-700`,
+                apply`absolute top-0 pointer-events-none left-[calc(100%-2rem)] w-[16rem] py-3 px-4 text-red-700`,
                 `translate-y-[-${scroll}px]`
               )}
               items={actionsCost}
