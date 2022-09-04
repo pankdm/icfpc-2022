@@ -324,7 +324,7 @@ export const CMDs: CommandsMap = {
     numArgs: 2,
     argTypes: ['block', 'block'],
   },
-  colorMed: {
+  colorToMed: {
     name: "color (click block to color to median)",
     codeGenerator: generateColorToMedCmds,
     numArgs: 1,

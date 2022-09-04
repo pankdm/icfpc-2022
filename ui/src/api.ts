@@ -83,6 +83,11 @@ export async function getSolution(solutionId): Promise<String> {
   return await localApiRequest(`/solutions/${solutionId}`, { method: 'GET' })
 }
 
+export async function getBestSolution(solutionId): Promise<String> {
+  return await localApiRequest(`/best_solutions/${solutionId}`, { method: 'GET' })
+}
+
+
 export function getProblemImgUrl(problemId) {
   return getAPIpath(`/problems/${problemId}`)
 }

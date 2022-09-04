@@ -7,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { apply, tw } from "twind";
 import { css } from "twind/css";
 import {
+  getBestSolution,
   getSolution,
   getSolutions
 } from "../../api";
@@ -111,7 +112,10 @@ export function SideBar({ className }) {
   const onToggleEditMode = () => setEditMode(!editMode);
   const onSelectSolution = async (_solutionId) => {
     setSolutionId(_solutionId);
-    if (_solutionId == "__new") {
+    if (_solutionId == "__best") {
+      const code = await getBestSolution(problemId);
+      setCode(code);
+    } else if (_solutionId == "__new") {
       setCode("# Let's go!!!\ncolor [0] [255, 255, 255, 255]");
     } else {
       const code = await getSolution(_solutionId);
@@ -152,6 +156,7 @@ export function SideBar({ className }) {
               </option>
             ))}
           {problemId && <option value="__new">Manual</option>}
+          {problemId && <option value="__best">BEST</option>}
         </Select>
         <Button color='transparent' className={tw`w-10 h-10 text-3xl p-0 hover:bg-gray-300 active:bg-gray-400`} onClick={reloadSolution}>♻️</Button>
         <Button color={editMode ? 'red' : 'blue'} className={tw`w-24`} onClick={onToggleEditMode}>{editMode ? 'Done' : 'Edit'}</Button>

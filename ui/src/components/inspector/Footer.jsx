@@ -31,8 +31,9 @@ export function Footer() {
   useHotkeys('X', () => activateCmd(CMDs.cutX));
   useHotkeys('Y', () => activateCmd(CMDs.cutY));
   useHotkeys('P', () => activateCmd(CMDs.cutXY));
+  useHotkeys('C', () => activateCmd(CMDs.colorToMed));
   useHotkeys('M', () => activateCmd(CMDs.mergeRange));
-  useHotkeys('Enter', () => activateCmd(CMDs.binarySolver));
+  useHotkeys('B', () => activateCmd(CMDs.binarySolver));
   return (
     <Row className={tw`h-24 bg-gray-200 px-4`}>
       {!isCmdStackEmpty &&
@@ -46,7 +47,7 @@ export function Footer() {
         <Button color='blue' onClick={() => activateCmd(CMDs.cutY)}>Cut (Y)</Button>
         <Button color='blue' onClick={() => activateCmd(CMDs.cutXY)}>Cut XY (P)</Button>
         <Button color='blue' onClick={() => activateCmd(CMDs.swap)}>(S)wap</Button>
-        <Button color='blue' onClick={() => activateCmd(CMDs.colorToMed)}>Color to Med</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.colorToMed)}>(C)olor to Med</Button>
         <Button color='blue' onClick={() => activateCmd(CMDs.mergeRange)}>(M)erge Range</Button>
         <Button color='blue' onClick={() => activateCmd(CMDs.binarySolver)}>(B)inary Solver</Button>
         <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>

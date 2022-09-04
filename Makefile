@@ -14,3 +14,6 @@ start-server:
 
 repl:
 	${EXPORT_PYTHONPATH} ${PYTHON} -i repl.py
+
+download:
+	${EXPORT_PYTHONPATH} ${PYTHON} -m src.download_best

@@ -93,8 +93,14 @@ class PixelSolver:
         self.pixel_size = pixel_size
         self.img = open_as_np(problem)
 
-        self.BACKGROUND = (255, 255, 255, 255)
-        # self.BACKGROUND = (0, 0, 0, 255)
+        # self.BACKGROUND = (255, 255, 255, 255)
+        background = [round(int(v)) for v in geometric_median(
+                        self.img.reshape((self.img.shape[0] * self.img.shape[1], 4)), eps=1e-2)]
+
+        print(f"using {background} as backround")
+        self.BACKGROUND = background
+
+
         self.prog.append(f"color [{start}] {to_color(self.BACKGROUND)}")
 
 
@@ -116,14 +122,18 @@ class PixelSolver:
         if not isinstance(color, str):
             color = to_color(color)
 
-        [cur, b2] = cur.line_y(y1, self.prog)
-        [cur, b4] = cur.line_x(x1, self.prog)
+        if y1 < 400:
+            [cur, b2] = cur.line_y(y1, self.prog)
+        if x1 < 400:
+            [cur, b4] = cur.line_x(x1, self.prog)
 
         self.prog.append(f"color [{cur.name}] {color}")
-
+        
         cur_name = cur.name
-        cur_name = self.merge(cur_name, b4.name)
-        cur_name = self.merge(cur_name, b2.name)
+        if x1 < 400:
+            cur_name = self.merge(cur_name, b4.name)
+        if y1 < 400:
+            cur_name = self.merge(cur_name, b2.name)
 
         return Block(cur_name, cur.begin, cur.end)
 
@@ -143,6 +153,7 @@ class PixelSolver:
                 # Dont' draw if difference is too small
                 if dist(color, self.BACKGROUND) < 10:
                     continue
+
                 block = self.draw_prefix_rect(block, x1, y1, color)
 
                 if y > 0:
