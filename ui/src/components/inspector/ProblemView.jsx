@@ -12,7 +12,7 @@ import {
   hoveredBlock,
   selectedPixel,
   activeCmd
-} from "../../stores";
+} from "../Inspector.stores";
 import { HintBlocksView } from "./HintBlocksView";
 import { pushCmdArg } from "./utils";
 import { solutionPicture } from "../Inspector.stores";

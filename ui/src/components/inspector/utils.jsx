@@ -3,7 +3,7 @@ import { getAppState, setAppState } from "../../app-state";
 import {
   solutionResult, activeCmd,
   activeCmdArgs
-} from "../../stores";
+} from "../Inspector.stores";
 
 export async function pushCmdArg({ block, point }) {
   const code = getAppState('currentCode');

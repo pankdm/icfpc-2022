@@ -17,14 +17,21 @@ import { Footer } from "./inspector/Footer";
 
 import {
   problemPicture,
+
   solutionPicture,
   solutionResult,
   solutionPirctureDiffCost,
-  selectedPixel,
+
+  hoveredBlock,
+  hoveredBlockId,
+  previewBlockIds,
   clickedBlock,
   clickedBlockMedianColor,
+  previewLOC,
   getProblemPixel,
   getSolutionPixel,
+  selectedPixel,
+
   isRunningSolver,
 } from "./Inspector.stores";
 
@@ -53,12 +60,17 @@ function MainView() {
 
   const _clickedBlock = useStore(clickedBlock);
 
-  const geometricMedianCacheKey = `geometricMedian${problemId}${_clickedBlock?.begin.x}${_clickedBlock?.begin.y}${_clickedBlock?.end.x}${_clickedBlock?.end.y}`
+  const geometricMedianArgs = _clickedBlock && [
+    _clickedBlock.begin.x,  // x1
+    _clickedBlock.end.x,    // x2
+    _clickedBlock.begin.y,  // y1
+    _clickedBlock.end.y,    // y2
+  ]
   const { data: geometricMedianData } = useQuery(
-    [geometricMedianCacheKey],
-    () => getGeometricMedian(problemId, _clickedBlock.begin.x, _clickedBlock.end.x, _clickedBlock.begin.y, _clickedBlock.end.y),
+    ['geometricMedian', problemId, geometricMedianArgs],
+    () => getGeometricMedian(problemId, ...geometricMedianArgs),
     {
-      enabled: problemId && _clickedBlock,
+      enabled: problemId && !!_clickedBlock,
     }
   );
 
@@ -69,6 +81,7 @@ function MainView() {
   }
 
   const blockDifferenceCost = useMemo(() => {
+    if (!_clickedBlock) return
     const picturePixelData = problemPicture.get()?.pixelData;
     const solutionPixelData = solutionPicture.get()?.pixelData;
     if (picturePixelData && solutionPixelData) {

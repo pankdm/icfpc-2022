@@ -14,7 +14,7 @@ import {
   hoveredBlock,
   clickedBlock,
   activeCmd,
-} from "../../stores";
+} from "../Inspector.stores";
 import {
   computeBlocksAndDraw,
   getCtxFullImageData,

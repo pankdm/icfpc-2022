@@ -21,7 +21,7 @@ import {
   solutionResult,
   previewLOC,
   previewBlockIds
-} from "../../stores";
+} from "../Inspector.stores";
 
 
 
