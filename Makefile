@@ -17,3 +17,6 @@ repl:
 
 download:
 	${EXPORT_PYTHONPATH} ${PYTHON} -m src.download_best
+
+jar:
+	cd optimizer; mvn package
