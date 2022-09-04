@@ -81,9 +81,17 @@ y_offset = size - 2 * d
 
 prog = [ ]
 
+
+# left[0] == right[1]
+# left[2] == right[3]
+# sum(left_sides) == sum(right_sides)
 left_sides = [d, d, d, d]
 right_sides = [d, d, d, d]
-extra = [d - 3]
+ca = [0, 5]
+cb = [2, 7]
+left_sides[ca[0]] -= 1
+right_sides[ca[1] - 4] -= 1
+extra_side = d - 1
 
 def add_fragment(prog, frag):
     for line in frag.split("\n"):
@@ -135,7 +143,7 @@ def split_by_lines(b, bottom_line):
     prog.append(f"color [{bottom_left.name}] {black}")
 
 
-    [left, right] = b.line_x(b.begin[0] + 4 * d, prog)
+    [left, right] = b.line_x(b.begin[0] + sum(left_sides), prog)
     prog.append(f"color [{left.name}] {black}")
 
     def do_half(start, color):
@@ -187,8 +195,9 @@ def split_by_lines(b, bottom_line):
         cols.append(left)
         cur = right
     cols.append(cur)
-    swap(cols[0], cols[5], prog)
-    swap(cols[2], cols[7], prog)
+    
+    swap(cols[ca[0]], cols[ca[1]], prog)
+    swap(cols[cb[0]], cols[cb[1]], prog)
 
 
 def solve():
@@ -198,9 +207,9 @@ def solve():
     ]
     b = Block("0", begin = (0, 0), end = (400, 400))
     [_, b1] = b.line_y(d + 3, prog)
-    [b2, _] = b1.line_x(8 * d + d - 3, prog)
+    [b2, _] = b1.line_x(sum(left_sides) + sum(right_sides) + extra_side, prog)
     [b3, main_block] = b2.line_y(b2.begin[1] + d, prog)
-    [bottom_line, _] = b3.line_x(8 * d, prog)
+    [bottom_line, _] = b3.line_x(sum(left_sides) + sum(right_sides), prog)
 
     split_by_lines(main_block, bottom_line)
 
