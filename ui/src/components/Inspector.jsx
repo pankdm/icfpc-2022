@@ -130,17 +130,21 @@ const InstructionLog = forwardRef(({ code, className }, ref) => {
   )
 })
 
-function FlameGraph({ className, items }) {
+function FlameGraph({ className, items, maxSize }) {
   const labelsCls = tw(apply`whitespace-pre-wrap leading-tight`, className);
-  let cumulative = [];
-  let sum = 0;
-  items.forEach((i) => cumulative.push((sum += i)));
+  let cumulative = items.reduce((acc, v) => acc+v, 0);
+  const maxItems = maxSize ? Math.max(maxSize, items.length) : items.length
+  const labelsText = _.times(maxItems, idx => {
+    const lineLabel = `${idx + 1}:`.padEnd(3)
+    const actionCostLabel = items[idx] && ('+'+items[idx]).padEnd(4)
+    const sumLabel = cumulative[idx] && '= '+cumulative[idx]
+    const str = _.filter([lineLabel, actionCostLabel, sumLabel], v => v).join(' ')
+    return str
+  }).join('\n')
+
   return (
     <pre className={labelsCls}>
-      {cumulative?.map(
-        (v, idx) =>
-          `${idx + 1}:`.padEnd(3) + ` +${`${items[idx]}`.padEnd(4)} = ${v}\n`
-      )}
+      {labelsText}
     </pre>
   );
 }
@@ -214,6 +218,7 @@ function SideBar({ className }) {
                 `translate-y-[-${scroll}px]`
               )}
               items={actionsCost}
+              maxSize={code.split('\n').length}
             />
           )}
           {editMode
@@ -433,7 +438,7 @@ function BlockDiv({ block }) {
     hoveredBlockId.set(block.name);
     hoveredBlock.set(block);
   }
-  const onClick = () => { 
+  const onClick = () => {
     clickedBlock.set(block);
 
     if (_activeCmd) {
@@ -692,7 +697,7 @@ function generateMergeUpCmds(cmdContext, startBlockId, endBlockId) {
       break;
     }
   }
-  
+
   return cmds.join("\n");
 }
 
@@ -771,7 +776,7 @@ function Footer() {
         });
         activeCmdArgs.set([]);
       }}>Cut Y</Button>
-      <Spacer size={5}/> 
+      <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
           name: "cut XY (click on a block, and then point to split)",
@@ -789,7 +794,7 @@ function Footer() {
         });
         activeCmdArgs.set([]);
       }}>Swap</Button>
-      <Spacer size={5}/>      
+      <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
           name: "color (click block to color to median)",
@@ -798,7 +803,7 @@ function Footer() {
         });
         activeCmdArgs.set([]);
       }}>Color to Med</Button>
-      <Spacer size={5}/>      
+      <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
           name: "merge range (click left/bottom block first, then the last one)",
