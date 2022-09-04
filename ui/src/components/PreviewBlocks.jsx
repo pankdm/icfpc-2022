@@ -44,9 +44,9 @@ export function HintBlocks({ blocks, onClickBlock, onMouseOverBlock, onMouseLeav
             block={block}
             color={highlightedBlocks[block.name]}
             highlighted={block.name in highlightedBlocks}
-            onClick={() => onClickBlock(block.name)}
-            onMouseOver={() => onMouseOverBlock(block.name)}
-            onMouseLeave={() => onMouseLeaveBlock(block.name)}
+            onClick={(ev) => onClickBlock(block.name, ev)}
+            onMouseOver={(ev) => onMouseOverBlock(block.name, ev)}
+            onMouseLeave={(ev) => onMouseLeaveBlock(block.name, ev)}
         />
     ))
 }

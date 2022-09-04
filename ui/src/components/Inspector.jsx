@@ -258,12 +258,6 @@ function SideBar({ className }) {
 
 function TargetPictureCanvas({ problemId, width, height, ...props }) {
   const canvasRef = useRef();
-  const _hoveredBlock = useStore(hoveredBlock);
-
-  const [code, setCode] = useAppState("currentCode");
-  const _activeCmd = useStore(activeCmd);
-  const _solutionResult = useStore(solutionResult);
-
   useEffect(() => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -294,49 +288,47 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
           )
         );
       }
-
-      if (_hoveredBlock) {
-        ctx.beginPath();
-        ctx.lineWidth = "2";
-        ctx.strokeStyle = "red";
-        ctx.rect(_hoveredBlock.begin.x,
-          height - _hoveredBlock.end.y,
-          _hoveredBlock.end.x - _hoveredBlock.begin.x,
-          _hoveredBlock.end.y - _hoveredBlock.begin.y);
-        ctx.stroke();
-      }
     });
-  }, [problemId, _hoveredBlock]);
-  return (
-    <canvas
-      id="picture-canvas"
-      ref={canvasRef}
-      width={width}
-      height={height}
-      onClick={(event)=> {
-        const canvasBoundingRect = event.target.getBoundingClientRect();
-        const ctx = problemPicture.get().ctx;
-        const x = event.clientX - canvasBoundingRect.x;
-        const y = event.clientY - canvasBoundingRect.y;
-        const yFlip = canvasBoundingRect.height - (event.clientY - canvasBoundingRect.y);
-        const pixel = {
-          x: Math.floor(x),
-          y: Math.floor(yFlip),
-          rgba: getCtxPixel(ctx, x, y).data
-        };
-        selectedPixel.set(pixel);
+  }, [problemId]);
 
-        if (_activeCmd) {
-          pushCmdArg({
-            code,
-            setCode,
-            solutionResult:_solutionResult,
-            problemId
-          }, pixel);
-        }
-      }}
-      {...props}
-    />
+
+  const [code, setCode] = useAppState("currentCode");
+  const _activeCmd = useStore(activeCmd);
+  const _solutionResult = useStore(solutionResult);
+
+  const onClickPixel = (event) => {
+    const canvasBoundingRect = canvasRef.current.getBoundingClientRect();
+    const ctx = problemPicture.get().ctx;
+    const x = event.clientX - canvasBoundingRect.x;
+    const y = event.clientY - canvasBoundingRect.y;
+    const yFlip = canvasBoundingRect.height - (event.clientY - canvasBoundingRect.y);
+    const pixel = {
+      x: Math.floor(x),
+      y: Math.floor(yFlip),
+      rgba: getCtxPixel(ctx, x, y).data
+    };
+    selectedPixel.set(pixel);
+    if (_activeCmd) {
+      console.log(pixel)
+      pushCmdArg({
+        code,
+        setCode,
+        solutionResult: _solutionResult,
+        problemId
+      }, pixel);
+    }
+  }
+  return (
+    <div onClick={onClickPixel}>
+      <canvas
+        id="picture-canvas"
+        ref={canvasRef}
+        width={width}
+        height={height}
+        {...props}
+      />
+      <HintBlocksView/>
+    </div>
   );
 }
 
@@ -356,7 +348,6 @@ function ProblemView() {
               Picture will show here
             </div>
         }
-        <BlocksHintView showPreviewBlocks={false} />
       </div>
     </div>
   );
@@ -426,7 +417,7 @@ function SolutionCanvas({ solution, width, height, ...props }) {
   );
 }
 
-function BlocksHintView({ showPreviewBlocks=true }) {
+function HintBlocksView({ showPreviewBlocks=true, disablePointerEvents=false }) {
   const _solutionResult = useStore(solutionResult);
   const blocks = _solutionResult?.blocks
 
@@ -448,7 +439,7 @@ function BlocksHintView({ showPreviewBlocks=true }) {
     hoveredBlockId.set();
     hoveredBlock.set();
   };
-  const onMouseEnterBlock = (blockId) => {
+  const onMouseEnterBlock = (blockId, ev) => {
     hoveredBlockId.set(blockId);
     hoveredBlock.set(blocks && blocks[blockId]);
   }
@@ -456,7 +447,7 @@ function BlocksHintView({ showPreviewBlocks=true }) {
   const _activeCmd = useStore(activeCmd);
   const [code, setCode] = useAppState("currentCode");
   const [problemId] = useAppState("currentProblemId");
-  const onClick = (blockId) => {
+  const onClick = (blockId, ev) => {
     const block = blocks[blockId]
     clickedBlock.set(block);
     if (_activeCmd) {
@@ -473,6 +464,7 @@ function BlocksHintView({ showPreviewBlocks=true }) {
     <HintBlocks
       blocks={blocks}
       highlightedBlocks={highlightedBlocks}
+      disablePointerEvents={disablePointerEvents}
       onClickBlock={onClick}
       onMouseOverBlock={onMouseEnterBlock}
       onMouseLeaveBlock={onMouseLeaveBlock}
@@ -492,7 +484,7 @@ function SolutionView() {
     <>
       <div className={tw`relative border`}>
         <SolutionCanvas solution={filteredCode} width={400} height={400} />
-        <BlocksHintView />
+        <HintBlocksView />
       </div>
     </>
   );
