@@ -25,7 +25,7 @@ import {
   getBlockDifferenceCost,
   useRaf,
   getCtxPixel,
-  parseBlockIdFromCommand,
+  parseBlockIdsFromCommand,
 } from "../utils";
 import { Select, TextArea } from "./Inputs";
 import { forwardRef } from "react";
@@ -54,6 +54,9 @@ const solutionError = atom();
 const solutionPirctureDiffCost = atom();
 const hoveredBlockId = atom();
 const hoveredBlock = atom();
+
+const previewBlockIds = atom();
+
 const clickedBlock = atom();
 const previewLOC = atom();
 const selectedPixel = atom();
@@ -105,16 +108,17 @@ const InstructionLog = forwardRef(({ code, className }, ref) => {
         const cls = tw(apply`w-full px-1 -mx-1 cursor-pointer rounded`, selected ? `bg-[rgba(255,120,120,0.75)]` : `hover:bg-[rgba(255,255,255,0.75)]`)
         const hoverLOC = () => {
           previewLOC.set(idx);
-          let blocks = parseBlockIdFromCommand(line);
-          if (blocks[0]) {
-            hoveredBlockId.set(blocks[0]);
-          }
+          let blockIds = parseBlockIdsFromCommand(line);
+          previewBlockIds.set(blockIds);
         }
         const onClick = () => {
           if (selected) {
             setSelectedLOC(null)
+            previewBlockIds.set([]);
           } else {
             setSelectedLOC(idx)
+            let blockIds = parseBlockIdsFromCommand(line);
+            previewBlockIds.set(blockIds);
           }
         }
         return <div key={idx} onClick={onClick} onMouseEnter={hoverLOC} className={cls}>{line}</div>
@@ -243,6 +247,7 @@ function SideBar({ className }) {
 function TargetPictureCanvas({ problemId, width, height, ...props }) {
   const canvasRef = useRef();
   const _hoveredBlock = useStore(hoveredBlock);
+
   useEffect(() => {
     if (!canvasRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -269,7 +274,6 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
           _hoveredBlock.end.y - _hoveredBlock.begin.y);
         ctx.stroke();
       }
-
 
       img.style.display = "none";
       const picturePixelData = getCtxFullImageData(ctx, width, height);
@@ -436,6 +440,42 @@ function BlockDiv({ block }) {
   );
 }
 
+function PreviewBlockDiv( { block } ) {
+  const _previewBlockIds = useStore(previewBlockIds);
+  const shouldHighlight = useMemo(() => {
+    if (_previewBlockIds) {
+      return _previewBlockIds.includes(block.name)
+    } else {
+      return false;
+    }
+  } , [_previewBlockIds]);
+
+  const size = block.getSize();
+  const borderWidth = 2;
+  const blockCls = tw(
+    apply`absolute w-[${size.x}px] h-[${size.y}px] left-[${
+      block.begin.x - borderWidth
+    }px] bottom-[${
+      block.begin.y - borderWidth
+    }px] bg-transparent border-${borderWidth} box-content border-transparent`,
+    shouldHighlight &&
+      `bg-[rgba(255,255,255,0.35)] border-blue-500`
+  );
+  const labelCls = tw(
+    apply`absolute bottom-full text-blue-500 font-bold hidden z-10`,
+    shouldHighlight && `inline`
+  );
+  return shouldHighlight ? (
+    <div
+      className={blockCls}
+    >
+      <span className={labelCls}>{block.name}</span>
+    </div>
+
+  ) : ( <div></div>)
+
+}
+
 function SolutionView() {
   const [code] = useAppState("currentCode");
   const _solutionResult = useStore(solutionResult);
@@ -451,6 +491,9 @@ function SolutionView() {
         <SolutionCanvas solution={filteredCode} width={400} height={400} />
         {_.map(blocks, (b) => (
           <BlockDiv key={b.name} block={b} />
+        ))}
+        {_.map(blocks, (b) => (
+          <PreviewBlockDiv key={b.name} block={b} />
         ))}
       </div>
     </>

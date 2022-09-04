@@ -237,7 +237,7 @@ export class Block extends Rect {
     }
 }
 
-export function parseBlockIdFromCommand(instruction: String) {
+export function parseBlockIdsFromCommand(instruction: String) {
     let _instruction = instruction.split('#', 1).toString().trim()
     if (!_instruction) {
         return []
@@ -251,7 +251,15 @@ export function parseBlockIdFromCommand(instruction: String) {
         return;
     }
     let blocks = [blockId]
-    if (cmd == "merge" || cmd == "swap") {
+    if (cmd == "cut") {
+        // also return results of all possible split
+        blocks.push(`${blockId}.0`);
+        blocks.push(`${blockId}.1`);
+        blocks.push(`${blockId}.2`);
+        blocks.push(`${blockId}.3`);
+    }
+
+    if (cmd == "swap" || cmd == "merge") {
         let otherBlockId = args[0]
         otherBlockId = otherBlockId.slice(1, -1)
         blocks.push(otherBlockId);
@@ -348,7 +356,7 @@ export function computeBlocksAndDraw(initialState, instructions, drawCtx, shadow
     let line = 0
     try {
         for (; line < codeLines.length; line++) {
-            console.log(line + 1, codeLines[line])
+            // console.log(line + 1, codeLines[line])
             executeCommand(blocks, codeLines[line], actionsCost, drawCtx, shadowDrawCtx)
         }
         return {
