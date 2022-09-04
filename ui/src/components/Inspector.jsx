@@ -767,7 +767,7 @@ function generateMergeUpCmds(cmdContext, startBlockId, endBlockId) {
     cmds.push(`merge [${lastBlockId}] [${rowNewBlockIds[xi]}]`);
     lastBlockId = `${maxBlockId + cmds.length}`;
   }
-  
+
   return cmds.join("\n");
 }
 
@@ -822,7 +822,7 @@ function Footer() {
   return (
     <Row className={tw`h-24 bg-gray-200 px-4`}>
       <Spacer flex={1}/>
-      <h1 className={tw`text-4xl font-bold mb-4`}>{_activeCmd?.name} {_activeCmdArgs?.join(", ")}</h1>
+      <h2 className={tw`text-2xl font-bold mb-4`}>{_activeCmd?.name} {_activeCmdArgs?.join(", ")}</h2>
       <Spacer size={5}/>
       <Button color='red' onClick={() => {
         activeCmd.set();
