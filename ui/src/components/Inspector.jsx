@@ -404,26 +404,6 @@ function ProblemView() {
   );
 }
 
-function computeCode(initialState, code, width, height) {
-  const { ctx, shadowCtx } = solutionPicture.get()
-  const result = computeBlocksAndDraw(initialState, code, ctx, shadowCtx);
-  solutionResult.set(result);
-  solutionError.set(
-    result.error ? { error: result.error, line: result.errorLine } : null
-  );
-  const solutionPixelData = getCtxFullImageData(ctx, width, height);
-  solutionPicture.set({
-    ...solutionPicture.get(),
-    pixelData: solutionPixelData,
-  });
-  const picturePixelData = problemPicture.get()?.pixelData;
-  if (picturePixelData) {
-    solutionPirctureDiffCost.set(
-      getPictureDifferenceCost(solutionPixelData, picturePixelData, 400, 400)
-    );
-  }
-}
-
 function SolutionCanvas({ solution, width, height, ...props }) {
   const { problemId } = useParams()
   const { data } = useQuery(["problemInitialState" + problemId], () => getProblemInitialState(problemId));
@@ -433,6 +413,27 @@ function SolutionCanvas({ solution, width, height, ...props }) {
     .split("\n")
     .map((s) => s.split("#", 1).toString().trim())
     .join("\n");
+
+  const computeCodeAndDraw = (initialState, code, width, height) => {
+    const { ctx, shadowCtx } = solutionPicture.get()
+    const result = computeBlocksAndDraw(initialState, code, ctx, shadowCtx);
+    solutionResult.set(result);
+    solutionError.set(
+      result.error ? { error: result.error, line: result.errorLine } : null
+    );
+    const solutionPixelData = getCtxFullImageData(ctx, width, height);
+    solutionPicture.set({
+      ...solutionPicture.get(),
+      pixelData: solutionPixelData,
+    });
+    const picturePixelData = problemPicture.get()?.pixelData;
+    if (picturePixelData) {
+      solutionPirctureDiffCost.set(
+        getPictureDifferenceCost(solutionPixelData, picturePixelData, 400, 400)
+      );
+    }
+  }
+
   useEffect(() => {
     if (!data || !justCode || !canvasRef.current || !canvasShadowRef.current) return;
     const ctx = canvasRef.current.getContext("2d");
@@ -446,7 +447,7 @@ function SolutionCanvas({ solution, width, height, ...props }) {
       ctx: ctx,
       shadowCtx: shadowCtx,
     });
-    computeCode(data, justCode, width, height);
+    computeCodeAndDraw(data, justCode, width, height);
   }, [justCode, data, problemId]);
   return (
     <>
