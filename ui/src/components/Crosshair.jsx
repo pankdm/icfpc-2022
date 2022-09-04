@@ -2,7 +2,6 @@ import _ from 'lodash'
 import { apply, tw } from 'twind'
 
 export function Crosshair({color='yellow', width, height, x, y}) {
-    console.log(x, y)
     return (
         <div className={tw(
             apply`w-[${width}px] h-[${height}px] pointer-events-none absolute inset-0`

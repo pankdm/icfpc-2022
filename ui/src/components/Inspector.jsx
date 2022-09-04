@@ -319,10 +319,34 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
       }, pixel);
     }
   }
+  const [dragging, setDragging] = useState(false)
+  const onMouseDown = (event) => {
+    setDragging(true)
+  }
+  const onMouseMove = (event) => {
+    if (!dragging) return
+    const canvasBoundingRect = canvasRef.current.getBoundingClientRect();
+    const ctx = problemPicture.get().ctx;
+    const x = event.clientX - canvasBoundingRect.x;
+    const y = event.clientY - canvasBoundingRect.y;
+    const yFlip = canvasBoundingRect.height - (event.clientY - canvasBoundingRect.y);
+    const pixel = {
+      x: Math.floor(x),
+      y: Math.floor(yFlip),
+      rgba: getCtxPixel(ctx, x, y).data
+    };
+    selectedPixel.set(pixel);
+  }
+  const onMouseUp = () => {
+    setDragging(false)
+  }
   return (
     <canvas
       id="picture-canvas"
       onClick={onClickPixel}
+      onMouseDown={onMouseDown}
+      onMouseMove={onMouseMove}
+      onMouseUp={onMouseUp}
       ref={canvasRef}
       width={width}
       height={height}

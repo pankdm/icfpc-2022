@@ -39,7 +39,6 @@ const Block = ({className, ...props}) => {
 // }
 
 export function HintBlocks({ className, blocks, onClickBlock, onMouseOverBlock, onMouseLeaveBlock, highlightedBlocks = {}, disablePointerEvents=false }) {
-    console.log({disablePointerEvents})
     return (
         <div className={tw(disablePointerEvents && apply`pointer-events-none`, className)}>
             {_.map(blocks, block => (
