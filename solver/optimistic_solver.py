@@ -1,13 +1,8 @@
-import imp
-from turtle import shape
-from matplotlib.pyplot import flag
 import costs
 import dataclasses
 import numpy as np
 import typing
 import itertools
-import requests
-import os.path
 from PIL import Image
 import numpy as np
 import sys
@@ -19,7 +14,7 @@ def open_as_np(n):
     img=Image.open(f"{sys.path[0]}/../problems/{n}.png")
     a=np.asarray(img)
     return a[::-1,:].swapaxes(0,1)
-    
+
 @dataclasses.dataclass
 class Point:
     x: int
@@ -150,7 +145,7 @@ class Solver:
 
             line_cut_cost = costs.get_cost(costs.COSTS.LINECUT, sp.size)
             options.append(
-                Option(cmds=[f"cut {block_id} x [{best_option[0]}]"] + 
+                Option(cmds=[f"cut {block_id} x [{best_option[0]}]"] +
                 o1.cmds + o2.cmds, score=line_cut_cost + o1.score + o2.score)
             )
 
@@ -172,7 +167,7 @@ class Solver:
             o2 = self.improve(
                 sp=sps[1], block_id=f"{block_id}.1", current_color=current_color, depth=depth + 1)
             options.append(
-                Option(cmds=[f"cut {block_id} y [{best_option[0]}]"] + 
+                Option(cmds=[f"cut {block_id} y [{best_option[0]}]"] +
                 o1.cmds + o2.cmds, score=line_cut_cost + o1.score + o2.score)
             )
 
@@ -199,11 +194,11 @@ class Solver:
             ]
             o_score = sum([o.score for o in ops])
             options.append(
-                Option(cmds=[f"cut {block_id} {best_option[0]}"] + 
+                Option(cmds=[f"cut {block_id} {best_option[0]}"] +
                 list(itertools.chain.from_iterable([o.cmds for o in ops])),
                 score=pt_cut_cost + o1.score + o2.score)
             )
-        
+
         print(f"options = {options}")
         best_option = None
         for o in options:

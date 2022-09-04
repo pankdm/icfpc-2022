@@ -1,11 +1,3 @@
-from audioop import avg
-from glob import glob
-import imp
-import numbers
-from turtle import shape
-from matplotlib.pyplot import flag
-from soupsieve import match
-
 try:
     import costs
 except ImportError:
@@ -15,19 +7,16 @@ import dataclasses
 import numpy as np
 import typing
 import itertools
-import requests
-import os.path
 import os
 from PIL import Image
 import numpy as np
-import sys
 import time
 
 try:
     import geometric_median as gm
 except ImportError:
     import solver.geometric_median as gm
-    
+
 import json
 
 PROBLEMS_DIR = "./problems"
@@ -227,7 +216,7 @@ class Solver:
         # while min_size <= zoom_limit and zoom_limit >= 10:
         #     max_zoom += 1
         #     zoom_limit /= 2
-            
+
         start = time.time()
         med_color = self.compute_geom_med_color(sp)
         end = time.time()
@@ -406,12 +395,12 @@ class Solver:
         ideal_colors = {}
         for i, block in enumerate(self.initial_blocks):
             ideal_colors[block.block_id] = self.get_geom_med_color(block.shape)
-        
+
         cmds = []
         fixed_block_ids = set()
         total_costs=0
         similarities = 0
-        while block_ids_to_fix: 
+        while block_ids_to_fix:
             block_id = block_ids_to_fix.pop()
             if block_id in fixed_block_ids:
                 continue
@@ -423,7 +412,7 @@ class Solver:
             swap_cost = costs.get_cost(costs.COSTS.SWAP, block.shape.size)
             color_cost = costs.get_cost(costs.COSTS.COLOR, block.shape.size)
             ideal_similarity = costs.float_simil(subimg - ideal_color)
-            just_recolor_score_delta = (color_cost + (ideal_similarity - old_similarity))            
+            just_recolor_score_delta = (color_cost + (ideal_similarity - old_similarity))
 
             if rounded_color(block.color) == ideal_color or old_similarity < swap_cost:
                 # Already good.
@@ -439,7 +428,7 @@ class Solver:
                     continue
                 if other_block.block_id == block_id or other_block.block_id in fixed_block_ids:
                     continue
-                
+
                 new_similarity = costs.float_simil(subimg - other_block.color)
 
                 other_subimg = self.subimage(other_block.shape)
@@ -455,7 +444,7 @@ class Solver:
                     similarities += new_similarity + new_similarity2
                     has_swapped = True
                     break
-            
+
             # If can't swap, repaint it, or leave as-is if coloring is too expensive.
             if not has_swapped:
                 if just_recolor_score_delta < 0:
