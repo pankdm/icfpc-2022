@@ -563,7 +563,7 @@ function Face2FaceView() {
           <Spacer size={8} />
           <ProblemView />
         </Row>
-        <div className={tw`min-w-[28rem] pl-[6rem] min-h-[12rem] items-start`}>
+        <div className={tw`min-w-[28rem] pl-[6rem] h-[16rem] items-start`}>
           <p>Picture diff cost: {differenceCost}</p>
           <p>Total actions cost: {totalActionsCost}</p>
           <p>Grand total: {differenceCost + totalActionsCost}</p>
