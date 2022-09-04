@@ -1,3 +1,4 @@
+from concurrent.futures import ThreadPoolExecutor
 import os
 from flask_cors import CORS
 from flask import Flask, request, send_from_directory
@@ -104,7 +105,14 @@ def get_problems():
     problems_files = os.listdir(problems_dir)
     problems = sorted([int(p.rstrip('.png'))
                       for p in problems_files if '.png' in p and '.initial' not in p])
-    return {'problems': problems}
+    pool = ThreadPoolExecutor(max_workers=5)
+    user_stats_future = pool.submit(ICFPC.get_cached_results_user)
+    # submissions_future = pool.submit(ICFPC.get_cached_submissions)
+    pool.shutdown()
+    user_stats = user_stats_future.result()
+    # submissions = submissions_future.result()
+    problems = user_stats['results']
+    return { 'problems': problems }
 
 
 @app.get("/solutions")
@@ -138,7 +146,6 @@ def post_submit():
     assert problem, 'Required input: problem'
     assert solution, 'Required input: solution'
     return ICFPC.submit(problem, solution)
-
 
 @app.get('/icfpc/<path:path>')
 def get_icfpc_endpoint(path):

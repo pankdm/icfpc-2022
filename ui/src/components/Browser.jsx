@@ -8,24 +8,40 @@ import { Col, Row } from "./common/Flex";
 import API, { getProblemImgUrl, ICFPC } from "../api";
 import { HeaderLink } from "./common/HeaderLink";
 import { css } from "twind/css";
+import { format } from "date-fns";
 
 
-function ProblemItem({id, ...props}) {
-  const navigate = useNavigate()
+function ProblemItem({problem, ...props}) {
+  const {
+    problem_id: id,
+    problem_name: name,
+    min_cost,
+    overall_best_cost,
+    last_submitted_at,
+  } = problem
+  const lastSubmitted = new Date(last_submitted_at)
+  const bounty = min_cost - overall_best_cost
+  // console.log(problem)
+  // const navigate = useNavigate()
   const onClick = () => {
-    navigate(`/problems/${id}`)
+    window.location.href = `/problems/${id}`
+    // navigate(`/problems/${id}`)
   }
   return (
     <Row gutter={2} className={tw`px-3 py-2 shadow hover:shadow-md transition cursor-pointer`} onClick={onClick} {...props}>
       <img width={120} height={120} src={getProblemImgUrl(id)} />
-      <p className={tw`text-lg`}>Problem {id}</p>
+      <p className={tw`flex-1`}>{id}: {name}</p>
+      <p className={tw`w-24`}>{min_cost}</p>
+      <p className={tw`w-24`}>{overall_best_cost}</p>
+      <p className={tw`w-24`}>{bounty}</p>
+      <p className={tw`w-28`}>{format(lastSubmitted, 'MMM d, HH:mm')}</p>
     </Row>
   )
 }
 
 export default function Browser() {
   // const { data } = useQuery(['problems'], ICFPC.getScoreboard)
-  const { data } = useQuery(['problems'], API.getProblems)
+  const { data, loading } = useQuery(['problems'], API.getProblems)
   const problems = data?.problems
   // console.log(data, problems)
   return (
@@ -38,10 +54,22 @@ export default function Browser() {
           <Spacer size={2} />
         </Row>
       </Row>
+      <Row gutter={2} className={tw`max-w-[960px] w-full px-3 py-2 mx-auto font-bold`}>
+        <div className={tw`w-[120px]`} />
+        <div className={tw`w-1`} />
+        <p className={tw`flex-1`}>Problem</p>
+        <p className={tw`w-24`}>Our Best</p>
+        <p className={tw`w-24`}>Record</p>
+        <p className={tw`w-24`}>Bounty</p>
+        <p className={tw`w-28`}>Last Sent</p>
+      </Row>
+      {loading && (
+        <p className={tw`text-2xl`}>Loading...</p>
+      )}
       <div className={tw`flex-1 w-full overflow-auto mx-auto`}>
         <Col gutter={2} className={tw`max-w-[960px] w-full items-stretch mx-auto`}>
           {problems?.map((p, idx) => (
-            <ProblemItem key={idx} id={idx+1} />
+            <ProblemItem key={idx} problem={p} />
           ))}
           <Spacer/>
         </Col>

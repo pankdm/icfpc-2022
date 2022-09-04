@@ -24,17 +24,17 @@ export function Header() {
       <Row className={tw`w-[24rem]`}/>
       <Spacer flex={1} />
       <Row gutter={2} className={tw(`px-3`, css({ flexBasis: '960px' }))}>
-        <HeaderLink to='/'>← Challanges</HeaderLink>
+        <HeaderLink to='/all-problems'>← Challanges</HeaderLink>
         <p className={tw`font-bold text-xl`}>Problem</p>
         <Select
           value={problemId || "__none"}
-          onChangeValue={(id) => navigate(`/problems/${id}`)}
+          onChangeValue={(id) => { window.location.href = `/problems/${id}` }}
           className={tw`w-48`}
         >
           {!problemId && <option value="__none">&lt;Pick one&gt;</option>}
           {data?.problems?.map((opt) => (
-            <option key={opt} value={opt}>
-              {opt}
+            <option key={opt.problem_id} value={opt.problem_id}>
+              {opt.problem_id}
             </option>
           ))}
         </Select>

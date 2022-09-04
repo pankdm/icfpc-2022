@@ -12,7 +12,8 @@ function App() {
     <div id='App'>
       <Router>
         <Routes>
-          <Route path="/" element={<Browser/>} />
+          <Route path="/" element={<Inspector />} />
+          <Route path="/all-problems" element={<Browser />} />
           <Route path="/problems" element={<Inspector/>} />
           <Route path="/problems/:problemId" element={<Inspector/>} />
         </Routes>

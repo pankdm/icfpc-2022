@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from dateutil.parser import parse as dateparse
+from ..utils import cached
 import os
 import requests
 import requests.auth
@@ -49,6 +50,32 @@ def get_results_scoreboard():
     response = icfpc_client.session.get(API_ROOT+'/results/scoreboard')
     response.raise_for_status()
     return response.json()
+
+def get_results_user():
+    '''
+    User scores: problems, best scores
+    '''
+    ensure_auth()
+    response = icfpc_client.session.get(API_ROOT+'/results/user')
+    response.raise_for_status()
+    return response.json()
+
+@cached(ttl=60)
+def get_cached_results_user():
+    return get_results_user()
+
+def get_submissions():
+    '''
+    All submissions
+    '''
+    ensure_auth()
+    response = icfpc_client.session.get(API_ROOT+'/submissions')
+    response.raise_for_status()
+    return response.json()
+
+@cached(ttl=60)
+def get_cached_submissions():
+    return get_submissions()
 
 def proxy_get_endpoint(path):
     ensure_auth()
