@@ -776,10 +776,25 @@ async function generateBinarySolverCmds(cmdContext, blockId) {
 }
 
 async function generateRectCmds(cmdContext, pt1, pt2) {
-  const x0 = Math.min(pt1.x, pt2.x);
-  const y0 = Math.min(pt1.y, pt2.y);
-  const x1 = Math.max(pt1.x, pt2.x);
-  const y1 = Math.max(pt1.y, pt2.y);
+  let x0 = Math.min(pt1.x, pt2.x);
+  let y0 = Math.min(pt1.y, pt2.y);
+  let x1 = Math.max(pt1.x, pt2.x);
+  let y1 = Math.max(pt1.y, pt2.y);
+  console.log({x0, y0, x1, y1})
+
+  // snap to grid
+  if (x0 < 10) {
+    x0 = 0;
+  }
+  if (x1 > 390) {
+    x1 = 400
+  }
+  if (y0 < 10) {
+    y0 = 0;
+  }
+  if (y1 > 390) {
+    y1 = 400;
+  }
 
   const problemId = cmdContext.problemId;
   const geometricMedianData = await getGeometricMedian(problemId, x0, x1, y0, y1);
@@ -793,6 +808,16 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
     return [`${a}.0`, `${a}.1`, `${a}.2`, `${a}.3`]
   }
 
+  const cut_y = (a, y) => {
+    cmds.push(`cut [${a}] [y] [${y}]`)
+    return [`${a}.0`, `${a}.1`]
+  }
+
+  const cut_x = (a, x) => {
+    cmds.push(`cut [${a}] [x] [${x}]`)
+    return [`${a}.0`, `${a}.1`]
+  }
+
 
   // const currentBlockId = "0";
   const blocks = cmdContext.solutionResult.blocks;
@@ -801,28 +826,49 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
   console.log(maxBlockId);
 
   const merge = (a, b) => {
+    if (a === undefined) return b;
+    if (b === undefined) return a;
     cmds.push(`merge [${a}] [${b}]`);
     maxBlockId = maxBlockId + 1;
     return maxBlockId;
   }
 
 
-  let cur = maxBlockId;
-  let [a0, a1, a2, a3] = split(cur, [x0, y0]);
-  cur = a2;
-
-  let [b0, b1, b2, b3] = split(cur, [x1, y1]);
-  cur = b0;
+  let cur = maxBlockId, b1, b2, b3, b4;
+  if (y0 > 0) {
+    [b1, cur] = cut_y(cur, y0);
+  }
+  if (x0 > 0) {
+    [b2, cur] = cut_x(cur, x0);
+  }
+  if (x1 < 400) {
+    [cur, b3] = cut_y(cur, y1);
+  }
+  if (y1 < 400) {
+    [cur, b4] = cut_x(cur, x1);
+  }
 
   cmds.push(`color [${cur}] [${geometricMedianData?.color.join(", ")}]`);
 
-  const top = merge(b2, b3);
-  cur = merge(cur, b1);
-  cur = merge(cur, top);
+  cur = merge(cur, b4)
+  cur = merge(cur, b3)
+  cur = merge(cur, b2)
+  cur = merge(cur, b1)
 
-  const bottom = merge(a0, a1);
-  cur = merge(cur, a3);
-  cur = merge(cur, bottom);
+  // let [a0, a1, a2, a3] = split(cur, [x0, y0]);
+  // cur = a2;
+  // let [b0, b1, b2, b3] = split(cur, [x1, y1]);
+  // cur = b0;
+  // const top = merge(b2, b3);
+  // 
+  // cur = merge(cur, b1);
+  // cur = merge(cur, top);
+
+  // const bottom = merge(a0, a1);
+  // cur = merge(cur, a3);
+  // cur = merge(cur, bottom);
+
+
 
   return cmds.join("\n")
 }
