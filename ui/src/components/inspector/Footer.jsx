@@ -27,9 +27,7 @@ export function Footer() {
   useHotkeys('Esc', () => resetCmdStack());
   useHotkeys('R', () => activateCmd(CMDs.rect));
   useHotkeys('X', () => activateCmd(CMDs.cutX));
-  useHotkeys('V', () => activateCmd(CMDs.cutX));
   useHotkeys('Y', () => activateCmd(CMDs.cutY));
-  useHotkeys('H', () => activateCmd(CMDs.cutY));
   useHotkeys('P', () => activateCmd(CMDs.cutXY));
   useHotkeys('M', () => activateCmd(CMDs.mergeRange));
   useHotkeys('Enter', () => activateCmd(CMDs.binarySolver));
