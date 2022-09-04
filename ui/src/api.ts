@@ -35,11 +35,11 @@ export async function getProblem(problemId): Promise<ArrayBuffer> {
   return await api_request(`/problems/${problemId}`, { method: 'GET' })
 }
 
-export async function getProblemInitialState(problemId): Promise<ArrayBuffer> {
+export async function getProblemInitialState(problemId) {
   return await api_request(`/problem_initial_states/${problemId}`, { method: 'GET' })
 }
 
-export async function getGeometricMedian(problemId, x1, x2, y1, y2): Promise<ArrayBuffer> {
+export async function getGeometricMedian(problemId, x1, x2, y1, y2) {
   return await api_request(`/geometric_median`, {
     method: 'POST',
     headers: {
@@ -55,7 +55,7 @@ export async function getGeometricMedian(problemId, x1, x2, y1, y2): Promise<Arr
   });
 }
 
-export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2, initialColor): Promise<ArrayBuffer> {
+export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2, initialColor) {
   return await api_request(`/run_solver`, {
     method: 'POST',
     headers: {

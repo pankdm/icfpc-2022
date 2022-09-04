@@ -14,10 +14,9 @@ import {
   getSolution,
   getSolutions,
   getGeometricMedian,
-  getBinarySolverSolution,
 } from "../api";
 import { getAppState, setAppState, useAppState } from "../app-state";
-import Spacer, { Interspaced } from "./Spacer";
+import Spacer from "./Spacer";
 import Button from "./Button";
 import { Col, Row } from "./Flex";
 import {
@@ -29,13 +28,32 @@ import {
   useRaf,
   getCtxPixel,
   parseBlockIdsFromCommand,
-} from "../utils";
+} from "../utils/utils";
 import { Select, TextArea } from "./Inputs";
 import { forwardRef } from "react";
 import { HintBlocks } from "./PreviewBlocks";
 import { Crosshair } from "./Crosshair";
 
-const problemPicture = atom();
+import {
+  problemPicture,
+
+  solutionResult,
+  solutionError,
+  solutionPirctureDiffCost,
+
+  previewLOC,
+  previewBlockIds,
+  hoveredBlockId,
+  hoveredBlock,
+  clickedBlock,
+  clickedBlockMedianColor,
+  selectedPixel,
+
+  activeCmd,
+  activeCmdArgs,
+} from "../stores";
+import * as codegen from '../utils/codegen'
+
 function getProblemPixels(width, height) {
   const ctx = problemPicture.get()?.ctx;
   return getCtxPixels(ctx, width, height);
@@ -54,22 +72,7 @@ function getSolutionPixel(x, y) {
   const ctx = solutionPicture.get()?.ctx;
   return getCtxPixel(ctx, x, y);
 }
-const solutionResult = atom();
-const solutionError = atom();
-const solutionPirctureDiffCost = atom();
-
-export const hoveredBlockId = atom();
-export const hoveredBlock = atom();
-export const previewBlockIds = atom();
-
-const clickedBlock = atom();
-const clickedBlockMedianColor = atom();
-const previewLOC = atom();
-const selectedPixel = atom();
-const activeCmd = atom();
-const activeCmdArgs = atom();
-
-const isRunningSolver = atom();
+export const isRunningSolver = atom();
 
 window.solutionResult = solutionResult;
 window.problemPicture = problemPicture;
@@ -340,7 +343,8 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
     const pixel = getPixel(event)
     selectedPixel.set(pixel);
     if (_activeCmd) {
-      pushCmdArg({point: pixel, block: hoveredBlock.get()?.name});
+      const { x, y } = pixel
+      pushCmdArg({ point: { x, y }, block: hoveredBlock.get()?.name});
     }
   }
 
@@ -633,289 +637,9 @@ function Face2FaceView() {
 }
 
 
-function generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, direction) {
-  const {solutionResult} = cmdContext;
-
-  if (typeof startBlockId !== 'string') { throw Error(`startBlockId must be a string: ${startBlockId}`); }
-  if (typeof endBlockId !== 'string') { throw Error(`startBlockId must be a string: ${startBlockId}`); }
-
-  function findNextUp(thisBlock) {
-    for (let otherBlockId in solutionResult.blocks) {
-      const otherBlock = solutionResult.blocks[otherBlockId];
-      if (otherBlock.begin.y === thisBlock.end.y &&
-          otherBlock.begin.x === thisBlock.begin.x &&
-          otherBlock.end.x === thisBlock.end.x) {
-            return otherBlockId;
-          }
-    }
-  }
-
-  function findNextRight(thisBlock) {
-    for (let otherBlockId in solutionResult.blocks) {
-      const otherBlock = solutionResult.blocks[otherBlockId];
-      if (otherBlock.begin.x === thisBlock.end.x &&
-          otherBlock.begin.y === thisBlock.begin.y &&
-          otherBlock.end.y === thisBlock.end.y) {
-            return otherBlockId;
-          }
-    }
-  }
-
-  let startBlock = solutionResult.blocks[startBlockId];
-  let endBlock = solutionResult.blocks[endBlockId];
-
-  console.log('startBlock ', startBlock, 'endBlock ', endBlock);
-
-  let findNext = undefined;
-  if (direction === 'up') {
-    findNext = findNextUp;
-  } else if (direction === "right") {
-    findNext = findNextRight;
-  } else {
-    throw new Error(`Bad direction ${direction}`);
-  }
-
-  const cmds = [];
-  let currentBlock = startBlock;
-  let currentBlockId = startBlockId;
-  const maxBlockId = _.max(Object.keys(solutionResult.blocks).map(id => JSON.parse(id.split(".")[0])))
-  while (true) {
-    const nextId = findNext(currentBlock);
-    if (nextId) {
-      cmds.push(`merge [${currentBlockId}] [${nextId}]`);
-      currentBlockId = `${parseInt(maxBlockId) + cmds.length}`;
-      currentBlock = solutionResult.blocks[nextId];
-
-      if (nextId === endBlockId) {
-        break;
-      }
-    } else {
-      break;
-    }
-  }
-
-  return cmds.join("\n");
-}
-
-function generateMergeUpCmds(cmdContext, startBlockId, endBlockId) {
-  const {solutionResult} = cmdContext;
-
-  const blocks = solutionResult.blocks;
-
-  const startBlock = blocks[startBlockId];
-  const endBlock = blocks[endBlockId];
-
-  if (startBlock.begin.x == endBlock.begin.x &&
-      startBlock.end.x == endBlock.end.x &&
-      endBlock.begin.y >= startBlock.end.y) {
-        return generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, "up");
-  } else if (startBlock.begin.y == endBlock.begin.y &&
-    startBlock.end.y == endBlock.end.y &&
-    endBlock.begin.x >= startBlock.end.x) {
-      return generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, "right");
-  } else if (startBlock.begin.x > endBlock.begin.x ||
-    startBlock.begin.y > endBlock.begin.y) {
-      window.alert("bad block order");
-    }
-
-  // Reconstruct the grid.
-  const xStep = startBlock.getSize().x;
-  const yStep = startBlock.getSize().y;
-  const xSize = (endBlock.end.x - startBlock.begin.x) / xStep;
-  const ySize = (endBlock.end.y - startBlock.begin.y) / yStep;
-  const grid = new Map();
-  for (let xi = 0; xi < xSize; xi++) {
-    for (let yi = 0; yi < ySize; yi++) {
-      let found = false;
-      for (const blockId in blocks) {
-        const block  = blocks[blockId];
-        if (block.begin.x === startBlock.begin.x + xi * xStep &&
-            block.begin.y === startBlock.begin.y + yi * yStep &&
-            block.end.x === startBlock.begin.x + (xi + 1) * xStep &&
-            block.end.y === startBlock.begin.y + (yi + 1) * yStep) {
-              grid.set(`${xi}_${yi}`, block);
-              found = true;
-              break;
-            }
-      }
-      if (!found) {
-        window.alert("not a grid");
-        return "";
-      }
-    }
-  }
-
-  const maxBlockId = parseInt(_.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0]))));
-  const cmds = [];
-
-  // Merge rows first.
-  const rowNewBlockIds = [];
-  for (let xi = 0; xi < xSize; xi++) {
-    let lastBlockId = grid.get(`${xi}_${0}`).name;
-    for (let yi = 1; yi < ySize; yi++) {
-      const curBlockId = grid.get(`${xi}_${yi}`).name;
-      cmds.push(`merge [${lastBlockId}] [${curBlockId}]`);
-      lastBlockId = `${maxBlockId + cmds.length}`;
-    }
-    rowNewBlockIds.push(lastBlockId);
-  }
-
-  // Merge columns.
-  let lastBlockId = rowNewBlockIds[0];
-  for (let xi = 1; xi < xSize; xi++) {
-    cmds.push(`merge [${lastBlockId}] [${rowNewBlockIds[xi]}]`);
-    lastBlockId = `${maxBlockId + cmds.length}`;
-  }
-
-  return cmds.join("\n");
-}
-
-function generateSplitXCmds(cmdContext, blockId, point) {
-  return [`cut [${blockId}] [x] [${point.x}]`];
-}
-
-function generateSplitYCmds(cmdContext, blockId, point) {
-  return [`cut [${blockId}] [y] [${point.y}]`];
-}
-
-function generateSplitXYCmds(cmdContext, blockId, point) {
-  return [`cut [${blockId}] [${point.x}, ${point.y}]`];
-}
-
-function generateSwapCmds(cmdContext, blockId1, blockId2) {
-  return [`swap [${blockId1}] [${blockId2}]`];
-}
-
-async function generateColorToMedCmds(cmdContext, blockId) {
-  const block = cmdContext.solutionResult.blocks[blockId];
-  const problemId = cmdContext.problemId;
-  const geometricMedianData = await getGeometricMedian(problemId, block.begin.x, block.end.x, block.begin.y, block.end.y);
-
-  return [`color [${blockId}] [${geometricMedianData?.color.join(", ")}]`];
-}
-
-async function generateBinarySolverCmds(cmdContext, blockId) {
-  const code = cmdContext.code;
-  const block = cmdContext.solutionResult.blocks[blockId];
-  const problemId = cmdContext.problemId;
-
-  let initialColor = [255,255,255,255];
-  const colorPrefix = `color [${blockId}] `;
-  for (let line of code.split("\n").reverse()) {
-    if (line.startsWith(colorPrefix)) {
-      initialColor = JSON.parse(line.slice(colorPrefix.length));
-    }
-  }
-  console.log('initialColor = ', initialColor);
-
-  isRunningSolver.set(true);
-  const responseData = await getBinarySolverSolution(
-    problemId, blockId, block.begin.x, block.end.x, block.begin.y, block.end.y,
-    initialColor);
-  isRunningSolver.set(false);
-
-  return "# solver response\n" + responseData?.cmds.join("\n");
-}
-
-async function generateRectCmds(cmdContext, pt1, pt2) {
-  let x0 = Math.min(pt1.x, pt2.x);
-  let y0 = Math.min(pt1.y, pt2.y);
-  let x1 = Math.max(pt1.x, pt2.x);
-  let y1 = Math.max(pt1.y, pt2.y);
-  console.log({x0, y0, x1, y1})
-
-  // snap to grid
-  if (x0 < 10) {
-    x0 = 0;
-  }
-  if (x1 > 390) {
-    x1 = 400
-  }
-  if (y0 < 10) {
-    y0 = 0;
-  }
-  if (y1 > 390) {
-    y1 = 400;
-  }
-
-  const problemId = cmdContext.problemId;
-  const geometricMedianData = await getGeometricMedian(problemId, x0, x1, y0, y1);
 
 
-  let cmds = []
-  cmds.push(`\n### RECT ###`)
-
-  const split = (a, pt) => {
-    cmds.push(`cut [${a}] [${pt[0]}, ${pt[1]}] `)
-    return [`${a}.0`, `${a}.1`, `${a}.2`, `${a}.3`]
-  }
-
-  const cut_y = (a, y) => {
-    cmds.push(`cut [${a}] [y] [${y}]`)
-    return [`${a}.0`, `${a}.1`]
-  }
-
-  const cut_x = (a, x) => {
-    cmds.push(`cut [${a}] [x] [${x}]`)
-    return [`${a}.0`, `${a}.1`]
-  }
-
-
-  // const currentBlockId = "0";
-  const blocks = cmdContext.solutionResult.blocks;
-  console.log(blocks);
-  let maxBlockId = parseInt(_.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0]))));
-  console.log(maxBlockId);
-
-  const merge = (a, b) => {
-    if (a === undefined) return b;
-    if (b === undefined) return a;
-    cmds.push(`merge [${a}] [${b}]`);
-    maxBlockId = maxBlockId + 1;
-    return maxBlockId;
-  }
-
-
-  let cur = maxBlockId, b1, b2, b3, b4;
-  if (y0 > 0) {
-    [b1, cur] = cut_y(cur, y0);
-  }
-  if (x0 > 0) {
-    [b2, cur] = cut_x(cur, x0);
-  }
-  if (y1 < 400) {
-    [cur, b3] = cut_y(cur, y1);
-  }
-  if (x1 < 400) {
-    [cur, b4] = cut_x(cur, x1);
-  }
-
-  cmds.push(`color [${cur}] [${geometricMedianData?.color.join(", ")}]`);
-
-  cur = merge(cur, b4)
-  cur = merge(cur, b3)
-  cur = merge(cur, b2)
-  cur = merge(cur, b1)
-
-  // let [a0, a1, a2, a3] = split(cur, [x0, y0]);
-  // cur = a2;
-  // let [b0, b1, b2, b3] = split(cur, [x1, y1]);
-  // cur = b0;
-  // const top = merge(b2, b3);
-  //
-  // cur = merge(cur, b1);
-  // cur = merge(cur, top);
-
-  // const bottom = merge(a0, a1);
-  // cur = merge(cur, a3);
-  // cur = merge(cur, bottom);
-
-
-
-  return cmds.join("\n")
-}
-
-async function pushCmdArg({block, point}) {
+export async function pushCmdArg({ block, point }) {
   const code = getAppState('currentCode')
   const setCode = (code) => setAppState('currentCode', code)
   const problemId = getAppState('currentProblemId')
@@ -947,101 +671,98 @@ async function pushCmdArg({block, point}) {
   }
 }
 
+
+const CMDs = {
+  rect: {
+    name: "rect (clickTwoPoints)",
+    codeGenerator: codegen.generateRectCmds,
+    numArgs: 2,
+    argTypes: ['point', 'point'],
+  },
+  cutX: {
+    name: "cutX (click on a block, and then point to split)",
+    codeGenerator: codegen.generateSplitXCmds,
+    numArgs: 2,
+    argTypes: ['block', 'point'],
+  },
+  cutY: {
+    name: "cutY (click on a block, and then point to split)",
+    codeGenerator: codegen.generateSplitYCmds,
+    numArgs: 2,
+    argTypes: ['block', 'point'],
+  },
+  cutXY: {
+    name: "cutXY (click on a block, and then point to split)",
+    codeGenerator: codegen.generateSplitXYCmds,
+    numArgs: 2,
+    argTypes: ['block', 'point'],
+  },
+  swap: {
+    name: "swap (click two blocks)",
+    codeGenerator: codegen.generateSwapCmds,
+    numArgs: 2,
+    argTypes: ['block', 'block'],
+  },
+  colorToMed: {
+    name: "color (click block to color to median)",
+    codeGenerator: codegen.generateColorToMedCmds,
+    numArgs: 1,
+    argTypes: ['block'],
+  },
+  mergeRange: {
+    name: "merge range (click left/bottom block first, then the last one)",
+    codeGenerator: codegen.generateMergeUpCmds,
+    numArgs: 2,
+    argTypes: ['block', 'block'],
+  },
+  binarySolver: {
+    name: "run solver (click block)",
+    codeGenerator: codegen.generateBinarySolverCmds,
+    numArgs: 1,
+    argTypes: ['block'],
+  },
+}
+
 function Footer() {
   const [viewMode, setViewMode] = useAppState("viewMode");
   const _activeCmd = useStore(activeCmd);
   const _activeCmdArgs = useStore(activeCmdArgs);
+  const resetCmdStack = () => {
+    activeCmd.set();
+    activeCmdArgs.set();
+  }
+  const activateCmd = (cmd) => {
+    activeCmd.set(cmd)
+    activeCmdArgs.set();
+  }
+  useHotkeys('Esc', () => resetCmdStack())
+  useHotkeys('R', () => activateCmd(CMDs.rect))
+  useHotkeys('X', () => activateCmd(CMDs.cutX))
+  useHotkeys('V', () => activateCmd(CMDs.cutX))
+  useHotkeys('Y', () => activateCmd(CMDs.cutY))
+  useHotkeys('H', () => activateCmd(CMDs.cutY))
+  useHotkeys('P', () => activateCmd(CMDs.cutXY))
+  useHotkeys('M', () => activateCmd(CMDs.mergeRange))
+  useHotkeys('Enter', () => activateCmd(CMDs.binarySolver))
   return (
     <Row className={tw`h-24 bg-gray-200 px-4`}>
+      {(activeCmd.get() || activeCmdArgs.get()) &&
+        <Button color='red' onClick={resetCmdStack}>Esc</Button>
+      }
+      <Spacer size={2}/>
+      <h2 className={tw`text-xl font-bold mb-1 flex-shrink-1`}>{_activeCmd?.name} {_activeCmdArgs?.map(arg => JSON.stringify(arg)).join(", ")}</h2>
       <Spacer flex={1}/>
-      <h2 className={tw`text-2xl font-bold mb-4`}>{_activeCmd?.name} {_activeCmdArgs?.join(", ")}</h2>
-      <Spacer size={5}/>
-      <Button color='red' onClick={() => {
-        activeCmd.set();
-        activeCmdArgs.set();
-      }}>Cancel</Button>
-      <Spacer size={5}/>
-      <Button color='blue' onClick={() => {
-        activeCmd.set({
-          name: "rect (clickTwoPoints)",
-          codeGenerator: generateRectCmds,
-          numArgs: 2,
-          argTypes: ['point', 'point'],
-        });
-        activeCmdArgs.set([]);
-      }}>Rect</Button>
-      <Spacer size={5}/>
-      <Button color='blue' onClick={() => {
-        activeCmd.set({
-          name: "cutX (click on a block, and then point to split)",
-          codeGenerator: generateSplitXCmds,
-          numArgs: 2,
-          argTypes: ['block', 'point'],
-        });
-        activeCmdArgs.set([]);
-      }}>Cut X</Button>
-      <Spacer size={5}/>
-      <Button color='blue' onClick={() => {
-        activeCmd.set({
-          name: "cutY (click on a block, and then point to split)",
-          codeGenerator: generateSplitYCmds,
-          numArgs: 2,
-          argTypes: ['block', 'point'],
-        });
-        activeCmdArgs.set([]);
-      }}>Cut Y</Button>
-      <Spacer size={5}/>
-      <Button color='blue' onClick={() => {
-        activeCmd.set({
-          name: "cutXY (click on a block, and then point to split)",
-          codeGenerator: generateSplitXYCmds,
-          numArgs: 2,
-          argTypes: ['block', 'point'],
-        });
-        activeCmdArgs.set([]);
-      }}>Cut XY</Button>
-      <Spacer size={5}/>
-      <Button color='blue' onClick={() => {
-        activeCmd.set({
-          name: "swap (click two blocks)",
-          codeGenerator: generateSwapCmds,
-          numArgs: 2,
-          argTypes: ['block', 'block'],
-        });
-        activeCmdArgs.set([]);
-      }}>Swap</Button>
-      <Spacer size={5}/>
-      <Button color='blue' onClick={() => {
-        activeCmd.set({
-          name: "color (click block to color to median)",
-          codeGenerator: generateColorToMedCmds,
-          numArgs: 1,
-          argTypes: ['block'],
-        });
-        activeCmdArgs.set([]);
-      }}>Color to Med</Button>
-      <Spacer size={5}/>
-      <Button color='blue' onClick={() => {
-        activeCmd.set({
-          name: "merge range (click left/bottom block first, then the last one)",
-          codeGenerator: generateMergeUpCmds,
-          numArgs: 2,
-          argTypes: ['block', 'block'],
-        });
-        activeCmdArgs.set([]);
-      }}>Merge Range</Button>
-      <Spacer size={5}/>
-      <Button color='blue' onClick={() => {
-        activeCmd.set({
-          name: "run solver (click block)",
-          codeGenerator: generateBinarySolverCmds,
-          numArgs: 1,
-          argTypes: ['block'],
-        });
-        activeCmdArgs.set([]);
-      }}>Binary Solver</Button>
-      <Spacer size={5}/>
-      <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>
+      <Row gutter={2} className={tw`flex-shrink-0`}>
+        <Button color='blue' onClick={() => activateCmd(CMDs.rect)}>(R)ect</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.cutX)}>Cut (X)</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.cutY)}>Cut (Y)</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.cutXY)}>Cut XY (P)</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.swap)}>(S)wap</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.colorToMed)}>Color to Med</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.mergeRange)}>(M)erge Range</Button>
+        <Button color='blue' onClick={() => activateCmd(CMDs.binarySolver)}>(B)inary Solver</Button>
+        <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>
+      </Row>
     </Row>
   );
 }
