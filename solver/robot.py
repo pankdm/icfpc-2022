@@ -1,5 +1,5 @@
 
-
+from src.robot_fragment import FRAGMENT
 
 class Block:
     def __init__(self, name, begin, end):
@@ -69,9 +69,11 @@ def to_color(color):
 
 
 class RobotSolver:
-    def __init__(self):
+    def __init__(self, start = 0):
+        assert isinstance(start, int)
         self.prog = []
-        self.global_counter = 0
+        self.global_counter = start
+        self.start = str(start)
         
     BODY = to_color([56, 182, 255, 255])
     HEAD = to_color([0, 74, 173, 255])
@@ -122,7 +124,7 @@ class RobotSolver:
 
 
     def run(self):
-        block = Block("0", begin = (0, 0), end = (400, 400))
+        block = Block(self.start, begin = (0, 0), end = (400, 400))
 
         block = self.draw_rect(block, [106, 265], [304, 109], self.BODY)
         block = self.draw_rect(block, [141, 241], [260, 359], self.HEAD)
@@ -141,8 +143,19 @@ class RobotSolver:
 
 
 if __name__ == "__main__":
-    solver = RobotSolver()
-    solver.run()
+    # PROBLEM = 27
+    PROBLEM = 2
+        
+    if PROBLEM == 27:    
+        solver = RobotSolver(start=798)
+        solver.prog += FRAGMENT.split("\n")
+        solver.run()
+    else:
+        solver = RobotSolver(start=0)
+        solver.run()
 
-    with open("solutions/manual_robot/2.txt", "wt") as f:
+
+    with open(f"solutions/manual_robot/{PROBLEM}.txt", "wt") as f:
         f.write("\n".join(solver.prog))
+
+
