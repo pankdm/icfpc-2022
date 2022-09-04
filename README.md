@@ -62,3 +62,13 @@ Start UI in separate terminal
 ```bash
 make start-ui
 ```
+
+Run cut optimizer on a solution:
+
+```bash
+java -jar optimizer/optimizer.jar <solution.txt> <optimized_solution_out.txt> <target.png> [<initial state json>]
+
+java -jar optimizer/optimizer.jar solutions/manual_robot/9k/2.txt solutions/manual_robot/9k/2.opt.txt problems/2.png
+
+java -jar optimizer/optimizer.jar solutions/manual_fourdman/35.txt solutions/manual_fourdman/35.opt.txt problems/35.png problems/35.initial.json
+```
