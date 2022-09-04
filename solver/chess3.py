@@ -190,76 +190,6 @@ def split_by_lines(b, bottom_line):
     swap(cols[0], cols[5], prog)
     swap(cols[2], cols[7], prog)
 
-def add_side(block):
-    prog.append(f"color [{block.name}] {black}")
-    rows = []
-    cur = block
-    for i in range(7):
-        [bottom, top] = cur.line_y(cur.end[1] - d, prog)
-        if i == 3:
-            prog.append(f"color [{bottom.name}] {white}")
-        rows.append(top)
-        cur = bottom
-    rows.append(cur)
-    swap(rows[0], rows[5], prog)
-    swap(rows[2], rows[7], prog)
-
-
-def add_sides():
-    # horizontal
-    # cur = "0.1.0.0"
-    # delta = 320
-    # color = 0
-    # for i in range(8):
-    #     prog.append(f"cut [{cur}] [x] [{delta}]")
-    #     prog.append(f"color [{cur}.0] { white if color else black}")
-    #     delta -= d
-    #     cur = cur + ".0"
-    #     color = 1 - color
-
-    # # vertical
-    # cur = "0.1.0.1.1"
-    # delta = 120
-    # color = 1
-    # # prog.append(f"color [{cur}] {black}")
-    # for i in range(7):
-    #     prog.append(f"cut [{cur}] [y] [{delta}]")
-    #     prog.append(f"color [{cur}.1] { white if color else black}")
-    #     delta += d
-    #     cur = cur + ".1"
-    #     color = 1 - color
-
-
-    # manually optimized
-    add_fragment(prog, 
-    """
-    cut [0.1.0.0] [x] [320]
-    color [0.1.0.0.0] [0, 0, 0, 255]
-    cut [0.1.0.0.0] [x] [280]
-    color [0.1.0.0.0.0] [255, 255, 255, 255]
-    cut [0.1.0.0.0.0] [x] [240]
-    color [0.1.0.0.0.0.0] [0, 0, 0, 255]
-    cut [0.1.0.0.0.0.0] [x] [200]
-    color [0.1.0.0.0.0.0.0] [0, 0, 0, 255]
-    cut [0.1.0.0.0.0.0.0] [x] [160]
-    cut [0.1.0.0.0.0.0.0.0] [x] [120]
-    color [0.1.0.0.0.0.0.0.0.0] [255, 255, 255, 255]
-    cut [0.1.0.0.0.0.0.0.0.0] [x] [80]
-    cut [0.1.0.0.0.0.0.0.0.0.0] [x] [40]
-    swap [0.1.0.0.0.0.0.0.1] [0.1.0.0.0.0.0.0.0.0.0.1]
-    cut [0.1.0.1.1] [y] [120]
-    color [0.1.0.1.1.1] [255, 255, 255, 255]
-    cut [0.1.0.1.1.1] [y] [160]
-    color [0.1.0.1.1.1.1] [0, 0, 0, 255]
-    cut [0.1.0.1.1.1.1] [y] [200]
-    color [0.1.0.1.1.1.1.1] [0, 0, 0, 255]
-    cut [0.1.0.1.1.1.1.1] [y] [240]
-    cut [0.1.0.1.1.1.1.1.1] [y] [280]
-    color [0.1.0.1.1.1.1.1.1.1] [255, 255, 255, 255]
-    cut [0.1.0.1.1.1.1.1.1.1] [y] [320]
-    cut [0.1.0.1.1.1.1.1.1.1.1] [y] [360]
-    swap [0.1.0.1.1.1.1.1.0] [0.1.0.1.1.1.1.1.1.1.1.0]
-    """)
 
 def solve():
     global prog
@@ -272,19 +202,7 @@ def solve():
     [b3, main_block] = b2.line_y(b2.begin[1] + d, prog)
     [bottom_line, _] = b3.line_x(8 * d, prog)
 
-    # add_side(right_col)
-
-        # f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
-        # f"cut [0.1] [x] [{size - d - 3}]", # again a bit better
-        # f"cut [0.1.0] [y] [{2 * d}]",
-        # f"color [0.1.0.1] {black}",
-        # f"cut [0.1.0.1] [x] [{size - 2 * d}]",
-        # f"color [0.1.0.1.0] {black}"
     split_by_lines(main_block, bottom_line)
-
-    # split_blocks(block, 8)
-
-    # now do lines
 
 
 if __name__ == "__main__":
