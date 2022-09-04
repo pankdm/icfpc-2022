@@ -11,11 +11,11 @@ export default function Spacer({ flex=0, size=4 }) {
 export const Interspaced = forwardRef(({ gutter=4, children, ...props }, ref) => {
   return (
     <div ref={ref} {...props}>
-      {_.map(children, (child, idx) => (
+      {React.Children.map(children, (child, idx) => (
         <React.Fragment key={idx}>
           {idx != 0 && <Spacer size={gutter} />}
           {child}
-          </React.Fragment>
+        </React.Fragment>
       ))}
     </div>
   )

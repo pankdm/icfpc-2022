@@ -35,8 +35,9 @@ export function SolutionCanvas({ solution, width, height, ...props }) {
     .map((s) => s.split("#", 1).toString().trim())
     .join("\n");
 
-  const computeCodeAndDraw = (initialState, code, width, height) => {
-    const { ctx, shadowCtx } = solutionPicture.get();
+  const computeCodeAndDraw = (canvas, shadowCanvas, initialState, code, width, height) => {
+    const ctx = canvas.getContext('2d')
+    const shadowCtx = shadowCanvas.getContext('2d')
     const result = computeBlocksAndDraw(initialState, code, ctx, shadowCtx);
     solutionResult.set(result);
     solutionError.set(
@@ -67,11 +68,11 @@ export function SolutionCanvas({ solution, width, height, ...props }) {
     shadowCtx.fillStyle = "white";
     shadowCtx.fillRect(0, 0, width, height);
     solutionPicture.set({
-      ctx: ctx,
-      shadowCtx: shadowCtx,
+      canvasRef: canvasRef,
+      canvasShadowRef: canvasShadowRef,
     });
-    computeCodeAndDraw(data, justCode, width, height);
-  }, [justCode, data, problemId]);
+    computeCodeAndDraw(canvasRef.current, canvasShadowRef.current, data, justCode, width, height);
+  }, [canvasRef.current, canvasShadowRef.current, justCode, data, problemId]);
   return (
     <>
       <canvas

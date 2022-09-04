@@ -1,11 +1,4 @@
-const SERVER_URL = 'http://localhost:8000'
-
-
-export function APIpath(path) {
-  return SERVER_URL + path
-}
-
-async function api_request(path, params) {
+async function genericApiRequest(SERVER_URL, path, params) {
   const result = await fetch(`${SERVER_URL}${path}`, params)
   let body: any
   const contentType = result.headers.get('Content-Type') || ''
@@ -19,28 +12,37 @@ async function api_request(path, params) {
   return body
 }
 
+// local API
+const SERVER_URL = 'http://localhost:8000'
+export function getAPIpath(path) {
+  return SERVER_URL + path
+}
+async function localApiRequest(path, params) {
+  return genericApiRequest(SERVER_URL, path, params)
+}
+
 export async function ping() {
-  return await api_request('/', { method: 'GET' })
+  return await localApiRequest('/', { method: 'GET' })
 }
 
 export async function checkAuth() {
-  return await api_request('/check-auth', { method: 'POST' })
+  return await localApiRequest('/check-auth', { method: 'POST' })
 }
 
 export async function getProblems() {
-  return await api_request(`/problems`, { method: 'GET' })
+  return await localApiRequest(`/problems`, { method: 'GET' })
 }
 
 export async function getProblem(problemId): Promise<ArrayBuffer> {
-  return await api_request(`/problems/${problemId}`, { method: 'GET' })
+  return await localApiRequest(`/problems/${problemId}`, { method: 'GET' })
 }
 
 export async function getProblemInitialState(problemId) {
-  return await api_request(`/problem_initial_states/${problemId}`, { method: 'GET' })
+  return await localApiRequest(`/problem_initial_states/${problemId}`, { method: 'GET' })
 }
 
 export async function getGeometricMedian(problemId, x1, x2, y1, y2) {
-  return await api_request(`/geometric_median`, {
+  return await localApiRequest(`/geometric_median`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -56,7 +58,7 @@ export async function getGeometricMedian(problemId, x1, x2, y1, y2) {
 }
 
 export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2, initialColor) {
-  return await api_request(`/run_solver`, {
+  return await localApiRequest(`/run_solver`, {
     method: 'POST',
     headers: {
       "Content-Type": "application/json"
@@ -74,19 +76,35 @@ export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2
 }
 
 export async function getSolutions() {
-  return await api_request(`/solutions`, { method: 'GET' })
+  return await localApiRequest(`/solutions`, { method: 'GET' })
 }
 
 export async function getSolution(solutionId): Promise<String> {
-  return await api_request(`/solutions/${solutionId}`, { method: 'GET' })
+  return await localApiRequest(`/solutions/${solutionId}`, { method: 'GET' })
 }
 
 export function getProblemImgUrl(problemId) {
-  return APIpath(`/problems/${problemId}`)
+  return getAPIpath(`/problems/${problemId}`)
 }
 
-const API = {
-  APIpath,
+
+// ICFPC API
+const ICFPC_SERVER_URL = 'http://localhost:8000/icfpc'
+export function ICFPCApiPath(path) {
+  return SERVER_URL + path
+}
+async function ICFPCApiRequest(path, params) {
+  return genericApiRequest(ICFPC_SERVER_URL, path, params)
+}
+
+
+export async function getScoreboard() {
+  return await ICFPCApiRequest(`/results/scoreboard`, { method: 'GET' })
+}
+
+
+const LOCAL = {
+  getAPIpath,
   ping,
   checkAuth,
   getProblems,
@@ -95,6 +113,11 @@ const API = {
   getSolution,
 }
 
-export default API
+export const ICFPC = {
+  getScoreboard,
+}
 
-window.API = API
+export default LOCAL
+
+window.API = LOCAL
+window.ICFPC = ICFPC

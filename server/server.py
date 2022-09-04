@@ -140,6 +140,11 @@ def post_submit():
     return ICFPC.submit(problem, solution)
 
 
+@app.get('/icfpc/<path:path>')
+def get_icfpc_endpoint(path):
+    result = ICFPC.proxy_get_endpoint(path)
+    return result
+
 @app.errorhandler(Exception)
 def unhandled_error(error):
     print(error)

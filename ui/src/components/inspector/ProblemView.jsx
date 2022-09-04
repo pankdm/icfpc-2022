@@ -1,13 +1,14 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useStore } from "@nanostores/react";
 import { tw } from "twind";
 import { getProblemImgUrl } from "../../api";
 import { useAppState } from "../../app-state";
-import { getCtxFullImageData, getPictureDifferenceCost, getCtxPixel } from "../../utils/utils";
+import { getCtxFullImageData, getPictureDifferenceCost, getCtxPixel, useUnmount } from "../../utils/utils";
 import { Crosshair } from "../common/Crosshair";
 import {
   problemPicture,
+  solutionPicture,
   solutionPirctureDiffCost,
   hoveredBlock,
   selectedPixel,
@@ -15,32 +16,39 @@ import {
 } from "../Inspector.stores";
 import { HintBlocksView } from "./HintBlocksView";
 import { pushCmdArg } from "./utils";
-import { solutionPicture } from "../Inspector.stores";
 
 function TargetPictureCanvas({ problemId, width, height, ...props }) {
   const canvasRef = useRef();
   const [hoverBlocks] = useAppState('config.hoverBlocksOnBothSides');
-  useEffect(() => {
-    if (!canvasRef.current)
-      return;
-    const ctx = canvasRef.current.getContext("2d");
-    if (!ctx)
-      return;
+  useLayoutEffect(() => {
+    if (!canvasRef.current) return
+    const ctx = canvasRef.current.getContext('2d')
     if (!problemId) {
       ctx.fillStyle = "white";
       ctx.fillRect(0, 0, width, height);
       problemPicture.set();
       return;
     }
-    const img = new Image();
-    img.src = getProblemImgUrl(problemId);
-    img.crossOrigin = "anonymous";
-    img.addEventListener("load", async () => {
-      ctx.drawImage(img, 0, 0);
-
+    const img = new Image()
+    img.src = getProblemImgUrl(problemId)
+    img.crossOrigin = "anonymous"
+    img.addEventListener("load", () => {
+      // const canvas = document.createElement('canvas')
+      // const ctx = canvas.getContext('2d')
+      // canvas.width = 400
+      // canvas.height = 400
+      const ctx = canvasRef.current.getContext('2d')
       img.style.display = "none";
+      // console.log('read full image data')
       const picturePixelData = getCtxFullImageData(ctx, width, height);
-      problemPicture.set({ img: img, ctx: ctx, pixelData: picturePixelData });
+      problemPicture.set({
+        img: img,
+        pixelData: picturePixelData,
+        canvas: canvasRef.current,
+      })
+      // console.log('draw!')
+      ctx.drawImage(img, 0, 0);
+      // console.log('done')
       const solutionPixelData = solutionPicture.get()?.pixelData;
       if (solutionPixelData) {
         solutionPirctureDiffCost.set(
@@ -50,17 +58,16 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
             400,
             400
           )
-        );
+        )
       }
-    });
-  }, [problemId]);
-
+    })
+  }, [problemId])
   const _activeCmd = useStore(activeCmd);
   const _selectedPixel = useStore(selectedPixel);
 
   const getPixel = (event) => {
     const canvasBoundingRect = canvasRef.current.getBoundingClientRect();
-    const ctx = problemPicture.get().ctx;
+    const ctx = canvasRef.current.getContext('2d')
     const x = event.clientX - canvasBoundingRect.x;
     const y = event.clientY - canvasBoundingRect.y;
     const yFlip = canvasBoundingRect.height - (event.clientY - canvasBoundingRect.y);

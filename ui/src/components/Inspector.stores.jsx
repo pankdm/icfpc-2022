@@ -5,22 +5,26 @@ import { getCtxPixel, getCtxPixels } from "../utils/utils";
 export const problemPicture = atom();
 
 export function getProblemPixels(width, height) {
-    const ctx = problemPicture.get()?.ctx;
+    const canvas = problemPicture.get().canvas
+    const ctx = canvas.getContext('2d')
     return getCtxPixels(ctx, width, height);
 }
 export function getProblemPixel(x, y) {
-    const ctx = problemPicture.get()?.ctx;
+    const canvas = problemPicture.get().canvas
+    const ctx = canvas.getContext('2d')
     return getCtxPixel(ctx, x, y);
 }
 
 export const solutionPicture = atom();
 
 export function getSolutionPixels(width, height) {
-    const ctx = solutionPicture.get()?.ctx;
+    const canvas = solutionPicture.get().canvas
+    const ctx = canvas.getContext('2d')
     return getCtxPixels(ctx, width, height);
 }
 export function getSolutionPixel(x, y) {
-    const ctx = solutionPicture.get()?.ctx;
+    const canvas = solutionPicture.get().canvas
+    const ctx = canvas.getContext('2d')
     return getCtxPixel(ctx, x, y);
 }
 

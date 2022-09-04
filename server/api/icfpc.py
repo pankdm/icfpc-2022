@@ -44,6 +44,18 @@ def submit(problem: str, solution: str):
         response.raise_for_status()
     return response.json()
 
+def get_results_scoreboard():
+    ensure_auth()
+    response = icfpc_client.session.get(API_ROOT+'/results/scoreboard')
+    response.raise_for_status()
+    return response.json()
+
+def proxy_get_endpoint(path):
+    ensure_auth()
+    response = icfpc_client.session.get(API_ROOT+'/'+path)
+    response.raise_for_status()
+    return response.json()
+
 def check_auth():
     ensure_auth()
     return { 'user': icfpc_client.email, 'expires': icfpc_client.expires.isoformat() }
