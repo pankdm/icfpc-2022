@@ -38,6 +38,8 @@ class Problem:
             self.blocks = read_initial_json(n)
             self.cnt = len(self.blocks)
             self.N = round(self.cnt**0.5)
+        else:
+            self.blocks = [Block(0,0,400,400,"0")]
 
     def pop(self):
         if self.code[-1].startswith("merge"):
