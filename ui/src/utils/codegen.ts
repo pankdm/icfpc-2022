@@ -3,7 +3,7 @@ import {
   getGeometricMedian,
   getBinarySolverSolution,
 } from "../api";
-import { isRunningSolver } from "../components/Inspector";
+import { isRunningSolver } from "../components/Inspector.stores";
 
 export function generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, direction) {
   const { solutionResult } = cmdContext;
