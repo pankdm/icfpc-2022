@@ -628,8 +628,9 @@ function Face2FaceView() {
   );
 }
 
-function generateMergeUpCmds(cmdContext, startBlockId, endBlockId) {
-  const {solutionResult} = cmdContext
+
+function generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, direction) {
+  const {solutionResult} = cmdContext;
 
   if (typeof startBlockId !== 'string') { throw Error(`startBlockId must be a string: ${startBlockId}`); }
   if (typeof endBlockId !== 'string') { throw Error(`startBlockId must be a string: ${startBlockId}`); }
@@ -662,16 +663,12 @@ function generateMergeUpCmds(cmdContext, startBlockId, endBlockId) {
   console.log('startBlock ', startBlock, 'endBlock ', endBlock);
 
   let findNext = undefined;
-  if (startBlock.begin.x == endBlock.begin.x &&
-      startBlock.end.x == endBlock.end.x &&
-      endBlock.begin.y >= startBlock.end.y) {
-        findNext = findNextUp;
-  } else if (startBlock.begin.y == endBlock.begin.y &&
-    startBlock.end.y == endBlock.end.y &&
-    endBlock.begin.x >= startBlock.end.x) {
-      findNext = findNextRight;
+  if (direction === 'up') {
+    findNext = findNextUp;
+  } else if (direction === "right") {
+    findNext = findNextRight;
   } else {
-    window.alert(`Blocks aren't on the same row`);
+    throw new Error(`Bad direction ${direction}`);
   }
 
   const cmds = [];
@@ -691,6 +688,79 @@ function generateMergeUpCmds(cmdContext, startBlockId, endBlockId) {
     } else {
       break;
     }
+  }
+  
+  return cmds.join("\n");
+}
+
+function generateMergeUpCmds(cmdContext, startBlockId, endBlockId) {
+  const {solutionResult} = cmdContext;
+
+  const blocks = solutionResult.blocks;
+
+  const startBlock = blocks[startBlockId];
+  const endBlock = blocks[endBlockId];
+
+  if (startBlock.begin.x == endBlock.begin.x &&
+      startBlock.end.x == endBlock.end.x &&
+      endBlock.begin.y >= startBlock.end.y) {
+        return generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, "up");
+  } else if (startBlock.begin.y == endBlock.begin.y &&
+    startBlock.end.y == endBlock.end.y &&
+    endBlock.begin.x >= startBlock.end.x) {
+      return generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, "right");
+  } else if (startBlock.begin.x > endBlock.begin.x ||
+    startBlock.begin.y > endBlock.begin.y) {
+      window.alert("bad block order");
+    }
+
+  // Reconstruct the grid.
+  const xStep = startBlock.getSize().x;
+  const yStep = startBlock.getSize().y;
+  const xSize = (endBlock.end.x - startBlock.begin.x) / xStep;
+  const ySize = (endBlock.end.y - startBlock.begin.y) / yStep;
+  const grid = new Map();
+  for (let xi = 0; xi < xSize; xi++) {
+    for (let yi = 0; yi < ySize; yi++) {
+      let found = false;
+      for (const blockId in blocks) {
+        const block  = blocks[blockId];
+        if (block.begin.x === startBlock.begin.x + xi * xStep &&
+            block.begin.y === startBlock.begin.y + yi * yStep &&
+            block.end.x === startBlock.begin.x + (xi + 1) * xStep &&
+            block.end.y === startBlock.begin.y + (yi + 1) * yStep) {
+              grid.set(`${xi}_${yi}`, block);
+              found = true;
+              break;
+            }
+      }
+      if (!found) {
+        window.alert("not a grid");
+        return "";
+      }
+    }
+  }
+
+  const maxBlockId = parseInt(_.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0]))));
+  const cmds = [];
+
+  // Merge rows first.
+  const rowNewBlockIds = [];
+  for (let xi = 0; xi < xSize; xi++) {
+    let lastBlockId = grid.get(`${xi}_${0}`).name;
+    for (let yi = 1; yi < ySize; yi++) {
+      const curBlockId = grid.get(`${xi}_${yi}`).name;
+      cmds.push(`merge [${lastBlockId}] [${curBlockId}]`);
+      lastBlockId = `${maxBlockId + cmds.length}`;
+    }
+    rowNewBlockIds.push(lastBlockId);
+  }
+
+  // Merge columns.
+  let lastBlockId = rowNewBlockIds[0];
+  for (let xi = 1; xi < xSize; xi++) {
+    cmds.push(`merge [${lastBlockId}] [${rowNewBlockIds[xi]}]`);
+    lastBlockId = `${maxBlockId + cmds.length}`;
   }
   
   return cmds.join("\n");
