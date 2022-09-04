@@ -1,4 +1,5 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import _ from "lodash";
 import { useStore } from "@nanostores/react";
 import { useQuery } from "@tanstack/react-query";
@@ -77,7 +78,11 @@ window.getSolutionPixel = getSolutionPixel;
 
 function Header() {
   const { data } = useQuery(["problems"], getProblems);
-  const [problemId, setProblemId] = useAppState("currentProblemId");
+  const { problemId } = useParams()
+  const navigate = useNavigate()
+  const setProblemId = (id) => {
+    navigate(`/problems/${id}`)
+  }
   return (
     <Row
       gutter={2}
@@ -158,7 +163,7 @@ function SideBar({ className }) {
   const textAreaRef = useRef();
   const { data } = useQuery(["solutions"], getSolutions);
   const [viewMode] = useAppState("viewMode")
-  const [problemId] = useAppState("currentProblemId");
+  const { problemId } = useParams()
   const [solutionId, setSolutionId] = useAppState("currentSolutionId");
   const [code, setCode] = useAppState("currentCode");
   const _solutionResult = useStore(solutionResult);
@@ -356,7 +361,7 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
 }
 
 function ProblemView() {
-  const [problemId] = useAppState("currentProblemId");
+  const { problemId } = useParams()
   const _selectedPixel = useStore(selectedPixel)
   return (
     <div className={tw`flex-1 flex flex-col items-center justify-center`}>
@@ -373,7 +378,7 @@ function ProblemView() {
             </div>
         }
         {_selectedPixel && <Crosshair width={400} height={400} x={_selectedPixel.x} y={_selectedPixel.y} />}
-        <HintBlocksView disablePointerEvents />
+        <HintBlocksView showPreviewBlocks={false} disablePointerEvents />
       </div>
     </div>
   );
@@ -400,7 +405,7 @@ function computeCode(initialState, code, width, height) {
 }
 
 function SolutionCanvas({ solution, width, height, ...props }) {
-  const [problemId] = useAppState("currentProblemId");
+  const { problemId } = useParams()
   const { data } = useQuery(["problemInitialState" + problemId], () => getProblemInitialState(problemId));
   const canvasRef = useRef();
   const canvasShadowRef = useRef();
@@ -472,7 +477,7 @@ function HintBlocksView({ className, showPreviewBlocks=true, disablePointerEvent
 
   const _activeCmd = useStore(activeCmd);
   const [code, setCode] = useAppState("currentCode");
-  const [problemId] = useAppState("currentProblemId");
+  const { problemId } = useParams()
   const onClick = (blockId, ev) => {
     const block = blocks[blockId]
     clickedBlock.set(block);
@@ -537,7 +542,7 @@ function Face2FaceView() {
   const actionsCots = _solutionResult?.actionsCost;
   const totalActionsCost = _.sum(actionsCots);
   const _selectedPixel = useStore(selectedPixel);
-  const [problemId] = useAppState("currentProblemId");
+  const { problemId } = useParams()
   const _isRunningSolver = useStore(isRunningSolver);
 
   const _clickedBlock = useStore(clickedBlock);
