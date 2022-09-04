@@ -28,9 +28,12 @@ function ProblemItem({problem, ...props}) {
     window.location.href = `/problems/${id}`
     // navigate(`/problems/${id}`)
   }
+  const showStart = id >= 36;
   return (
     <Row gutter={2} className={tw`px-3 py-2 shadow hover:shadow-md transition cursor-pointer`} onClick={onClick} {...props}>
-      <img width={120} height={120} src={getProblemStartImgUrl(id)} />
+      {showStart ? 
+        (<img width={120} height={120} src={getProblemStartImgUrl(id)} />)
+        : (<img width={120} height={120}></img>)}
       <img width={120} height={120} src={getProblemImgUrl(id)} />
       <p className={tw`flex-1`}>{id}: {name}</p>
       <p className={tw`w-24`}>{min_cost}</p>
