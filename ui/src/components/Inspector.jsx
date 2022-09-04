@@ -56,6 +56,8 @@ const hoveredBlock = atom();
 const clickedBlock = atom();
 const previewLOC = atom();
 const selectedPixel = atom();
+const activeCmd = atom();
+const activeCmdArgs = atom();
 
 window.solutionResult = solutionResult;
 window.problemPicture = problemPicture;
@@ -394,6 +396,10 @@ function SolutionCanvas({ solution, width, height, ...props }) {
 
 function BlockDiv({ block }) {
   const _hoveredBlockId = useStore(hoveredBlockId);
+  const _activeCmd = useStore(activeCmd);
+  const _activeCmdArgs = useStore(activeCmdArgs);
+  const [code, setCode] = useAppState("currentCode");
+  const _solutionResult = useStore(solutionResult);
 
   const onBlockMouseLeave = () => {
     hoveredBlockId.set();
@@ -403,7 +409,22 @@ function BlockDiv({ block }) {
     hoveredBlockId.set(block.name);
     hoveredBlock.set(block);
   }
-  const onClick = () => clickedBlock.set(block);
+  const onClick = () => { 
+    clickedBlock.set(block);
+
+    if (_activeCmd && _activeCmdArgs) {
+      activeCmdArgs.set([..._activeCmdArgs, _hoveredBlockId]);
+      console.log(`activeCmdArgs.get().length = ${activeCmdArgs.get().length} _activeCmd.numArgs ${_activeCmd.numArgs}`);
+      if (activeCmdArgs.get().length >= _activeCmd.numArgs) {
+        const newCode = _activeCmd.codeGenerator(code, _solutionResult, ...activeCmdArgs.get());
+        if (newCode) {
+          setCode(code + "\n" + newCode);
+        }
+        activeCmd.set();
+        activeCmdArgs.set();
+      }
+    }
+  };
   const size = block.getSize();
   const borderWidth = 2;
   const blockCls = tw(
@@ -542,11 +563,92 @@ function Face2FaceView() {
   );
 }
 
+function generateMergeUpCmds(code, solutionResult, startBlockId, endBlockId) {
+  function findNextUp(thisBlock) {
+    for (let otherBlockId in solutionResult.blocks) {
+      const otherBlock = solutionResult.blocks[otherBlockId];
+      if (otherBlock.begin.y === thisBlock.end.y &&
+          otherBlock.begin.x === thisBlock.begin.x &&
+          otherBlock.end.x === thisBlock.end.x) {
+            return otherBlockId;
+          }
+    }
+  }
+
+  function findNextRight(thisBlock) {
+    for (let otherBlockId in solutionResult.blocks) {
+      const otherBlock = solutionResult.blocks[otherBlockId];
+      if (otherBlock.begin.x === thisBlock.end.x &&
+          otherBlock.begin.y === thisBlock.begin.y &&
+          otherBlock.end.y === thisBlock.end.y) {
+            return otherBlockId;
+          }
+    }
+  }
+
+  let startBlock = solutionResult.blocks[startBlockId];
+  let endBlock = solutionResult.blocks[endBlockId];
+
+  console.log('startBlock ', startBlock, 'endBlock ', endBlock);
+
+  let findNext = undefined;
+  if (startBlock.begin.x == endBlock.begin.x &&
+      startBlock.end.x == endBlock.end.x &&
+      endBlock.begin.y >= startBlock.end.y) {
+        findNext = findNextUp;
+  } else if (startBlock.begin.y == endBlock.begin.y &&
+    startBlock.end.y == endBlock.end.y &&
+    endBlock.begin.x >= startBlock.end.x) {
+      findNext = findNextRight;
+  } else {
+    window.alert(`Blocks aren't on the same row`);
+  }
+
+  const cmds = [];
+  let currentBlock = startBlock;
+  let currentBlockId = startBlockId;
+  const maxBlockId = _.max(Object.keys(solutionResult.blocks).map(id => JSON.parse(id.split(".")[0])))
+  while (true) {
+    const nextId = findNext(currentBlock);
+    if (nextId) {
+      cmds.push(`merge [${currentBlockId}] [${nextId}]`);
+      currentBlockId = `${parseInt(maxBlockId) + cmds.length}`;
+      currentBlock = solutionResult.blocks[nextId];
+
+      if (nextId === endBlockId) {
+        break;
+      }
+    } else {
+      break;
+    }
+  }
+  
+  return cmds.join("\n");
+}
+
 function Footer() {
-  const [viewMode, setViewMode] = useAppState("viewMode")
+  const [viewMode, setViewMode] = useAppState("viewMode");
+  const _activeCmd = useStore(activeCmd);
+  const _activeCmdArgs = useStore(activeCmdArgs);
   return (
     <Row className={tw`h-24 bg-gray-200 px-4`}>
       <Spacer flex={1}/>
+      <h1 className={tw`text-4xl font-bold mb-4`}>{_activeCmd?.name} {_activeCmdArgs?.join(", ")}</h1>
+      <Spacer size={5}/>
+      <Button color='red' onClick={() => {
+        activeCmd.set();
+        activeCmdArgs.set();
+      }}>Cancel</Button>
+      <Spacer size={5}/>
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "merge range",
+          codeGenerator: generateMergeUpCmds,
+          numArgs: 2
+        });
+        activeCmdArgs.set([]);
+      }}>Merge Range</Button>
+      <Spacer size={5}/>
       <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>
     </Row>
   );
