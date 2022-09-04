@@ -103,7 +103,7 @@ def get_problems():
     problems_dir = os.path.dirname(__file__)+'/../problems'
     problems_files = os.listdir(problems_dir)
     problems = sorted([int(p.rstrip('.png'))
-                      for p in problems_files if '.png' in p])
+                      for p in problems_files if '.png' in p and '.initial' not in p])
     return {'problems': problems}
 
 
