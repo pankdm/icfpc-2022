@@ -776,10 +776,25 @@ async function generateBinarySolverCmds(cmdContext, blockId) {
 }
 
 async function generateRectCmds(cmdContext, pt1, pt2) {
-  const x0 = Math.min(pt1.x, pt2.x);
-  const y0 = Math.min(pt1.y, pt2.y);
-  const x1 = Math.max(pt1.x, pt2.x);
-  const y1 = Math.max(pt1.y, pt2.y);
+  let x0 = Math.min(pt1.x, pt2.x);
+  let y0 = Math.min(pt1.y, pt2.y);
+  let x1 = Math.max(pt1.x, pt2.x);
+  let y1 = Math.max(pt1.y, pt2.y);
+  console.log({x0, y0, x1, y1})
+
+  // snap to grid
+  if (x0 < 10) {
+    x0 = 0;
+  }
+  if (x1 > 390) {
+    x1 = 400
+  }
+  if (y0 < 10) {
+    y0 = 0;
+  }
+  if (y1 > 390) {
+    y1 = 400;
+  }
 
   const problemId = cmdContext.problemId;
   const geometricMedianData = await getGeometricMedian(problemId, x0, x1, y0, y1);
@@ -811,6 +826,8 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
   console.log(maxBlockId);
 
   const merge = (a, b) => {
+    if (a === undefined) return b;
+    if (b === undefined) return a;
     cmds.push(`merge [${a}] [${b}]`);
     maxBlockId = maxBlockId + 1;
     return maxBlockId;
@@ -818,10 +835,18 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
 
 
   let cur = maxBlockId, b1, b2, b3, b4;
-  [b1, cur] = cut_y(cur, y0);
-  [b2, cur] = cut_x(cur, x0);
-  [cur, b3] = cut_y(cur, y1);
-  [cur, b4] = cut_x(cur, x1);
+  if (y0 > 0) {
+    [b1, cur] = cut_y(cur, y0);
+  }
+  if (x0 > 0) {
+    [b2, cur] = cut_x(cur, x0);
+  }
+  if (x1 < 400) {
+    [cur, b3] = cut_y(cur, y1);
+  }
+  if (y1 < 400) {
+    [cur, b4] = cut_x(cur, x1);
+  }
 
   cmds.push(`color [${cur}] [${geometricMedianData?.color.join(", ")}]`);
 
