@@ -15,6 +15,12 @@ class Block:
     def size(self):
         return (self.end[0] - self.begin[0], self.end[1]- self.begin[1])
 
+    def width(self):
+        return self.size()[0]
+
+    def height(self):
+        return self.size()[1]
+
     def split_mid(self, prog):
         mid_x = (self.begin[0] + self.end[0]) // 2
         mid_y = (self.begin[1] + self.end[1]) // 2
