@@ -46,11 +46,9 @@ const sortPredicates = {
 }
 
 export default function Browser() {
-  // const { data } = useQuery(['problems'], ICFPC.getScoreboard)
   const { data, loading } = useQuery(['problems'], API.getProblems)
   const problems = data?.problems
   const [sortKey, setSortKey] = useAppState('browserSortKey')
-  // console.log(data, problems)
   const sortedProblems = _.sortBy(problems, sortPredicates[sortKey||'name'])
   return (
     <div className={tw`min-w-[900px] flex flex-col h-screen overflow-hidden`}>
@@ -65,10 +63,10 @@ export default function Browser() {
       <Row gutter={2} className={tw`max-w-[960px] w-full px-3 py-2 mx-auto font-bold`}>
         <div className={tw`w-[120px]`} />
         <div className={tw`w-1`} />
-        <p className={tw`flex-1`} onClick={() => setSortKey('name')}>Problem</p>
+        <p className={tw`cursor-pointer hover:underline flex-1`} onClick={() => setSortKey('name')}>Problem</p>
         <p className={tw`w-24`}>Our Best</p>
         <p className={tw`w-24`}>Record</p>
-        <p className={tw`w-24`} onClick={() => setSortKey('bounty')}>Bounty</p>
+        <p className={tw`cursor-pointer hover:underline w-24`} onClick={() => setSortKey('bounty')}>Bounty</p>
         <p className={tw`w-28`}>Last Upload</p>
       </Row>
       {loading && (

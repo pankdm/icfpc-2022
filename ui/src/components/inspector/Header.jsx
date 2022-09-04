@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { tw } from "twind";
@@ -7,14 +7,16 @@ import Spacer from "../common/Spacer";
 import Button from "../common/Button";
 import { Row } from "../common/Flex";
 import { HeaderLink } from "../common/HeaderLink";
-import { useAppState } from "../../app-state";
+import { setAppState, useAppState } from "../../app-state";
 import { css } from "twind/css";
 import { Select } from "../common/Inputs";
 
 export function Header() {
   const { data } = useQuery(["problems"], getProblems);
   const { problemId } = useParams();
-  const navigate = useNavigate()
+  useEffect(() => {
+    setAppState('currentProblemId', problemId)
+  }, [problemId])
   const [hoverBlocksBothSides, setHoverBlocksBothSides] = useAppState('config.hoverBlocksOnBothSides');
   return (
     <Row

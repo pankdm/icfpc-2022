@@ -32,7 +32,7 @@ export function Footer() {
   useHotkeys('Y', () => activateCmd(CMDs.cutY));
   useHotkeys('P', () => activateCmd(CMDs.cutXY));
   useHotkeys('M', () => activateCmd(CMDs.mergeRange));
-  useHotkeys('Enter', () => activateCmd(CMDs.binarySolver));
+  useHotkeys('B', () => activateCmd(CMDs.binarySolver));
   return (
     <Row className={tw`h-24 bg-gray-200 px-4`}>
       {!isCmdStackEmpty &&
