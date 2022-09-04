@@ -12,6 +12,7 @@ import {
   getSolution,
   getSolutions,
   getGeometricMedian,
+  getBinarySolverSolution,
 } from "../api";
 import { useAppState } from "../app-state";
 import Spacer, { Interspaced } from "./Spacer";
@@ -64,6 +65,8 @@ const previewLOC = atom();
 const selectedPixel = atom();
 const activeCmd = atom();
 const activeCmdArgs = atom();
+
+const isRunningSolver = atom();
 
 window.solutionResult = solutionResult;
 window.problemPicture = problemPicture;
@@ -516,6 +519,7 @@ function Face2FaceView() {
   const totalActionsCost = _.sum(actionsCots);
   const _selectedPixel = useStore(selectedPixel);
   const [problemId] = useAppState("currentProblemId");
+  const _isRunningSolver = useStore(isRunningSolver);
 
   const _clickedBlock = useStore(clickedBlock);
 
@@ -583,6 +587,9 @@ function Face2FaceView() {
             <p> differenceCost: {blockDifferenceCost}</p>
             <p> geometric median color: [{geometricMedianData?.color.join(", ")}]</p>
             </>
+          )}
+          {_isRunningSolver && (
+            <h1 className={tw`text-4xl font-bold mb-4`}>Running the solver, please wait!</h1>
           )}
         </div>
       </Col>
@@ -753,6 +760,81 @@ async function generateColorToMedCmds(cmdContext, blockId) {
   return [`color [${blockId}] [${geometricMedianData?.color.join(", ")}]`];
 }
 
+async function generateBinarySolverCmds(cmdContext, blockId) {
+  const code = cmdContext.code;
+  const block = cmdContext.solutionResult.blocks[blockId];
+  const problemId = cmdContext.problemId;
+
+  let initialColor = [255,255,255,255];
+  const colorPrefix = `color [${blockId}] `;
+  for (let line of code.split("\n").reverse()) {
+    if (line.startsWith(colorPrefix)) {
+      initialColor = JSON.parse(line.slice(colorPrefix.length));
+    }
+  }
+  console.log('initialColor = ', initialColor);
+
+  isRunningSolver.set(true);
+  const responseData = await getBinarySolverSolution(
+    problemId, blockId, block.begin.x, block.end.x, block.begin.y, block.end.y,
+    initialColor);
+  isRunningSolver.set(false);
+
+  return "# solver response\n" + responseData?.cmds.join("\n");
+}
+
+async function generateRectCmds(cmdContext, pt1, pt2) {
+  const x0 = Math.min(pt1.x, pt2.x);
+  const y0 = Math.min(pt1.y, pt2.y);
+  const x1 = Math.max(pt1.x, pt2.x);
+  const y1 = Math.max(pt1.y, pt2.y);
+
+  const problemId = cmdContext.problemId;
+  const geometricMedianData = await getGeometricMedian(problemId, x0, x1, y0, y1);
+
+
+  let cmds = []
+  cmds.push(`\n### RECT ###`)
+
+  const split = (a, pt) => {
+    cmds.push(`cut [${a}] [${pt[0]}, ${pt[1]}] `)
+    return [`${a}.0`, `${a}.1`, `${a}.2`, `${a}.3`]
+  }
+
+
+  // const currentBlockId = "0";
+  const blocks = cmdContext.solutionResult.blocks;
+  console.log(blocks);
+  let maxBlockId = parseInt(_.max(Object.keys(blocks).map(id => JSON.parse(id.split(".")[0]))));
+  console.log(maxBlockId);
+
+  const merge = (a, b) => {
+    cmds.push(`merge [${a}] [${b}]`);
+    maxBlockId = maxBlockId + 1;
+    return maxBlockId;
+  }
+
+
+  let cur = maxBlockId;
+  let [a0, a1, a2, a3] = split(cur, [x0, y0]);
+  cur = a2;
+
+  let [b0, b1, b2, b3] = split(cur, [x1, y1]);
+  cur = b0;
+
+  cmds.push(`color [${cur}] [${geometricMedianData?.color.join(", ")}]`);
+
+  const top = merge(b2, b3);
+  cur = merge(cur, b1);
+  cur = merge(cur, top);
+
+  const bottom = merge(a0, a1);
+  cur = merge(cur, a3);
+  cur = merge(cur, bottom);
+
+  return cmds.join("\n")
+}
+
 async function pushCmdArg(cmdContext, arg) {
   const {code, setCode} = cmdContext;
 
@@ -786,6 +868,15 @@ function Footer() {
         activeCmd.set();
         activeCmdArgs.set();
       }}>Cancel</Button>
+      <Spacer size={5}/>
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "rect (clickTwoPoints)",
+          codeGenerator: generateRectCmds,
+          numArgs: 2
+        });
+        activeCmdArgs.set([]);
+      }}>Rect</Button>
       <Spacer size={5}/>
       <Button color='blue' onClick={() => {
         activeCmd.set({
@@ -840,6 +931,15 @@ function Footer() {
         });
         activeCmdArgs.set([]);
       }}>Merge Range</Button>
+      <Spacer size={5}/>
+      <Button color='blue' onClick={() => {
+        activeCmd.set({
+          name: "run solver (click block)",
+          codeGenerator: generateBinarySolverCmds,
+          numArgs: 1
+        });
+        activeCmdArgs.set([]);
+      }}>Binary Solver</Button>
       <Spacer size={5}/>
       <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>
     </Row>
