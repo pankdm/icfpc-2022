@@ -844,10 +844,10 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
   if (x0 > 0) {
     [b2, cur] = cut_x(cur, x0);
   }
-  if (x1 < 400) {
+  if (y1 < 400) {
     [cur, b3] = cut_y(cur, y1);
   }
-  if (y1 < 400) {
+  if (x1 < 400) {
     [cur, b4] = cut_x(cur, x1);
   }
 
