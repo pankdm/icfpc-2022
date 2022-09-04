@@ -31,6 +31,7 @@ import {
 import { Select, TextArea } from "./Inputs";
 import { forwardRef } from "react";
 import { HintBlocks } from "./PreviewBlocks";
+import { Crosshair } from "./Crosshair";
 
 const problemPicture = atom();
 function getProblemPixels(width, height) {
@@ -332,6 +333,7 @@ function TargetPictureCanvas({ problemId, width, height, ...props }) {
 
 function ProblemView() {
   const [problemId] = useAppState("currentProblemId");
+  const _selectedPixel = useStore(selectedPixel)
   return (
     <div className={tw`flex-1 flex flex-col items-center justify-center`}>
       <h1 className={tw`text-4xl font-bold mb-4`}>Problem {problemId}</h1>
@@ -346,6 +348,7 @@ function ProblemView() {
               Picture will show here
             </div>
         }
+        {_selectedPixel && <Crosshair width={400} height={400} x={_selectedPixel.x} y={_selectedPixel.y} />}
         <HintBlocksView disablePointerEvents />
       </div>
     </div>
@@ -860,7 +863,7 @@ async function generateRectCmds(cmdContext, pt1, pt2) {
   // let [b0, b1, b2, b3] = split(cur, [x1, y1]);
   // cur = b0;
   // const top = merge(b2, b3);
-  // 
+  //
   // cur = merge(cur, b1);
   // cur = merge(cur, top);
 
