@@ -112,12 +112,11 @@ public class Main {
                     currentProgram.addAll(program.subList(i+1, len));
 
                     ExecutionResult result = test(count, problemFileName, initialStateFile, currentProgram);
-                    //System.out.println("Score: " + result.totalCost);
                     count++;
 
                     if (result.totalCost < bestResult.totalCost) {
+                        System.out.println(String.format("[%d/%d] new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
                         bestResult = result;
-                        System.out.println(String.format("[%d] new best score found: %d -> %d", count, result.totalCost, bestResult.totalCost));
                     }
                 }
             } if (command.getType() == MoveType.POINT_CUT) {
@@ -131,12 +130,11 @@ public class Main {
                         currentProgram.addAll(program.subList(i+1, len));
 
                         ExecutionResult result = test(count, problemFileName, initialStateFile, currentProgram);
-                        System.out.println("Score: " + result.totalCost);
                         count++;
 
                         if (result.totalCost < bestResult.totalCost) {
+                            System.out.println(String.format("[%d/%d] new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
                             bestResult = result;
-                            System.out.println(String.format("[%d] new best score found: %d -> %d", count, result.totalCost, bestResult.totalCost));
                         }
                     }
                 }
