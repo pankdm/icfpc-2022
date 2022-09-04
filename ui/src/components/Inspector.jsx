@@ -29,6 +29,7 @@ import {
 } from "../utils";
 import { Select, TextArea } from "./Inputs";
 import { forwardRef } from "react";
+import { HintBlocks } from "./PreviewBlocks";
 
 const problemPicture = atom();
 function getProblemPixels(width, height) {
@@ -52,10 +53,10 @@ function getSolutionPixel(x, y) {
 const solutionResult = atom();
 const solutionError = atom();
 const solutionPirctureDiffCost = atom();
-const hoveredBlockId = atom();
-const hoveredBlock = atom();
 
-const previewBlockIds = atom();
+export const hoveredBlockId = atom();
+export const hoveredBlock = atom();
+export const previewBlockIds = atom();
 
 const clickedBlock = atom();
 const clickedBlockMedianColor = atom();
@@ -341,20 +342,19 @@ function ProblemView() {
   return (
     <div className={tw`flex-1 flex flex-col items-center justify-center`}>
       <h1 className={tw`text-4xl font-bold mb-4`}>Problem {problemId}</h1>
-      {problemId ? (
-        <TargetPictureCanvas
-          problemId={problemId}
-          width={400}
-          height={400}
-          className={tw`border`}
-        />
-      ) : (
-        <div
-          className={tw`border flex items-center justify-center w-[400px] h-[400px]`}
-        >
-          Picture will show here
-        </div>
-      )}
+      <div className={tw`relative border`}>
+        {problemId
+          ? <TargetPictureCanvas
+              problemId={problemId}
+              width={400}
+              height={400}
+            />
+          : <div className={tw`flex items-center justify-center w-[400px] h-[400px]`}>
+              Picture will show here
+            </div>
+        }
+        <BlocksHintView showPreviewBlocks={false} />
+      </div>
     </div>
   );
 }
@@ -423,101 +423,64 @@ function SolutionCanvas({ solution, width, height, ...props }) {
   );
 }
 
-function BlockDiv({ block }) {
-  const _hoveredBlockId = useStore(hoveredBlockId);
-  const _activeCmd = useStore(activeCmd);
-  const [code, setCode] = useAppState("currentCode");
+function BlocksHintView({ showPreviewBlocks=true }) {
   const _solutionResult = useStore(solutionResult);
-  const [problemId] = useAppState("currentProblemId");
+  const blocks = _solutionResult?.blocks
 
-  const onBlockMouseLeave = () => {
+  const _hoveredBlock = useStore(hoveredBlock);
+  const _previewBlockIds = useStore(previewBlockIds);
+  const highlightedBlocks = useMemo(() => {
+    const highlights = {}
+    if (showPreviewBlocks) {
+      _previewBlockIds?.forEach(previewId => {
+        highlights[previewId] = 'blue'
+      })
+    }
+    if (_hoveredBlock) {
+      highlights[_hoveredBlock.name] = 'red'
+    }
+    return highlights
+  }, [_hoveredBlock, _previewBlockIds])
+  const onMouseLeaveBlock = () => {
     hoveredBlockId.set();
     hoveredBlock.set();
   };
-  const onBlockMouseEnter = () => {
-    hoveredBlockId.set(block.name);
-    hoveredBlock.set(block);
+  const onMouseEnterBlock = (blockId) => {
+    hoveredBlockId.set(blockId);
+    hoveredBlock.set(blocks && blocks[blockId]);
   }
-  const onClick = () => {
-    clickedBlock.set(block);
 
+  const _activeCmd = useStore(activeCmd);
+  const [code, setCode] = useAppState("currentCode");
+  const [problemId] = useAppState("currentProblemId");
+  const onClick = (blockId) => {
+    const block = blocks[blockId]
+    clickedBlock.set(block);
     if (_activeCmd) {
       pushCmdArg({
         code,
         setCode,
-        solutionResult:_solutionResult,
+        solutionResult: _solutionResult,
         problemId
-      }, _hoveredBlockId);
+      }, _hoveredBlock.name);
     }
   };
-  const size = block.getSize();
-  const borderWidth = 2;
-  const blockCls = tw(
-    apply`absolute w-[${size.x}px] h-[${size.y}px] left-[${
-      block.begin.x - borderWidth
-    }px] bottom-[${
-      block.begin.y - borderWidth
-    }px] bg-transparent border-${borderWidth} box-content border-transparent`,
-    block.name == _hoveredBlockId &&
-      `bg-[rgba(255,255,255,0.35)] border-red-500`
-  );
-  const labelCls = tw(
-    apply`absolute bottom-full text-red-500 font-bold hidden z-10`,
-    block.name == _hoveredBlockId && `inline`
-  );
-  return (
-    <div
-      className={blockCls}
-      onPointerEnter={onBlockMouseEnter}
-      onPointerLeave={onBlockMouseLeave}
-      onClick={onClick}
-    >
-      <span className={labelCls}>{block.name}</span>
-    </div>
-  );
-}
 
-function PreviewBlockDiv( { block } ) {
-  const _previewBlockIds = useStore(previewBlockIds);
-  const shouldHighlight = useMemo(() => {
-    if (_previewBlockIds) {
-      return _previewBlockIds.includes(block.name)
-    } else {
-      return false;
-    }
-  } , [_previewBlockIds]);
-
-  const size = block.getSize();
-  const borderWidth = 2;
-  const blockCls = tw(
-    apply`absolute w-[${size.x}px] h-[${size.y}px] left-[${
-      block.begin.x - borderWidth
-    }px] bottom-[${
-      block.begin.y - borderWidth
-    }px] bg-transparent border-${borderWidth} box-content border-transparent`,
-    shouldHighlight &&
-      `bg-[rgba(255,255,255,0.35)] border-blue-500`
-  );
-  const labelCls = tw(
-    apply`absolute bottom-full text-blue-500 font-bold hidden z-10`,
-    shouldHighlight && `inline`
-  );
-  return shouldHighlight ? (
-    <div
-      className={blockCls}
-    >
-      <span className={labelCls}>{block.name}</span>
-    </div>
-
-  ) : ( <div></div>)
-
+  return blocks && (
+    <HintBlocks
+      blocks={blocks}
+      highlightedBlocks={highlightedBlocks}
+      onClickBlock={onClick}
+      onMouseOverBlock={onMouseEnterBlock}
+      onMouseLeaveBlock={onMouseLeaveBlock}
+    />
+  )
 }
 
 function SolutionView() {
   const [code] = useAppState("currentCode");
   const _solutionResult = useStore(solutionResult);
   const _previewLOC = useStore(previewLOC);
-  const blocks = _solutionResult?.blocks;
   let filteredCode = code
   if (_previewLOC && code) {
     filteredCode = code.split('\n').slice(0, _previewLOC + 1).join('\n')
@@ -526,12 +489,7 @@ function SolutionView() {
     <>
       <div className={tw`relative border`}>
         <SolutionCanvas solution={filteredCode} width={400} height={400} />
-        {_.map(blocks, (b) => (
-          <BlockDiv key={b.name} block={b} />
-        ))}
-        {_.map(blocks, (b) => (
-          <PreviewBlockDiv key={b.name} block={b} />
-        ))}
+        <BlocksHintView />
       </div>
     </>
   );
