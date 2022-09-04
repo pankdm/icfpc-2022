@@ -63,12 +63,17 @@ class PixelSolver2:
         color_cost = costs_m.get_cost(costs_m.COSTS.COLOR, color_width * color_height)
         new_simil = costs_m.float_simil(subimg - color)
         old_simil = costs_m.float_simil(subimg - self.pixel_color[(x,y)])
-        print(f"color_cost at {x} {y} {color_cost} old_simil {old_simil} new_simil {new_simil}")
-        if color_cost + new_simil - old_simil < 0:
+        print(f"color_cost at {x} {y} {color_cost} old_simil {old_simil} new_simil {new_simil} (has {self.pixel_color[(x,y)]} need {color})")
+        if old_simil > new_simil + color_cost:
             return color
         else:
             return None
+        # return color if color != self.pixel_color[(x,y)] else None
 
+    def update_pixel_color(self, x, y, color):
+        for xi in range(x, 400, self.pixel_size):
+            for yi in range(y, 400, self.pixel_size):
+                self.pixel_color[(xi, yi)] = color
 
     def pixelize_block(self, block: pixel_solver.Block, x, y):
         print(f"pixelize_block {block} {x} {y} corner color {self.pixel_color[(x,y)]}")
@@ -78,6 +83,7 @@ class PixelSolver2:
         color = self.pick_color(x, y, width, height)
         if color:
             self.prog.append(f"color [{block.name}] {color}")
+            self.update_pixel_color(x, y, color)
 
         # Horizontal row
         for xs in range(x + self.pixel_size, x + width, self.pixel_size):
@@ -86,6 +92,7 @@ class PixelSolver2:
             if color:
                 left, right = block.line_x(xs, self.prog)
                 self.prog.append(f"color [{right.name}] {color}")
+                self.update_pixel_color(xs, y, color)
                 cur_name = self.merge(left.name, right.name)
                 block = pixel_solver.Block(cur_name, block.begin, block.end)
 
@@ -96,8 +103,12 @@ class PixelSolver2:
             if color:
                 bottom, top = block.line_y(ys, self.prog)
                 self.prog.append(f"color [{top.name}] {color}")
+                self.update_pixel_color(x, ys, color)
                 cur_name = self.merge(bottom.name, top.name)
                 block = pixel_solver.Block(cur_name, block.begin, block.end)
+
+        # if x == 120 and y == 120:
+        #     return
 
         if block.width() > 100:
             split_pt = (x + self.pixel_size, y + self.pixel_size)
@@ -107,7 +118,7 @@ class PixelSolver2:
 
 
     def run(self):
-        block = pixel_solver.Block("0", begin = (0, 0), end = (400, 400))
+        block = pixel_solver.Block(str(self.start), begin = (0, 0), end = (400, 400))
 
         self.pixelize_block(block, 0, 0)
 
@@ -116,8 +127,9 @@ class PixelSolver2:
 if __name__ == "__main__":
     problem = sys.argv[1]
     pixel_size = int(sys.argv[2])
+    start = int(sys.argv[3]) if len(sys.argv) > 3 else 0
 
-    solver = PixelSolver2(problem=problem, pixel_size=pixel_size)
+    solver = PixelSolver2(problem=problem, pixel_size=pixel_size, start=start)
     solver.run()
 
     with open(f"solutions/pixel_solver2/{problem}.txt", "wt") as f:
