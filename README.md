@@ -72,3 +72,11 @@ java -jar optimizer/optimizer.jar solutions/manual_robot/9k/2.txt solutions/manu
 
 java -jar optimizer/optimizer.jar solutions/manual_fourdman/35.txt solutions/manual_fourdman/35.opt.txt problems/35.png problems/35.initial.json
 ```
+
+Building cut optimizer:
+```bash
+cd optimizer
+mvn package
+
+# optimizer/target/optimizer.jar
+```
