@@ -79,7 +79,7 @@ export default function Browser() {
         <p className={tw`text-2xl`}>Loading...</p>
       )}
       <div className={tw`flex-1 w-full overflow-auto mx-auto`}>
-        <Col gutter={2} className={tw`max-w-[960px] w-full items-stretch mx-auto`}>
+        <Col gutter={2} className={tw`max-w-[1200px] w-full items-stretch mx-auto`}>
           {sortedProblems?.map((p, idx) => (
             <ProblemItem key={idx} problem={p} />
           ))}
