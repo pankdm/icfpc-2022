@@ -100,7 +100,7 @@ class Block:
         prog.cut_y(self.name, y, self.width() * self.height())
 
         return [bottom, top]
-    
+
     def line_x(self, x, prog: Prog):
         x0, y0 = self.begin
         x1, y1 = self.end
@@ -148,7 +148,7 @@ class PixelSolver:
         self.prog.color(start, self.BACKGROUND, 400 * 400)
 
 
-        
+
     def merge(self, a, b, a_sq_size, b_sq_size):
         assert isinstance(a, str)
         assert isinstance(b, str)
@@ -157,11 +157,11 @@ class PixelSolver:
 
         self.global_counter += 1
         return str(self.global_counter)
-    
+
     def swap(self, b1, b2, sq_size):
         self.prog.swap(b1.name, b2.name, sq_size)
         [b1.name, b2.name] = [b2.name, b1.name]
-    
+
     # draws rect starting from (0,0) to (x1, y1)
     def draw_prefix_rect(self, cur, x1, y1, color):
         if not isinstance(color, str):
@@ -173,7 +173,7 @@ class PixelSolver:
             [cur, b4] = cur.line_x(x1, self.prog)
 
         self.prog.color(cur.name, color, cur.width() * cur.height())
-        
+
         cur_name = cur.name
         if x1 < 400:
             cur_name = self.merge(cur_name, b4.name)
