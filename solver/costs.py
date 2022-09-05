@@ -17,4 +17,4 @@ class COSTS:
 
 def get_cost(move: COSTS, block_size: int):
     canvas_size = 400 * 400
-    return round(move * canvas_size/block_size)
+    return round(move * float(canvas_size)/block_size)

@@ -29,7 +29,7 @@ def download_pic(n):
 
 def open_as_np(n):
     img = Image.open(f"problems/{n}.png")
-    a = np.asarray(img)
+    a = np.asarray(img, dtype=np.int16)
     return a[::-1, :].swapaxes(0, 1)
 
 

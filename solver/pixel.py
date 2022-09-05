@@ -1,10 +1,49 @@
 
 
-from email.errors import InvalidMultipartContentTransferEncodingDefect
 import sys
 from src.utils import open_as_np
 from solver.geometric_median import geometric_median
 import math
+import solver.costs as costs_m
+
+class Prog:
+    def __init__(self):
+        self.cmds = []
+        self.costs = []
+
+    def _add_cmd(self, cmd: str, cost: int):
+        self.cmds.append(cmd)
+        self.costs.append(cost)
+
+    def total_cost(self):
+        return sum(self.costs)
+
+    def color(self, block: str, color, sq_size: int):
+        if not isinstance(color, str):
+            color = to_color(color)
+
+        self._add_cmd(cmd=f"color [{block}] {color}",
+            cost=costs_m.get_cost(costs_m.COSTS.COLOR, sq_size))
+
+    def cut_pt(self, block: str, pt, sq_size: int):
+        self._add_cmd(f"cut [{block}] [{pt[0]}, {pt[1]}]",
+            cost=costs_m.get_cost(costs_m.COSTS.POINTCUT, sq_size))
+
+    def cut_x(self, block: str, x: int, sq_size: int):
+        self._add_cmd(f"cut [{block}] [x] [{x}]",
+            cost=costs_m.get_cost(costs_m.COSTS.LINECUT, sq_size))
+
+    def cut_y(self, block: str, y: int, sq_size: int):
+        self._add_cmd(f"cut [{block}] [y] [{y}]",
+            cost=costs_m.get_cost(costs_m.COSTS.LINECUT, sq_size))
+
+    def merge(self, a: str, b: str, a_sq_size: int, b_sq_size: int):
+        self._add_cmd(cmd=f"merge [{a}] [{b}]",
+            cost=costs_m.get_cost(costs_m.COSTS.MERGE, max(a_sq_size, b_sq_size)))
+
+    def swap(self, a: str, b: str, sq_size: int):
+        self._add_cmd(cmd=f"swap [{a}] [{b}]",
+            cost=costs_m.get_cost(costs_m.COSTS.SWAP, sq_size))
 
 class Block:
     def __init__(self, name, begin, end):
@@ -21,23 +60,26 @@ class Block:
     def height(self):
         return self.size()[1]
 
-    def split_mid(self, prog):
+    def sq_size(self):
+        return self.width() * self.height()
+
+    def split_mid(self, prog: Prog):
         mid_x = (self.begin[0] + self.end[0]) // 2
         mid_y = (self.begin[1] + self.end[1]) // 2
 
         dx = mid_x - self.begin[0]
         dy = mid_y - self.begin[1]
 
-        blocks = self.split((mid_x, mid_y))
+        blocks = self.split((mid_x, mid_y), prog)
         for b in blocks:
             assert b.size() == (dx, dy)
         return blocks
 
-    def split(self, pt, prog):
+    def split(self, pt, prog: Prog):
 
         mid_x = pt[0]
         mid_y = pt[1]
-        prog.append(f"cut [{self.name}] [{mid_x}, {mid_y}]")
+        prog.cut_pt(self.name, (mid_x, mid_y), self.width() * self.height())
 
         x0, y0 = self.begin
         x1, y1 = self.end
@@ -49,22 +91,24 @@ class Block:
 
         return [bottom_left, botom_right, top_right, top_left]
 
-    def line_y(self, y, prog):
+    def line_y(self, y, prog: Prog):
         x0, y0 = self.begin
         x1, y1 = self.end
-        bottom = Block(self.name + ".0", begin = (x0, y0), end = (x0, y))
+        bottom = Block(self.name + ".0", begin = (x0, y0), end = (x1, y))
         top = Block(self.name + ".1", begin = (x0, y), end = (x1, y1))
 
-        prog.append(f"cut [{self.name}] [y] [{y}]")
+        prog.cut_y(self.name, y, self.width() * self.height())
+
         return [bottom, top]
     
-    def line_x(self, x, prog):
+    def line_x(self, x, prog: Prog):
         x0, y0 = self.begin
         x1, y1 = self.end
         left = Block(self.name + ".0", begin = (x0, y0), end = (x, y1))
         right = Block(self.name + ".1", begin = (x, y0), end = (x1, y1))
 
-        prog.append(f"cut [{self.name}] [x] [{x}]")
+        prog.cut_x(self.name, x, self.width() * self.height())
+
         return [left, right]
 
     def line_x_mid(self, prog):
@@ -86,7 +130,7 @@ def dist(a, b):
 class PixelSolver:
     def __init__(self, problem, pixel_size, start = 0):
         assert isinstance(start, int)
-        self.prog = []
+        self.prog = Prog()
         self.global_counter = start
         self.start = str(start)
 
@@ -101,20 +145,21 @@ class PixelSolver:
         self.BACKGROUND = background
 
 
-        self.prog.append(f"color [{start}] {to_color(self.BACKGROUND)}")
+        self.prog.color(start, self.BACKGROUND, 400 * 400)
 
 
         
-    def merge(self, a, b):
+    def merge(self, a, b, a_sq_size, b_sq_size):
         assert isinstance(a, str)
         assert isinstance(b, str)
 
-        self.prog.append(f"merge [{a}] [{b}]")
+        self.prog.merge(a, b, a_sq_size, b_sq_size)
+
         self.global_counter += 1
         return str(self.global_counter)
     
-    def swap(self, b1, b2):
-        self.prog.append(f"swap [{b1.name}] [{b2.name}]")
+    def swap(self, b1, b2, sq_size):
+        self.prog.swap(b1.name, b2.name, sq_size)
         [b1.name, b2.name] = [b2.name, b1.name]
     
     # draws rect starting from (0,0) to (x1, y1)
@@ -127,7 +172,7 @@ class PixelSolver:
         if x1 < 400:
             [cur, b4] = cur.line_x(x1, self.prog)
 
-        self.prog.append(f"color [{cur.name}] {color}")
+        self.prog.color(cur.name, color, cur.width() * cur.height())
         
         cur_name = cur.name
         if x1 < 400:
@@ -172,4 +217,4 @@ if __name__ == "__main__":
 
 
     with open(f"solutions/pixel_solver/{problem}.txt", "wt") as f:
-        f.write("\n".join(solver.prog))
+        f.write("\n".join(solver.prog.cmds))
