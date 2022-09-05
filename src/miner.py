@@ -1,6 +1,6 @@
 
 import os
-
+import time
 
 def get_metadata(cur_problem_id, ts):
     # print ()
@@ -19,9 +19,11 @@ if __name__ == "__main__":
     solutions_dir = './best_solutions'
     timestamps = os.listdir(solutions_dir)
     last_ts = int(max(timestamps))
+    
+    cur_ts = int(time.time())
 
     timestamps.sort(reverse=True)
-    print (last_ts)
+    print (f"checking at {last_ts}, {cur_ts - last_ts}s ago")
 
     for problem_id in range(3, 41):
         problem_id = str(problem_id)
