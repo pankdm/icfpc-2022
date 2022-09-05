@@ -5,7 +5,11 @@ import {
   getPixelSolverSolution,
 } from "../api";
 import { getAppState } from "../app-state";
-import { isRunningSolver } from "../components/Inspector.stores";
+import { isRunningSolver, solutionResult } from "../components/Inspector.stores";
+
+
+const getMaxBlockId = () => _.max(Object.keys(solutionResult.get().blocks).map(id => JSON.parse(id.split(".")[0])));
+
 
 export function generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, direction) {
   const { solutionResult } = cmdContext;
@@ -189,9 +193,13 @@ export async function generateBinarySolverCmds(cmdContext, blockId) {
 export async function generatePixelSolverCmds(cmdContext, blockId) {
   const problemId = cmdContext.problemId;
   const solverExtraArgs = cmdContext.solverExtraArgs
+  const block = cmdContext.solutionResult.blocks[blockId];
+  const maxBlockId = getMaxBlockId()
 
   isRunningSolver.set(true);
-  const responseData = await getPixelSolverSolution(problemId, blockId, solverExtraArgs);
+  const responseData = await getPixelSolverSolution(
+    problemId, blockId, block.begin.x, block.end.x, block.begin.y, block.end.y, maxBlockId,
+    solverExtraArgs);
   isRunningSolver.set(false);
 
   return "# solver response\n" + responseData?.cmds.join("\n");

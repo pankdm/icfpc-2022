@@ -78,15 +78,21 @@ export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2
   });
 }
 
-export async function getPixelSolverSolution(problemId, blockId, extraArgs) {
+export async function getPixelSolverSolution(problemId, blockId, x1, x2, y1, y2, maxBlockId, extraArgs) {
   const body = _.pickBy(
     {
       problem_id: problemId,
       block_id: blockId,
+      x1: x1,
+      x2: x2,
+      y1: y1,
+      y2: y2,
+      maxBlockId: maxBlockId,
       extra_args: extraArgs,
     },
     v => v !== undefined,
   )
+  console.log('POST /run_pixel_solver', body)
   return await localApiRequest(`/run_pixel_solver`, {
     method: 'POST',
     headers: {
