@@ -20,6 +20,9 @@ export function Header() {
   const _solutionError = useStore(solutionError)
   const codeBroken = !!_solutionError?.error
   const { problemId } = useParams();
+  const problemMeta = data?.problems?.[problemId-1] || {}
+  const { problem_name: problemName, min_cost: ourBestCost, overall_best_cost: overallBestCost } = problemMeta
+  console.log(problemId, problemMeta)
   useEffect(() => {
     setAppState('currentProblemId', problemId)
   }, [problemId])
@@ -58,6 +61,12 @@ export function Header() {
             </option>
           ))}
         </Select>
+        <p>
+          Best: {ourBestCost} (vs {overallBestCost})
+        </p>
+        <p>
+          {problemName}
+        </p>
       </Row>
       <Spacer flex={1} />
       <Row className={tw`w-[24rem]`}>
