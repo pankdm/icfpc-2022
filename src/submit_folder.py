@@ -17,7 +17,7 @@ def main():
 
     path = sys.argv[1]
     print("Submitting folder", path)
-    for n in range(25, 36):
+    for n in range(1, 40):
         fname = f"{path}/{n}.txt"
         if os.path.isfile(fname):
             print("Sending file", fname)

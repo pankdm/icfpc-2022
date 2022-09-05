@@ -1,2 +1,2 @@
 ################# BEST RESULT #########################
-# ExecutionResult{programCost=0, imageDiffCost=21906, totalCost=21906}
+# ExecutionResult{initialCost=0, programCost=0, imageDiffCost=21906, totalCost=21906}
