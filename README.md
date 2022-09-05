@@ -83,5 +83,5 @@ mvn package
 
 Generate all previews:
 ```
-for j in `jot - 1 40`; do java -jar optimizer/target/optimizer.jar solutions/best/$j.txt
+bash src/run_optimizer.sh
 ```
