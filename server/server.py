@@ -65,6 +65,9 @@ def get_problem(id):
 def get_problem_start(id):
     return send_from_directory('../problems', id+'.initial.png')
 
+@app.get("/previews/<id>")
+def get_solutions_preview(id):
+    return send_from_directory('../previews/1/', id+'.txt.png')
 
 
 @app.get("/problem_initial_states/<id>")

@@ -137,6 +137,10 @@ export function getProblemStartImgUrl(problemId) {
   return getAPIpath(`/problems_start/${problemId}`)
 }
 
+export function getProblemSolutionImgUrl(problemId) {
+  return getAPIpath(`/previews/${problemId}`)
+}
+
 
 // ICFPC API
 const ICFPC_SERVER_URL = 'http://localhost:8000/icfpc'

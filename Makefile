@@ -3,6 +3,8 @@ PIP                 := pip3
 FLASK               := ${PYTHON} -m flask
 EXPORT_PYTHONPATH   := export PYTHONPATH="$(shell pwd)";
 
+.PHONY: previews
+
 install:
 	${PIP} install -r requirements.txt; cd ui; yarn;
 
@@ -20,3 +22,6 @@ download:
 
 jar:
 	cd optimizer; mvn package
+
+previews: jar
+	bash src/generate_all_previews.sh
