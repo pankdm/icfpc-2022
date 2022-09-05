@@ -81,7 +81,13 @@ mvn package
 # optimizer/target/optimizer.jar
 ```
 
-Generate all previews:
+Run optimizer on all problems then submit
 ```
 bash src/run_optimizer.sh
+python3 -m src.submit_folder solutions/optimized
+```
+
+Generate all previews:
+```
+make previews
 ```

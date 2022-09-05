@@ -1,4 +1,4 @@
-for j in `jot - 18 25`; do 
+for j in `jot - 2 25`; do 
     java -jar optimizer/target/optimizer.jar solutions/best/$j.txt solutions/optimized/$j.txt problems/$j.png ;
 done;
 
