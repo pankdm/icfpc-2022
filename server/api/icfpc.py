@@ -112,8 +112,8 @@ def download_best_submissions(check_ts=True):
     last_ts = int(max(timestamps))
     print (last_ts)
 
-    # only download every 10 minutes
-    if check_ts and int(last_ts) + 600 > ts:
+    # go to server only every 2 minutes
+    if check_ts and int(last_ts) + 120 > ts:
         print (f"Last download was too early: {ts - last_ts} seconds ago, exiting")
         return
 
