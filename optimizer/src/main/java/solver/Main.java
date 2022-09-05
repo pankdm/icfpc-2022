@@ -47,6 +47,13 @@ public class Main {
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length == 1 || args.length == 2) {
+            String programName = args[0];
+            String initialStateJson = args.length == 2? args[1]: null;
+            printImage(programName, initialStateJson);
+            System.out.println("Image exported: " + programName + ".png");
+            return;
+        }
         if (args.length != 3 && args.length != 4) {
             System.out.println("Not enough arguments!");
             System.out.println("java -jar optimizer.jar <solution_in> <optimized_out> <target png> [<initial state json>]");
@@ -60,10 +67,18 @@ public class Main {
         String targetImage = args[2];
         String initialStateJson = args.length == 4? args[3]: null;
 
-        test(targetImage,
+        optimize(targetImage,
                 initialStateJson,
                 program,
                 optProgram);
+    }
+
+    public static void printImage(String solutionFile, String initialStateJson) throws IOException {
+        List<Command> program = loadProgram(solutionFile);
+        BufferedImage target = new BufferedImage(400, 400, BufferedImage.TYPE_4BYTE_ABGR);
+        Canvas initial = initialStateJson == null? new Canvas(): loadInitialState(initialStateJson);
+        executeProgram(initial, target, program);
+        ImageIO.write(initial.getImage(), "png", new File(String.format("%s.png", solutionFile)));
     }
 
     public static void main2(String[] args) throws IOException {
@@ -75,7 +90,7 @@ public class Main {
 //                null,
 //                "/Users/dmitrykorolev/projects/icfpc-2022/solutions/manual_robot/9k/2.txt");
 
-        test("/Users/dmitrykorolev/projects/icfpc-2022/problems/19.png",
+        optimize("/Users/dmitrykorolev/projects/icfpc-2022/problems/19.png",
                 null,
                 "/Users/dmitrykorolev/projects/icfpc-2022/solutions/binary_solver_2/19.txt",
                 null);
@@ -93,7 +108,7 @@ public class Main {
 //                "/Users/dmitrykorolev/projects/icfpc-2022/solutions/manual_chess/32k/1.txt");
     }
 
-    public static void test(String problemFileName, String initialStateFile, String solutionFile, String optSolutionFile) throws IOException {
+    public static void optimize(String problemFileName, String initialStateFile, String solutionFile, String optSolutionFile) throws IOException {
         List<Command> program = loadProgram(solutionFile);
         ExecutionResult originalResult = test(0, problemFileName, initialStateFile, program);
         ExecutionResult bestResult = originalResult;
@@ -115,7 +130,7 @@ public class Main {
                     count++;
 
                     if (result.totalCost < bestResult.totalCost) {
-                        System.out.println(String.format("[%d/%d] new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
+                        System.out.println(String.format("[%d/%d] (line cut) new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
                         bestResult = result;
                     }
                 }
@@ -133,12 +148,41 @@ public class Main {
                         count++;
 
                         if (result.totalCost < bestResult.totalCost) {
-                            System.out.println(String.format("[%d/%d] new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
+                            System.out.println(String.format("[%d/%d] (point cut) new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
                             bestResult = result;
                         }
                     }
                 }
             }
+//            if (command.getType() == MoveType.COLOR) {
+//                ColorMove colorMove = (ColorMove) command;
+//                for (int a = -2; a <= 2; a++) {
+//                    for (int b = -2; b <= 2; b++) {
+//                        for (int g = -2; g <= 2; g++) {
+//                            for (int r = -2; r <= 2; r++) {
+//                                int[] color = colorMove.color;
+//                                int[] newColor = new int[] {
+//                                    (color[0] + a) & 0xFF,
+//                                    (color[1] + b) & 0xFF,
+//                                    (color[2] + g) & 0xFF,
+//                                    (color[3] + r) & 0xFF
+//                                };
+//                                Command modifiedMove = new ColorMove(colorMove.blockId, newColor);
+//                                List<Command> currentProgram = new ArrayList<>(bestResult.program);
+//                                currentProgram.set(i, modifiedMove);
+//
+//                                ExecutionResult result = test(count, problemFileName, initialStateFile, currentProgram);
+//                                count++;
+//
+//                                if (result.totalCost < bestResult.totalCost) {
+//                                    System.out.println(String.format("[%d/%d] (color) new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
+//                                    bestResult = result;
+//                                }
+//                            }
+//                        }
+//                    }
+//                }
+//            }
         }
 
         PrintStream printStream = optSolutionFile != null? new PrintStream(optSolutionFile): System.out;
