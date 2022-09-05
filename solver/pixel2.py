@@ -6,6 +6,7 @@ import solver.pixel as pix
 import solver.costs as costs_m
 import dataclasses
 import numpy as np
+import traceback
 
 @dataclasses.dataclass
 class LogEntry:
@@ -21,7 +22,7 @@ class LogEntry:
 
 class PixelSolver2:
     def __init__(self, problem_id, start_block, max_block_id, pixel_size):
-        assert isinstance(max_block_id, int)
+        assert isinstance(max_block_id, int), f"not an int: {max_block_id}"
 
         self.prog = pix.Prog()
         self.global_counter = max_block_id
@@ -50,8 +51,8 @@ class PixelSolver2:
         return costs_m.simil(self.img - canvas)
 
     def merge(self, a, b, a_sq_size, b_sq_size):
-        assert isinstance(a, str)
-        assert isinstance(b, str)
+        assert isinstance(a, str), f"not a str: {a}"
+        assert isinstance(b, str), f"not a str: {b}"
 
         self.prog.merge(a, b, a_sq_size, b_sq_size)
         self.global_counter += 1
@@ -82,6 +83,9 @@ class PixelSolver2:
                 self.pixel_color[(xi, yi)] = color
 
     def pixelize_block(self, block: pix.Block, x, y):
+        if x >= self.start_block.end[0] or y >= self.start_block.end[1]:
+            return
+
         print(
             f"pixelize_block {block} {x} {y} corner color {self.pixel_color[(x,y)]}")
 
@@ -119,7 +123,7 @@ class PixelSolver2:
 
         self.log_state(f"x{x} y{y}")
 
-        if block.width() > self.pixel_size:
+        if block.width() > self.pixel_size and block.height() > self.pixel_size:
             split_pt = (x + self.pixel_size, y + self.pixel_size)
             _, _, top_right, _ = block.split(split_pt, self.prog)
 
@@ -142,26 +146,31 @@ class PixelSolver2:
         self.log_state("final")
         
 def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size):
-    log_entries = []
-    for ps in range(pixel_size - 5, pixel_size + 5):
-        solver = PixelSolver2(
-            problem_id=problem_id,
-            start_block=start_block,
-            max_block_id=max_block_id,
-            pixel_size=ps)
+    try:
+        log_entries = []
+        for ps in range(pixel_size - 5, pixel_size + 5):
+            solver = PixelSolver2(
+                problem_id=problem_id,
+                start_block=start_block,
+                max_block_id=max_block_id,
+                pixel_size=ps)
 
-        solver.run()
-        log_entries.extend(solver.log)
+            solver.run()
+            log_entries.extend(solver.log)
 
-        for entry in solver.log:
-            print(f"{entry} => {entry.total_cost()}")
+            for entry in solver.log:
+                print(f"{entry} => {entry.total_cost()}")
 
-    best_entry: LogEntry = min(log_entries, key=lambda entry: entry.total_cost())
-    print(f"\n\nBEST: {best_entry} => {best_entry.total_cost()}")
+        best_entry: LogEntry = min(log_entries, key=lambda entry: entry.total_cost())
+        print(f"\n\nBEST: {best_entry} => {best_entry.total_cost()}")
 
-    cmds = best_entry.prog.cmds[:best_entry.prog_length]
+        cmds = best_entry.prog.cmds[:best_entry.prog_length]
 
-    return cmds
+        return cmds
+    except Exception as err:
+        traceback.print_exc()
+        print(f"run_pixel_solver() failed {err}")
+        return f"Error: {err}"
     # total = 0
     # for i, (cmd, cost) in enumerate(zip(solver.prog.cmds, solver.prog.costs)):
     #     total += cost
