@@ -20,14 +20,15 @@ class LogEntry:
         return self.cost + self.similarity
 
 class PixelSolver2:
-    def __init__(self, problem, pixel_size, start_block, global_counter_start=0):
-        assert isinstance(start, int)
+    def __init__(self, problem_id, start_block, max_block_id, pixel_size):
+        assert isinstance(max_block_id, int)
+
         self.prog = pix.Prog()
-        self.global_counter = global_counter_start
+        self.global_counter = max_block_id
         self.start_block = start_block
 
         self.pixel_size = pixel_size
-        self.img = open_as_np(problem)
+        self.img = open_as_np(problem_id)
 
         self.BACKGROUND = (255, 255, 255, 255)
         self.prog.color(start_block.name, self.BACKGROUND, start_block.sq_size())
@@ -140,20 +141,14 @@ class PixelSolver2:
 
         self.log_state("final")
         
-
-
-if __name__ == "__main__":
-    problem = sys.argv[1]
-    pixel_size = int(sys.argv[2])
-    start = int(sys.argv[3]) if len(sys.argv) > 3 else 0
-
+def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size):
     log_entries = []
     for ps in range(pixel_size - 5, pixel_size + 5):
         solver = PixelSolver2(
-            problem=problem,
-            pixel_size=ps,
-            start_block=pix.Block("0", begin=(0, 0), end=(400, 400)),
-            global_counter_start=0)
+            problem_id=problem_id,
+            start_block=start_block,
+            max_block_id=max_block_id,
+            pixel_size=ps)
 
         solver.run()
         log_entries.extend(solver.log)
@@ -166,10 +161,22 @@ if __name__ == "__main__":
 
     cmds = best_entry.prog.cmds[:best_entry.prog_length]
 
+    return cmds
     # total = 0
     # for i, (cmd, cost) in enumerate(zip(solver.prog.cmds, solver.prog.costs)):
     #     total += cost
     #     print(f"{i + 1}: [{total}] {cost}: {cmd}")
 
-    with open(f"solutions/pixel_solver2/{problem}.txt", "wt") as f:
+if __name__ == "__main__":
+    problem_id = sys.argv[1]
+    pixel_size = int(sys.argv[2])
+    start = int(sys.argv[3]) if len(sys.argv) > 3 else 0
+
+    cmds = run_pixel_solver(
+        problem_id=problem_id,
+        start_block=pix.Block("0", begin=(0, 0), end=(400, 400)),
+        max_block_id = start,
+        pixel_size = pixel_size)
+
+    with open(f"solutions/pixel_solver2/{problem_id}.txt", "wt") as f:
         f.write("\n".join(cmds))

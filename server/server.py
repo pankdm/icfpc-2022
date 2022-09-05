@@ -7,7 +7,7 @@ from traceback import print_stack, print_tb
 from flask_cors import CORS
 from flask import Flask, request, send_from_directory
 
-from solver.pixel2 import PixelSolver2
+from solver.pixel2 import run_pixel_solver
 from .api import icfpc as ICFPC
 from .utils import get_sanitized_args
 from itertools import chain
@@ -16,6 +16,7 @@ import solver.geometric_median as gm
 from PIL import Image
 import numpy as np
 import solver.binar_solver as binary_solver
+import solver.pixel as pix
 
 from os import listdir
 from os.path import isfile, join
@@ -122,21 +123,25 @@ def post_run_solver():
 def post_run_pixel_solver():
     payload = request.get_json()
     print('Payload', payload)
+    
     problem_id = payload["problem_id"]
+
     block_id = payload["block_id"]
-    args = [problem_id]
-    if block_id:
-        args.append(int(block_id))
+    x1, x2, y1, y2 = payload["x1"], payload["x2"], payload["y1"], payload["y2"]
+    start_block = pix.Block(block_id, (x1, y1), (x2, y2))
+    
+    max_block_id = payload["max_block_id"]
+
+    args = [problem_id, start_block, max_block_id]
     if "extra_args" in payload:
         extra_args = payload["extra_args"]
         extra_args = get_sanitized_args(extra_args)
         args += extra_args
 
-    print('Solver args', args)
-    solver = PixelSolver2(*args)
-    solver.run()
+    print('run_pixel_solver() args', args)
+    cmds = run_pixel_solver(*args)
 
-    return {'cmds': solver.prog }
+    return {'cmds': cmds }
 
 
 @app.get("/problems")
