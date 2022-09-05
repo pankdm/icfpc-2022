@@ -134,6 +134,7 @@ def download_best_submissions():
 
 
         best = os.path.dirname(__file__)+f'/../../solutions/best/'
+        os.system(f"mkdir -p {best}")
         with open(f"{best}/{problem_id}.txt", "wt") as f:
             f.write(content)
     
