@@ -64,12 +64,13 @@ public class Main {
             System.out.println("example 1: java -jar optimizer.jar 34.txt 34.opt.txt 34.png 34.initial.json");
             return;
         }
-
+        
         String program = args[0];
         String optProgram = args[1];
         String targetImage = args[2];
         String initialStateJson = args.length == 4? args[3]: null;
 
+        System.out.println("Running on " + targetImage); 
         optimize(targetImage,
                 initialStateJson,
                 program,

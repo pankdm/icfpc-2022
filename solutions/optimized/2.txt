@@ -71,4 +71,4 @@ merge [28.1.0.1.0] [28.1.0.1.1]
 merge [29] [28.1.0.0]
 merge [30] [28.1.1]
 merge [31] [28.0]
-# ExecutionResult{programCost=3523, imageDiffCost=3035, totalCost=6558}
+# ExecutionResult{initialCost=0, programCost=3523, imageDiffCost=3035, totalCost=6558}
