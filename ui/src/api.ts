@@ -104,6 +104,19 @@ export async function getSolution(solutionId): Promise<String> {
   return await localApiRequest(`/solutions/${solutionId}`, { method: 'GET' })
 }
 
+export async function submitSolution(solutionId: String, code: String) {
+  const body = {
+    solution: code
+  }
+  return await localApiRequest(`/solutions/${solutionId}`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(body)
+  })
+}
+
 export async function getBestSolution(solutionId): Promise<String> {
   return await localApiRequest(`/best_solutions/${solutionId}`, { method: 'GET' })
 }

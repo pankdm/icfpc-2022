@@ -6,6 +6,7 @@ export default function Button({
   className,
   onChange = _.noop,
   onChangeValue = _.noop,
+  disabled,
   ...props
 }) {
   const _onChange = e => {
@@ -16,6 +17,7 @@ export default function Button({
   const cls = [
     apply`bg-${color}-500 hover:bg-${color}-700 text-white font-bold py-2 px-4 rounded`,
     ['white', 'transparent'].includes(color) == 'white' && `bg-${color} hover:bg-${color}`,
+    disabled && `opacity-50 bg-${color}-500 hover:bg-${color}-500 pointer-noentry`
   ]
   return <button className={tw(cls, className)} onChange={_onChange} {...props}/>
 }
