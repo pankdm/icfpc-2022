@@ -134,7 +134,8 @@ public class Main {
                     count++;
 
                     if (result.totalCost < bestResult.totalCost) {
-                        System.out.println(String.format("[%d/%d] (line cut) new best score found: %d -> %d (start = %d)", i, len, bestResult.totalCost, result.totalCost, originalResult.totalCost));
+                        System.out.println(String.format("[%d/%d] (line cut) new best score found: %d -> %d (start = %d, improve = %d)", 
+                            i, len, bestResult.totalCost, result.totalCost, originalResult.totalCost, originalResult.totalCost - result.totalCost));
                         bestResult = result;
                     }
                 }
@@ -152,7 +153,8 @@ public class Main {
                         count++;
 
                         if (result.totalCost < bestResult.totalCost) {
-                            System.out.println(String.format("[%d/%d] (point cut) new best score found: %d -> %d (start = %d)", i, len, bestResult.totalCost, result.totalCost, originalResult.totalCost));
+                            System.out.println(String.format("[%d/%d] (point cut) new best score found: %d -> %d (start = %d, improve = %d)", 
+                                i, len, bestResult.totalCost, result.totalCost, originalResult.totalCost, originalResult.totalCost - result.totalCost));
                             bestResult = result;
                         }
                     }
@@ -630,10 +632,16 @@ public class Main {
 
         public long lineCut(String blockId, String orientation, int offset) {
             Block block = blocks.remove(blockId);
+
+
             //System.out.println(String.format("lineCut: %s, %s, %d", block, orientation, offset));
             Block block1;
             Block block2;
             if (orientation.equalsIgnoreCase("x")) {
+                if (offset <= block.bottomLeft.x || offset > block.topRight.x) {
+                    throw new IllegalStateException("cut [x] is ouside the block");
+                }
+
                 block1 = new Block(
                         block.blockId + ".0",
                         block.bottomLeft,
@@ -647,6 +655,10 @@ public class Main {
                         block.color
                 );
             } else {
+                if (offset <= block.bottomLeft.y || offset > block.topRight.y) {
+                    throw new IllegalStateException("cut [y] is ouside the block");
+                }
+
                 block1 = new Block(
                         block.blockId + ".0",
                         block.bottomLeft,
