@@ -1,3 +1,4 @@
+from re import S
 import sys
 from src.utils import open_as_np
 from solver.geometric_median import geometric_median
@@ -21,7 +22,7 @@ class LogEntry:
         return self.cost + self.similarity
 
 class PixelSolver2:
-    def __init__(self, problem_id, start_block, max_block_id, pixel_size):
+    def __init__(self, problem_id, start_block, max_block_id, pixel_size, max_steps = -1):
         assert isinstance(max_block_id, int), f"not an int: {max_block_id}"
 
         self.prog = pix.Prog()
@@ -39,6 +40,7 @@ class PixelSolver2:
             for y in range(start_block.begin[1], start_block.end[1], pixel_size):
                 self.pixel_color[(x, y)] = self.BACKGROUND
 
+        self.max_steps = max_steps
         self.log = []
 
     def compute_similarity(self):
@@ -82,12 +84,14 @@ class PixelSolver2:
             for yi in range(y, self.start_block.end[1], self.pixel_size):
                 self.pixel_color[(xi, yi)] = color
 
-    def pixelize_block(self, block: pix.Block, x, y):
+    def pixelize_block(self, block: pix.Block, x, y, max_steps):
         if x >= self.start_block.end[0] or y >= self.start_block.end[1]:
             return
 
         print(
-            f"pixelize_block {block} {x} {y} corner color {self.pixel_color[(x,y)]}")
+            f"pixelize_block {block} {x} {y} corner color {self.pixel_color[(x,y)]}, max_steps={max_steps}")
+        if max_steps == 0:
+            return
 
         width = block.width()
         height = block.height()
@@ -127,7 +131,7 @@ class PixelSolver2:
             split_pt = (x + self.pixel_size, y + self.pixel_size)
             _, _, top_right, _ = block.split(split_pt, self.prog)
 
-            self.pixelize_block(top_right, split_pt[0], split_pt[1])
+            self.pixelize_block(top_right, split_pt[0], split_pt[1], max_steps - 1)
 
     def log_state(self, desc):
         self.log.append(LogEntry(
@@ -141,11 +145,11 @@ class PixelSolver2:
     def run(self):
         self.log_state("initial")
 
-        self.pixelize_block(self.start_block, self.start_block.begin[0], self.start_block.begin[1])
+        self.pixelize_block(self.start_block, self.start_block.begin[0], self.start_block.begin[1], self.max_steps)
 
         self.log_state("final")
         
-def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size):
+def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size, max_steps=-1):
     try:
         log_entries = []
         for ps in range(pixel_size - 5, pixel_size + 5):
@@ -153,7 +157,8 @@ def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size):
                 problem_id=problem_id,
                 start_block=start_block,
                 max_block_id=max_block_id,
-                pixel_size=ps)
+                pixel_size=ps,
+                max_steps=max_steps)
 
             solver.run()
             log_entries.extend(solver.log)
