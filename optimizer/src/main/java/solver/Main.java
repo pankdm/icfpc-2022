@@ -667,6 +667,10 @@ public class Main {
 
         public long pointCut(String blockId, Point offset) {
             Block block = blocks.remove(blockId);
+            if (offset.y <= block.bottomLeft.y || offset.x <= block.bottomLeft.x || offset.y > block.topRight.y || offset.x > block.topRight.x) {
+                throw new IllegalStateException("point is outside the bounding box");
+            }
+
             List<Block> result = new ArrayList<>();
             addBlock(new Block(
                     block.blockId + ".0",

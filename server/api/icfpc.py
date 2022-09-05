@@ -127,7 +127,10 @@ def download_best_submissions(check_ts=True):
     all_problems = defaultdict(list)
     for submit_info in res['submissions']:
         problem_id = submit_info['problem_id']
+        # print (submit_info)
         if 'score' not in submit_info:
+            continue
+        if submit_info['status'] != 'SUCCEEDED':
             continue
         score = submit_info['score']
         submit_id = submit_info['id']

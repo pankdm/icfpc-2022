@@ -509,4 +509,4 @@ merge [845.1.0.1.0] [845.1.0.1.1]
 merge [846] [845.1.0.0]
 merge [847] [845.1.1]
 merge [848] [845.0]
-# ExecutionResult{initialCost=29498, programCost=23400, imageDiffCost=3035, totalCost=26435}
+# ExecutionResult{initialCost=0, programCost=23400, imageDiffCost=3035, totalCost=26435}
