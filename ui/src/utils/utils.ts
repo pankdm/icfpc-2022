@@ -1,6 +1,9 @@
 import _ from 'lodash'
 import { useEffect, useRef, useState } from "react"
 
+import { getAppState } from "../app-state"
+
+
 export const sleep = (delayMs = 100) => new Promise((res, rej) => setTimeout(res, delayMs))
 
 export function useOnChange(value, callback = _.noop) {
@@ -112,6 +115,15 @@ enum ActionsBaseCost {
     SWAP = 3,
     MERGE = 1,
 }
+
+enum LastProblemsBaseCost {
+    LINE_CUT = 2,
+    POINT_CUT = 3,
+    COLOR = 5,
+    SWAP = 3,
+    MERGE = 1,
+}
+
 
 const CANVAS_SIZE_X = 400
 const CANVAS_SIZE_Y = 400
@@ -274,6 +286,9 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
         actionsCost.push(0)
         return
     }
+    const problemId = parseInt(getAppState("currentProblemId"));
+    const COST = problemId >= 36 ? LastProblemsBaseCost : ActionsBaseCost;
+
     let cmd, blockId, args
     cmd = instruction.match(/^\w+/)[0]
     // split into wrapped args wrapped in [ ]
@@ -292,13 +307,13 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
             const pointStr = args[0]
             const point: Vec = new Vec(...JSON.parse(pointStr))
             newBlocks = block.pointCut(point)
-            baseActionCost = ActionsBaseCost.POINT_CUT
+            baseActionCost = COST.POINT_CUT
             delete blocks[blockId]
         } else {
             let [dir, cutCoordStr] = args
             dir = dir.toLowerCase()
             const cutCoord: Number = JSON.parse(cutCoordStr)[0]
-            baseActionCost = ActionsBaseCost.LINE_CUT
+            baseActionCost = COST.LINE_CUT
             if (dir == '[y]') {
                 newBlocks = block.cutY(cutCoord)
                 delete blocks[blockId]
@@ -313,14 +328,14 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
         actionsCost.push(getTotalActionCost(baseActionCost, block.getSqSize()))
     } else if (cmd == 'color') {
         const [r, g, b, a]: Number[] = JSON.parse(args)
-        actionsCost.push(getTotalActionCost(ActionsBaseCost.COLOR, block.getSqSize()))
+        actionsCost.push(getTotalActionCost(COST.COLOR, block.getSqSize()))
         block.color(drawCtx, r, g, b, a)
     } else if (cmd == 'swap') {
         let otherBlockId = args[0]
         otherBlockId = otherBlockId.slice(1, -1)
         const otherBlock: Block = blocks[otherBlockId]
         block.swap(drawCtx, otherBlock)
-        actionsCost.push(getTotalActionCost(ActionsBaseCost.SWAP, block.getSqSize()))
+        actionsCost.push(getTotalActionCost(COST.SWAP, block.getSqSize()))
     } else if (cmd == 'merge') {
         let otherBlockId = args[0]
         otherBlockId = otherBlockId.slice(1, -1)
@@ -331,7 +346,7 @@ function executeCommand(blocks: Object, instruction: String, actionsCost: Number
         blocks[nextBlockId] = newBlock
         delete blocks[blockId]
         delete blocks[otherBlockId]
-        actionsCost.push(getTotalActionCost(ActionsBaseCost.MERGE, _.max([block.getSqSize(), otherBlock.getSqSize()])));
+        actionsCost.push(getTotalActionCost(COST.MERGE, _.max([block.getSqSize(), otherBlock.getSqSize()])));
     }
     return actionsCost
 }
