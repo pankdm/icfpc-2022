@@ -25,12 +25,14 @@ public class Main {
 
     public static class ExecutionResult {
         List<Command> program;
+        long initialCost;
         long programCost;
         long imageDiffCost;
         long totalCost;
 
-        public ExecutionResult(List<Command> program, long programCost, long imageDiffCost) {
+        public ExecutionResult(List<Command> program, long initialCost, long programCost, long imageDiffCost) {
             this.program = program;
+            this.initialCost = initialCost;
             this.programCost = programCost;
             this.imageDiffCost = imageDiffCost;
             this.totalCost = programCost + imageDiffCost;
@@ -39,7 +41,8 @@ public class Main {
         @Override
         public String toString() {
             return "# ExecutionResult{" +
-                    "programCost=" + programCost +
+                    "initialCost=" + initialCost +
+                    ", programCost=" + programCost +
                     ", imageDiffCost=" + imageDiffCost +
                     ", totalCost=" + totalCost +
                     '}';
@@ -126,7 +129,7 @@ public class Main {
                     currentProgram.add(modifiedMove);
                     currentProgram.addAll(program.subList(i+1, len));
 
-                    ExecutionResult result = test(count, problemFileName, initialStateFile, currentProgram);
+                    ExecutionResult result = test(originalResult.totalCost, problemFileName, initialStateFile, currentProgram);
                     count++;
 
                     if (result.totalCost < bestResult.totalCost) {
@@ -144,7 +147,7 @@ public class Main {
                         currentProgram.add(modifiedMove);
                         currentProgram.addAll(program.subList(i+1, len));
 
-                        ExecutionResult result = test(count, problemFileName, initialStateFile, currentProgram);
+                        ExecutionResult result = test(originalResult.totalCost, problemFileName, initialStateFile, currentProgram);
                         count++;
 
                         if (result.totalCost < bestResult.totalCost) {
@@ -194,13 +197,13 @@ public class Main {
         printStream.flush();
     }
 
-    public static ExecutionResult test(int id, String problemFileName, String initialStateFile, List<Command> program) throws IOException {
+    public static ExecutionResult test(long initialCost, String problemFileName, String initialStateFile, List<Command> program) throws IOException {
         BufferedImage target = ImageIO.read(new File(problemFileName));
         Canvas initial = initialStateFile == null? new Canvas(): loadInitialState(initialStateFile);
         long programCost = executeProgram(initial, target, program);
         long imageDiffCost = imageDiff(target, initial.getImage());
         //ImageIO.write(initial.getImage(), "png", new File(String.format("/Users/dmitrykorolev/projects/icfp22-solver/solution/%d.png", id)));
-        return new ExecutionResult(program, programCost, imageDiffCost);
+        return new ExecutionResult(program, initialCost, programCost, imageDiffCost);
     }
 
     public static int[] toIntArray(List<Double> doubles) {
