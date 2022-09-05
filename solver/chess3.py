@@ -93,6 +93,13 @@ left_sides[ca[0]] -= 1
 right_sides[ca[1] - 4] -= 1
 extra_side = d - 1
 
+rows_lengths = [d, d, d, d, d, d, d, d]
+rows_swaps_a = [1, 4]
+rows_swaps_b = [3, 6]
+extra_row = d - 1
+rows_lengths[rows_swaps_a[0]] -= 1
+rows_lengths[rows_swaps_a[1]] -= 1
+
 def add_fragment(prog, frag):
     for line in frag.split("\n"):
         prog.append(line.lstrip())
@@ -113,28 +120,6 @@ def swap(b1, b2, prog):
     [b1.name, b2.name] = [b2.name, b1.name]
 
 
-def split_blocks(b, size):
-    [b0, b1, b2, b3] = b.split_mid(prog)
-    if size == 4:
-        prog.append(f"color [{b1.name}] {white}")
-        prog.append(f"color [{b3.name}] {white}")
-
-        b00 = b0.split_mid(prog)
-        b11 = b1.split_mid(prog)
-        b22 = b2.split_mid(prog)
-        b33 = b3.split_mid(prog)
-
-        prog.append(f"swap [{b00[1].name}] [{b11[0].name}]")
-        prog.append(f"swap [{b00[3].name}] [{b11[2].name}]")
-
-        prog.append(f"swap [{b33[0].name}] [{b22[1].name}]")
-        prog.append(f"swap [{b33[2].name}] [{b22[3].name}]")
-    else:
-        split_blocks(b0, size // 2)
-        split_blocks(b1, size // 2)
-        split_blocks(b2, size // 2)
-        split_blocks(b3, size // 2)
-
 def split_by_lines(b, bottom_line):
     prog.append(f"color [{b.name}] {white}")
     prog.append(f"color [{bottom_line.name}] {white}")
@@ -152,15 +137,15 @@ def split_by_lines(b, bottom_line):
         for i in range(7):
             if i == 4:
                 prog.append(f"color [{cur.name}] {color}")
-            [bottom, top] = cur.line_y(cur.end[1] - d, prog)
+            [bottom, top] = cur.line_y(cur.end[1] - rows_lengths[i], prog)
             lines.append(top)
             cur = bottom
         lines.append(cur)
 
         # for b in lines:
         #     print(b.name)
-        swap(lines[1], lines[4], prog)
-        swap(lines[3], lines[6], prog)
+        swap(lines[rows_swaps_a[0]], lines[rows_swaps_a[1]], prog)
+        swap(lines[rows_swaps_b[0]], lines[rows_swaps_b[1]], prog)
         return lines
 
 
@@ -206,9 +191,9 @@ def solve():
         f"color [0] {blue}",
     ]
     b = Block("0", begin = (0, 0), end = (400, 400))
-    [_, b1] = b.line_y(d + 3, prog)
+    [_, b1] = b.line_y(400 - (sum(rows_lengths) + extra_row), prog)
     [b2, _] = b1.line_x(sum(left_sides) + sum(right_sides) + extra_side, prog)
-    [b3, main_block] = b2.line_y(b2.begin[1] + d, prog)
+    [b3, main_block] = b2.line_y(b2.begin[1] + extra_row, prog)
     [bottom_line, _] = b3.line_x(sum(left_sides) + sum(right_sides), prog)
 
     split_by_lines(main_block, bottom_line)
