@@ -83,6 +83,7 @@ mvn package
 
 Run optimizer on all problems then submit
 ```
+make jar
 bash src/run_optimizer.sh
 python3 -m src.submit_folder solutions/optimized
 ```

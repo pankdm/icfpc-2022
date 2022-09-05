@@ -127,21 +127,29 @@ def download_best_submissions(check_ts=True):
     all_problems = defaultdict(list)
     for submit_info in res['submissions']:
         problem_id = submit_info['problem_id']
+        # print (submit_info)
         if 'score' not in submit_info:
+            continue
+        if submit_info['status'] != 'SUCCEEDED':
             continue
         score = submit_info['score']
         submit_id = submit_info['id']
         all_problems[str(problem_id)].append((score, submit_id))
 
     need_download = False
+    total = 0
     for problem_id, scores in all_problems.items():
         (score, submit_id) = min(scores)
         if problem_id not in existing or existing[problem_id] > score:
             print (f"problem {problem_id} is better: {score} vs {existing[problem_id]}")
+            if existing[problem_id] > 0:
+                total += existing[problem_id] - score
             need_download = True
+    print (f"total delta: {total}")
+    print ("")
 
     if not need_download:
-        print ("Noting new to download, exiting...")
+        print ("Nothing new to download, exiting...")
         return
 
     # print (all_problems)
