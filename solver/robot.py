@@ -159,15 +159,14 @@ class RobotSolver:
 if __name__ == "__main__":
     # PROBLEM = 27
     PROBLEM = 27
-    special = False
+    special = True
     if special:
-        solver = RobotSolver(start=618)
+        solver = RobotSolver(start=817)
         solver.prog += FRAGMENT_SPECIAL.split("\n")
-        solver.begin = (80, 0)
-        solver.end = (300, 400)
+        solver.prog.append("color [817] [255, 255, 255, 255]")
         solver.run()
-    elif PROBLEM == 27:    
-        solver = RobotSolver(start=798)
+    elif PROBLEM == 27: 
+        solver = RobotSolver(start=817)
         solver.prog += FRAGMENT.split("\n")
         solver.run()
     else:
