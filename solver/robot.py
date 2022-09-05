@@ -1,5 +1,5 @@
 
-from src.robot_fragment import FRAGMENT
+from src.robot_fragment import FRAGMENT, FRAGMENT_SPECIAL
 
 class Block:
     def __init__(self, name, begin, end):
@@ -74,6 +74,9 @@ class RobotSolver:
         self.prog = []
         self.global_counter = start
         self.start = str(start)
+
+        self.begin = (0, 0)
+        self.end = (400, 400)
         
     BODY = to_color([56, 182, 255, 255])
     HEAD = to_color([0, 74, 173, 255])
@@ -101,30 +104,41 @@ class RobotSolver:
 
 
     def draw_rect(self, cur, a, b, color):
-        x0 = min(a[0], b[0])
-        x1 = max(a[0], b[0])
+        (xmin, ymin) = self.begin
+        (xmax, ymax) = self.end
 
-        y0 = min(a[1], b[1])
-        y1 = max(a[1], b[1])
+        x0 = max(xmin, min(a[0], b[0]))
+        x1 = min(xmax, max(a[0], b[0]))
 
-        [b1, cur] = cur.line_y(y0, self.prog)
-        [cur, b2] = cur.line_y(y1, self.prog)
-        [b3, cur] = cur.line_x(x0, self.prog)
-        [cur, b4] = cur.line_x(x1, self.prog)
+        y0 = max(ymin, min(a[1], b[1]))
+        y1 = min(ymax, max(a[1], b[1]))
+
+        if y0 > ymin:
+            [b1, cur] = cur.line_y(y0, self.prog)
+        if y1 < ymax:
+            [cur, b2] = cur.line_y(y1, self.prog)
+        if x0 > xmin:
+            [b3, cur] = cur.line_x(x0, self.prog)
+        if x1 < xmax:
+            [cur, b4] = cur.line_x(x1, self.prog)
 
         self.prog.append(f"color [{cur.name}] {color}")
 
         cur_name = cur.name
-        cur_name = self.merge(cur_name, b4.name)
-        cur_name = self.merge(cur_name, b3.name)
-        cur_name = self.merge(cur_name, b2.name)
-        cur_name = self.merge(cur_name, b1.name)
+        if x1 < xmax:
+            cur_name = self.merge(cur_name, b4.name)
+        if x0 > xmin:
+            cur_name = self.merge(cur_name, b3.name)
+        if y1 < ymax:
+            cur_name = self.merge(cur_name, b2.name)
+        if y0 > ymin:
+            cur_name = self.merge(cur_name, b1.name)
 
         return Block(cur_name, cur.begin, cur.end)
 
 
     def run(self):
-        block = Block(self.start, begin = (0, 0), end = (400, 400))
+        block = Block(self.start, begin = self.begin, end = self.end)
 
         block = self.draw_rect(block, [106, 265], [304, 109], self.BODY)
         block = self.draw_rect(block, [141, 241], [260, 359], self.HEAD)
@@ -144,9 +158,15 @@ class RobotSolver:
 
 if __name__ == "__main__":
     # PROBLEM = 27
-    PROBLEM = 2
-        
-    if PROBLEM == 27:    
+    PROBLEM = 27
+    special = False
+    if special:
+        solver = RobotSolver(start=618)
+        solver.prog += FRAGMENT_SPECIAL.split("\n")
+        solver.begin = (80, 0)
+        solver.end = (300, 400)
+        solver.run()
+    elif PROBLEM == 27:    
         solver = RobotSolver(start=798)
         solver.prog += FRAGMENT.split("\n")
         solver.run()
@@ -155,7 +175,7 @@ if __name__ == "__main__":
         solver.run()
 
 
-    with open(f"solutions/manual_robot/{PROBLEM}.txt", "wt") as f:
+    with open(f"solutions/manual_robot/special/{PROBLEM}.txt", "wt") as f:
         f.write("\n".join(solver.prog))
 
 

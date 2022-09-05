@@ -44,7 +44,7 @@ export function Header() {
       </Row>
       <Spacer flex={1} />
       <Row gutter={2} className={tw(`px-3`, css({ flexBasis: '960px' }))}>
-        <HeaderLink to='/all-problems'>← Challanges</HeaderLink>
+        <HeaderLink to='/all-problems'>← Challenges</HeaderLink>
         <p className={tw`font-bold text-xl`}>Problem</p>
         <Select
           value={problemId || "__none"}

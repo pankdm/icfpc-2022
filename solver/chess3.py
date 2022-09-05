@@ -81,9 +81,24 @@ y_offset = size - 2 * d
 
 prog = [ ]
 
+
+# left[0] == right[1]
+# left[2] == right[3]
+# sum(left_sides) == sum(right_sides)
 left_sides = [d, d, d, d]
 right_sides = [d, d, d, d]
-extra = [d - 3]
+ca = [0, 5]
+cb = [2, 7]
+left_sides[ca[0]] -= 1
+right_sides[ca[1] - 4] -= 1
+extra_side = d - 1
+
+rows_lengths = [d, d, d, d, d, d, d, d]
+rows_swaps_a = [1, 4]
+rows_swaps_b = [3, 6]
+extra_row = d - 1
+rows_lengths[rows_swaps_a[0]] -= 1
+rows_lengths[rows_swaps_a[1]] -= 1
 
 def add_fragment(prog, frag):
     for line in frag.split("\n"):
@@ -105,28 +120,6 @@ def swap(b1, b2, prog):
     [b1.name, b2.name] = [b2.name, b1.name]
 
 
-def split_blocks(b, size):
-    [b0, b1, b2, b3] = b.split_mid(prog)
-    if size == 4:
-        prog.append(f"color [{b1.name}] {white}")
-        prog.append(f"color [{b3.name}] {white}")
-
-        b00 = b0.split_mid(prog)
-        b11 = b1.split_mid(prog)
-        b22 = b2.split_mid(prog)
-        b33 = b3.split_mid(prog)
-
-        prog.append(f"swap [{b00[1].name}] [{b11[0].name}]")
-        prog.append(f"swap [{b00[3].name}] [{b11[2].name}]")
-
-        prog.append(f"swap [{b33[0].name}] [{b22[1].name}]")
-        prog.append(f"swap [{b33[2].name}] [{b22[3].name}]")
-    else:
-        split_blocks(b0, size // 2)
-        split_blocks(b1, size // 2)
-        split_blocks(b2, size // 2)
-        split_blocks(b3, size // 2)
-
 def split_by_lines(b, bottom_line):
     prog.append(f"color [{b.name}] {white}")
     prog.append(f"color [{bottom_line.name}] {white}")
@@ -135,7 +128,7 @@ def split_by_lines(b, bottom_line):
     prog.append(f"color [{bottom_left.name}] {black}")
 
 
-    [left, right] = b.line_x(b.begin[0] + 4 * d, prog)
+    [left, right] = b.line_x(b.begin[0] + sum(left_sides), prog)
     prog.append(f"color [{left.name}] {black}")
 
     def do_half(start, color):
@@ -144,15 +137,15 @@ def split_by_lines(b, bottom_line):
         for i in range(7):
             if i == 4:
                 prog.append(f"color [{cur.name}] {color}")
-            [bottom, top] = cur.line_y(cur.end[1] - d, prog)
+            [bottom, top] = cur.line_y(cur.end[1] - rows_lengths[i], prog)
             lines.append(top)
             cur = bottom
         lines.append(cur)
 
         # for b in lines:
         #     print(b.name)
-        swap(lines[1], lines[4], prog)
-        swap(lines[3], lines[6], prog)
+        swap(lines[rows_swaps_a[0]], lines[rows_swaps_a[1]], prog)
+        swap(lines[rows_swaps_b[0]], lines[rows_swaps_b[1]], prog)
         return lines
 
 
@@ -187,79 +180,10 @@ def split_by_lines(b, bottom_line):
         cols.append(left)
         cur = right
     cols.append(cur)
-    swap(cols[0], cols[5], prog)
-    swap(cols[2], cols[7], prog)
+    
+    swap(cols[ca[0]], cols[ca[1]], prog)
+    swap(cols[cb[0]], cols[cb[1]], prog)
 
-def add_side(block):
-    prog.append(f"color [{block.name}] {black}")
-    rows = []
-    cur = block
-    for i in range(7):
-        [bottom, top] = cur.line_y(cur.end[1] - d, prog)
-        if i == 3:
-            prog.append(f"color [{bottom.name}] {white}")
-        rows.append(top)
-        cur = bottom
-    rows.append(cur)
-    swap(rows[0], rows[5], prog)
-    swap(rows[2], rows[7], prog)
-
-
-def add_sides():
-    # horizontal
-    # cur = "0.1.0.0"
-    # delta = 320
-    # color = 0
-    # for i in range(8):
-    #     prog.append(f"cut [{cur}] [x] [{delta}]")
-    #     prog.append(f"color [{cur}.0] { white if color else black}")
-    #     delta -= d
-    #     cur = cur + ".0"
-    #     color = 1 - color
-
-    # # vertical
-    # cur = "0.1.0.1.1"
-    # delta = 120
-    # color = 1
-    # # prog.append(f"color [{cur}] {black}")
-    # for i in range(7):
-    #     prog.append(f"cut [{cur}] [y] [{delta}]")
-    #     prog.append(f"color [{cur}.1] { white if color else black}")
-    #     delta += d
-    #     cur = cur + ".1"
-    #     color = 1 - color
-
-
-    # manually optimized
-    add_fragment(prog, 
-    """
-    cut [0.1.0.0] [x] [320]
-    color [0.1.0.0.0] [0, 0, 0, 255]
-    cut [0.1.0.0.0] [x] [280]
-    color [0.1.0.0.0.0] [255, 255, 255, 255]
-    cut [0.1.0.0.0.0] [x] [240]
-    color [0.1.0.0.0.0.0] [0, 0, 0, 255]
-    cut [0.1.0.0.0.0.0] [x] [200]
-    color [0.1.0.0.0.0.0.0] [0, 0, 0, 255]
-    cut [0.1.0.0.0.0.0.0] [x] [160]
-    cut [0.1.0.0.0.0.0.0.0] [x] [120]
-    color [0.1.0.0.0.0.0.0.0.0] [255, 255, 255, 255]
-    cut [0.1.0.0.0.0.0.0.0.0] [x] [80]
-    cut [0.1.0.0.0.0.0.0.0.0.0] [x] [40]
-    swap [0.1.0.0.0.0.0.0.1] [0.1.0.0.0.0.0.0.0.0.0.1]
-    cut [0.1.0.1.1] [y] [120]
-    color [0.1.0.1.1.1] [255, 255, 255, 255]
-    cut [0.1.0.1.1.1] [y] [160]
-    color [0.1.0.1.1.1.1] [0, 0, 0, 255]
-    cut [0.1.0.1.1.1.1] [y] [200]
-    color [0.1.0.1.1.1.1.1] [0, 0, 0, 255]
-    cut [0.1.0.1.1.1.1.1] [y] [240]
-    cut [0.1.0.1.1.1.1.1.1] [y] [280]
-    color [0.1.0.1.1.1.1.1.1.1] [255, 255, 255, 255]
-    cut [0.1.0.1.1.1.1.1.1.1] [y] [320]
-    cut [0.1.0.1.1.1.1.1.1.1.1] [y] [360]
-    swap [0.1.0.1.1.1.1.1.0] [0.1.0.1.1.1.1.1.1.1.1.0]
-    """)
 
 def solve():
     global prog
@@ -267,24 +191,12 @@ def solve():
         f"color [0] {blue}",
     ]
     b = Block("0", begin = (0, 0), end = (400, 400))
-    [_, b1] = b.line_y(d + 3, prog)
-    [b2, _] = b1.line_x(8 * d + d - 3, prog)
-    [b3, main_block] = b2.line_y(b2.begin[1] + d, prog)
-    [bottom_line, _] = b3.line_x(8 * d, prog)
+    [_, b1] = b.line_y(400 - (sum(rows_lengths) + extra_row), prog)
+    [b2, _] = b1.line_x(sum(left_sides) + sum(right_sides) + extra_side, prog)
+    [b3, main_block] = b2.line_y(b2.begin[1] + extra_row, prog)
+    [bottom_line, _] = b3.line_x(sum(left_sides) + sum(right_sides), prog)
 
-    # add_side(right_col)
-
-        # f"cut [0] [y] [{d + 3}]", # this is a bit better than doing ideal cut
-        # f"cut [0.1] [x] [{size - d - 3}]", # again a bit better
-        # f"cut [0.1.0] [y] [{2 * d}]",
-        # f"color [0.1.0.1] {black}",
-        # f"cut [0.1.0.1] [x] [{size - 2 * d}]",
-        # f"color [0.1.0.1.0] {black}"
     split_by_lines(main_block, bottom_line)
-
-    # split_blocks(block, 8)
-
-    # now do lines
 
 
 if __name__ == "__main__":
