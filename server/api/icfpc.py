@@ -100,15 +100,29 @@ def get_submission(id):
     return response.json()
 
 
-def download_best_submissions():
+def download_best_submissions(check_ts=True):
     ensure_auth()
-
-    ts = int(time())
-    folder = os.path.dirname(__file__)+f'/../../best_solutions/{ts}'
-    os.mkdir(folder)
 
     res = get_submissions()
     # print(res)
+
+    ts = int(time())
+    solutions_dir = os.path.dirname(__file__)+'/../../best_solutions'
+    timestamps = os.listdir(solutions_dir)
+    last_ts = int(max(timestamps))
+    print (last_ts)
+
+    # only download every 10 minutes
+    if check_ts and int(last_ts) + 600 > ts:
+        print (f"Last download was too early: {ts - last_ts} seconds ago, exiting")
+        return
+
+
+    existing = defaultdict(int)
+    for solution in os.listdir(f"{solutions_dir}/{last_ts}"):
+        name = solution.split(".")[0]
+        problem_id, score = name.split("_")[:2]
+        existing[problem_id] = int(score)
 
     all_problems = defaultdict(list)
     for submit_info in res['submissions']:
@@ -116,19 +130,33 @@ def download_best_submissions():
         if 'score' not in submit_info:
             continue
         score = submit_info['score']
-        id = submit_info['id']
-        all_problems[problem_id].append((score, id))
+        submit_id = submit_info['id']
+        all_problems[str(problem_id)].append((score, submit_id))
+
+    need_download = False
+    for problem_id, scores in all_problems.items():
+        (score, submit_id) = min(scores)
+        if problem_id not in existing or existing[problem_id] > score:
+            print (f"problem {problem_id} is better: {score} vs {existing[problem_id]}")
+            need_download = True
+
+    if not need_download:
+        print ("Noting new to download, exiting...")
+        return
 
     # print (all_problems)
-    
+
+    folder = os.path.dirname(__file__)+f'/../../best_solutions/{ts}'
+    os.mkdir(folder)
+
     for problem_id, scores in all_problems.items():
-        (score, id) = min(scores)
-        detailed_info = get_submission(id)
+        (score, submit_id) = min(scores)
+        detailed_info = get_submission(submit_id)
         # print (problem_id, score, id, detailed_info)
         url = detailed_info['file_url']
         code_response = requests.get(url)
         content = code_response.content.decode()
-        print (f'Downloading {id} as {problem_id}_{score}.txt')
+        print (f'Downloading {submit_id} as {problem_id}_{score}.txt')
         with open(f"{folder}/{problem_id}_{score}.txt", "wt") as f:
             f.write(content)
 
@@ -138,3 +166,7 @@ def download_best_submissions():
         with open(f"{best}/{problem_id}.txt", "wt") as f:
             f.write(content)
     
+
+@cached(ttl=600)
+def get_cached_best_solutions():
+    download_best_submissions()

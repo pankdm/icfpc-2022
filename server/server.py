@@ -155,8 +155,14 @@ def get_problems():
     user_stats_future = pool.submit(ICFPC.get_cached_results_user)
     # submissions_future = pool.submit(ICFPC.get_cached_submissions)
     pool.shutdown()
+
     user_stats = user_stats_future.result()
     # submissions = submissions_future.result()
+
+    pool = ThreadPoolExecutor(max_workers=5)
+    download_solutions_future = pool.submit(ICFPC.get_cached_best_solutions)
+    pool.shutdown(wait=False)
+
     problems = user_stats['results']
     return { 'problems': problems }
 
