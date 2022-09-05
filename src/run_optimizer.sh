@@ -7,5 +7,5 @@ for j in `jot - 26 35`; do
 done;
 
 for j in `jot - 36 40`; do 
-    java -jar optimizer/target/optimizer.jar solutions/best/$j.txt solutions/optimized/$j.txt problems/$j.png 
+    java -jar optimizer/target/optimizer.jar solutions/best/$j.txt solutions/optimized/$j.txt problems/$j.png;
 done;

@@ -134,7 +134,7 @@ public class Main {
                     count++;
 
                     if (result.totalCost < bestResult.totalCost) {
-                        System.out.println(String.format("[%d/%d] (line cut) new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
+                        System.out.println(String.format("[%d/%d] (line cut) new best score found: %d -> %d (start = %d)", i, len, bestResult.totalCost, result.totalCost, originalResult.totalCost));
                         bestResult = result;
                     }
                 }
@@ -152,7 +152,7 @@ public class Main {
                         count++;
 
                         if (result.totalCost < bestResult.totalCost) {
-                            System.out.println(String.format("[%d/%d] (point cut) new best score found: %d -> %d", i, len, bestResult.totalCost, result.totalCost));
+                            System.out.println(String.format("[%d/%d] (point cut) new best score found: %d -> %d (start = %d)", i, len, bestResult.totalCost, result.totalCost, originalResult.totalCost));
                             bestResult = result;
                         }
                     }

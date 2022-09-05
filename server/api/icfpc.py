@@ -141,7 +141,7 @@ def download_best_submissions(check_ts=True):
             need_download = True
 
     if not need_download:
-        print ("Noting new to download, exiting...")
+        print ("Nothing new to download, exiting...")
         return
 
     # print (all_problems)
