@@ -4,7 +4,7 @@ import _ from "lodash";
 import { useStore } from "@nanostores/react";
 import { useQuery } from "@tanstack/react-query";
 import { tw } from "twind";
-import { getGeometricMedian } from "../api";
+import { getGeometricMedian, useProblemMeta } from "../api";
 import Spacer from "./common/Spacer";
 import { Col, Row } from "./common/Flex";
 
@@ -57,6 +57,12 @@ function MainView() {
   const _selectedPixel = useStore(selectedPixel);
   const { problemId } = useParams()
   const _isRunningSolver = useStore(isRunningSolver);
+  const problemMeta = useProblemMeta(problemId) || {}
+  const { ourBestCost } = problemMeta
+  const grandTotal = differenceCost + totalActionsCost
+  const profit = (ourBestCost && grandTotal)
+    ? ourBestCost - grandTotal
+    : null
 
   const _clickedBlock = useStore(clickedBlock);
 
@@ -105,7 +111,12 @@ function MainView() {
         <div className={tw`min-w-[28rem] pl-[6rem] h-[16rem] items-start`}>
           <p>Picture diff cost: {differenceCost}</p>
           <p>Total actions cost: {totalActionsCost}</p>
-          <p>Grand total: {differenceCost + totalActionsCost}</p>
+          <p>
+            Grand total: {grandTotal}
+            {profit > 0 && (
+              <> (+{profit} profit!)</>
+            )}
+          </p>
           <p>Selected XY: [{_selectedPixel?.x}, {_selectedPixel?.y}] </p>
           <p>Selected color: [{_selectedPixel?.rgba.join(", ")}] </p>
           {_clickedBlock && (

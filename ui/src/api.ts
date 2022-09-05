@@ -1,4 +1,6 @@
+import { useQuery } from "@tanstack/react-query"
 import _ from "lodash"
+import { useParams } from "react-router-dom"
 import { getAppState } from "./app-state"
 
 async function genericApiRequest(SERVER_URL, path, params) {
@@ -169,3 +171,22 @@ export default LOCAL
 
 window.API = LOCAL
 window.ICFPC = ICFPC
+
+
+// useData methods
+export function useProblemMeta(problemId) {
+  const { data } = useQuery(["problems"], getProblems);
+  const problemMeta = data?.problems?.[problemId - 1]
+  if (!problemMeta) return
+  const {
+    min_cost: ourBestCost,
+    overall_best_cost: overallBestCost
+  } = problemMeta
+  const bounty = ourBestCost - overallBestCost
+  return {
+    ...problemMeta,
+    ourBestCost,
+    overallBestCost,
+    bounty,
+  }
+}
