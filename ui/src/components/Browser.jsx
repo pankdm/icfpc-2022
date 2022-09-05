@@ -61,7 +61,8 @@ export default function Browser() {
           <Spacer size={2} />
         </Row>
       </Row>
-      <Row gutter={2} className={tw`max-w-[960px] w-full px-3 py-2 mx-auto font-bold`}>
+      <Row gutter={2} className={tw`max-w-[1200px] w-full px-3 py-2 mx-auto font-bold`}>
+        <div className={tw`w-[120px]`} />
         <div className={tw`w-[120px]`} />
         <div className={tw`w-1`} />
         <p className={tw`cursor-pointer hover:underline flex-1`} onClick={() => setSortKey('name')}>Problem
