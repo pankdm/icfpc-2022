@@ -131,4 +131,9 @@ def download_best_submissions():
         print (f'Downloading {id} as {problem_id}_{score}.txt')
         with open(f"{folder}/{problem_id}_{score}.txt", "wt") as f:
             f.write(content)
+
+
+        best = os.path.dirname(__file__)+f'/../../solutions/best/'
+        with open(f"{best}/{problem_id}.txt", "wt") as f:
+            f.write(content)
     

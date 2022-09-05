@@ -48,7 +48,6 @@ class PixelSolver2:
 
         return costs_m.simil(self.img - canvas)
 
-
     def merge(self, a, b, a_sq_size, b_sq_size):
         assert isinstance(a, str)
         assert isinstance(b, str)

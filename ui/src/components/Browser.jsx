@@ -22,25 +22,21 @@ function ProblemItem({problem, ...props}) {
   } = problem
   const lastSubmitted = new Date(last_submitted_at)
   const bounty = min_cost - overall_best_cost
-  // console.log(problem)
-  // const navigate = useNavigate()
-  const onClick = () => {
-    window.location.href = `/problems/${id}`
-    // navigate(`/problems/${id}`)
-  }
   const showStart = id >= 26;
   return (
-    <Row gutter={2} className={tw`px-3 py-2 shadow hover:shadow-md transition cursor-pointer`} onClick={onClick} {...props}>
-      {showStart ? 
-        (<img width={120} height={120} src={getProblemStartImgUrl(id)} />)
-        : (<img width={120} height={120}></img>)}
-      <img width={120} height={120} src={getProblemImgUrl(id)} />
-      <p className={tw`flex-1`}>{id}: {name}</p>
-      <p className={tw`w-24`}>{min_cost}</p>
-      <p className={tw`w-24`}>{overall_best_cost}</p>
-      <p className={tw`w-24`}>{bounty}</p>
-      <p className={tw`w-28`}>{format(lastSubmitted, 'MMM d, HH:mm')}</p>
-    </Row>
+    <a href={`/problems/${id}`}>
+      <Row gutter={2} className={tw`px-3 py-2 shadow hover:shadow-md transition cursor-pointer`} {...props}>
+        {showStart ?
+          (<img width={120} height={120} src={getProblemStartImgUrl(id)} />)
+          : (<img width={120} height={120}></img>)}
+        <img width={120} height={120} src={getProblemImgUrl(id)} />
+        <p className={tw`flex-1`}>{id}: {name}</p>
+        <p className={tw`w-24`}>{min_cost}</p>
+        <p className={tw`w-24`}>{overall_best_cost}</p>
+        <p className={tw`w-24`}>{bounty}</p>
+        <p className={tw`w-28`}>{format(lastSubmitted, 'MMM d, HH:mm')}</p>
+      </Row>
+    </a>
   )
 }
 

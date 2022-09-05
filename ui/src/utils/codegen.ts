@@ -4,6 +4,7 @@ import {
   getBinarySolverSolution,
   getPixelSolverSolution,
 } from "../api";
+import { getAppState } from "../app-state";
 import { isRunningSolver } from "../components/Inspector.stores";
 
 export function generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, direction) {
@@ -187,10 +188,10 @@ export async function generateBinarySolverCmds(cmdContext, blockId) {
 
 export async function generatePixelSolverCmds(cmdContext, blockId) {
   const problemId = cmdContext.problemId;
-  const pixelSize = 20
+  const solverExtraArgs = cmdContext.solverExtraArgs
 
   isRunningSolver.set(true);
-  const responseData = await getPixelSolverSolution(problemId, pixelSize, blockId);
+  const responseData = await getPixelSolverSolution(problemId, blockId, solverExtraArgs);
   isRunningSolver.set(false);
 
   return "# solver response\n" + responseData?.cmds.join("\n");
@@ -305,59 +306,68 @@ type Command = {
 type CommandsMap = {
   [key: string]: Command;
 }
-export const CMDs: CommandsMap = {
-  rect: {
+export const CMDs: CommandsMap = _.keyBy([
+  {
+    key: 'rect',
     name: "rect (clickTwoPoints)",
     codeGenerator: generateRectCmds,
     numArgs: 2,
     argTypes: ['point', 'point'],
   },
-  cutX: {
+  {
+    key: 'cutX',
     name: "cutX (click on a block, and then point to split)",
     codeGenerator: generateSplitXCmds,
     numArgs: 2,
     argTypes: ['block', 'point'],
   },
-  cutY: {
+  {
+    key: 'cutY',
     name: "cutY (click on a block, and then point to split)",
     codeGenerator: generateSplitYCmds,
     numArgs: 2,
     argTypes: ['block', 'point'],
   },
-  cutXY: {
+  {
+    key: 'cutXY',
     name: "cutXY (click on a block, and then point to split)",
     codeGenerator: generateSplitXYCmds,
     numArgs: 2,
     argTypes: ['block', 'point'],
   },
-  swap: {
+  {
+    key: 'swap',
     name: "swap (click two blocks)",
     codeGenerator: generateSwapCmds,
     numArgs: 2,
     argTypes: ['block', 'block'],
   },
-  colorToMed: {
+  {
+    key: 'colorToMed',
     name: "color (click block to color to median)",
     codeGenerator: generateColorToMedCmds,
     numArgs: 1,
     argTypes: ['block'],
   },
-  mergeRange: {
+  {
+    key: 'mergeRange',
     name: "merge range (click left/bottom block first, then the last one)",
     codeGenerator: generateMergeUpCmds,
     numArgs: 2,
     argTypes: ['block', 'block'],
   },
-  binarySolver: {
+  {
+    key: 'binarySolver',
     name: "run binary solver (click block)",
     codeGenerator: generateBinarySolverCmds,
     numArgs: 1,
     argTypes: ['block'],
   },
-  pixelSolver: {
+  {
+    key: 'pixelSolver',
     name: "run pixel solver (click block)",
     codeGenerator: generatePixelSolverCmds,
     numArgs: 1,
     argTypes: ['block'],
   },
-}
+], 'key')

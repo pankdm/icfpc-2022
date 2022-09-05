@@ -1,5 +1,5 @@
 import _ from "lodash";
-import React from "react";
+import React, { useState } from "react";
 import { useHotkeys } from 'react-hotkeys-hook';
 import { useStore } from "@nanostores/react";
 import { tw } from "twind";
@@ -9,16 +9,19 @@ import Button from "../common/Button";
 import { Row } from "../common/Flex";
 import {
   activeCmd,
-  activeCmdArgs
+  activeCmdArgs,
+  solutionError
 } from "../Inspector.stores";
 import { CMDs } from '../../utils/codegen';
 import { pushCmdArg, tryRunCmd } from "./utils";
+import { Input } from "../common/Inputs";
+import { submitSolution } from "../../api";
 
 export function Footer() {
   const [viewMode, setViewMode] = useAppState("viewMode");
   const _activeCmd = useStore(activeCmd);
+  const [solverExtraArgs, setSolverExtraArgs] = useAppState(`solverExtraArgs.${_activeCmd?.key}`);
   const _activeCmdArgs = useStore(activeCmdArgs);
-  const isCmdStackEmpty = !_activeCmd && _.size(_activeCmdArgs) == 0
   const resetCmdStack = () => {
     activeCmd.set();
     activeCmdArgs.set([]);
@@ -38,9 +41,10 @@ export function Footer() {
   useHotkeys('B', () => activateCmd(CMDs.binarySolver));
   useHotkeys('L', () => activateCmd(CMDs.pixelSolver));
   return (
-    <Row className={tw`h-24 bg-gray-200 px-4`}>
-      {!isCmdStackEmpty &&
-        <Button color='red' onClick={resetCmdStack}>Esc</Button>}
+    <Row className={tw`relative h-24 bg-gray-200 px-4`}>
+      {_activeCmd &&
+        <Button color='red' onClick={resetCmdStack}>Esc</Button>
+      }
       <Spacer size={2} />
       <h2 className={tw`text-xl font-bold mb-1 flex-shrink-1`}>{_activeCmd?.name} {_activeCmdArgs?.map(arg => JSON.stringify(arg)).join(", ")}</h2>
       <Spacer flex={1} />
@@ -55,6 +59,14 @@ export function Footer() {
         <Button color='blue' onClick={() => activateCmd(CMDs.binarySolver)}>(B)inary Solver</Button>
         <Button color='blue' onClick={() => activateCmd(CMDs.pixelSolver)}>Pixe(L) Solver</Button>
         <Button color='gray' onClick={() => setViewMode(viewMode == 'wide' ? null : 'wide')}>{viewMode == 'wide' ? 'Wi-i-i-i-de view' : 'Standard view'}</Button>
+        {_activeCmd &&
+          <Input
+            className={tw`absolute right-[1rem] bottom-[calc(100%+1rem)] w-96 font-mono`}
+            placeholder='Solver args'
+            value={solverExtraArgs || ''}
+            onChangeValue={setSolverExtraArgs}
+          />
+        }
       </Row>
     </Row>
   );

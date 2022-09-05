@@ -74,11 +74,16 @@ blue = to_color((0, 74, 173, 255))
 red = to_color((255, 0, 0, 255))
 
 d = size // 10
+d = 40
+# d = 39
 
-y_offset = 2 * d
+y_offset = size - 2 * d
 
 prog = [ ]
 
+left_sides = [d, d, d, d]
+right_sides = [d, d, d, d]
+extra = [d - 3]
 
 def add_fragment(prog, frag):
     for line in frag.split("\n"):
@@ -126,7 +131,7 @@ def split_by_lines(b, bottom_line):
     prog.append(f"color [{b.name}] {white}")
     prog.append(f"color [{bottom_line.name}] {white}")
 
-    bottom_left, bottom_right = bottom_line.line_x(4 * d, prog)
+    bottom_left, bottom_right = bottom_line.line_x(sum(left_sides), prog)
     prog.append(f"color [{bottom_left.name}] {black}")
 
 
@@ -166,7 +171,7 @@ def split_by_lines(b, bottom_line):
 
     # doing cut from left
     prog.append("# cut right column")
-    prog.append(f"cut [{b2}] [x] [{size - 2 * d}]")
+    prog.append(f"cut [{b2}] [x] [{sum(left_sides) + sum(right_sides)}]")
     b2 = b2 + ".0"
 
     b1 = merge(b1, bottom_left.name, prog)
@@ -176,8 +181,9 @@ def split_by_lines(b, bottom_line):
     cur = Block(last, b.begin, b.end)
 
     cols = []
+    all_sides = left_sides + right_sides
     for i in range(7):
-        [left, right] = cur.line_x(cur.begin[0] + d, prog)
+        [left, right] = cur.line_x(cur.begin[0] + all_sides[i], prog)
         cols.append(left)
         cur = right
     cols.append(cur)
@@ -261,10 +267,10 @@ def solve():
         f"color [0] {blue}",
     ]
     b = Block("0", begin = (0, 0), end = (400, 400))
-    [_, b1] = b.line_y(d, prog)
-    [b2, _] = b1.line_x(size - d, prog)
+    [_, b1] = b.line_y(d + 3, prog)
+    [b2, _] = b1.line_x(8 * d + d - 3, prog)
     [b3, main_block] = b2.line_y(b2.begin[1] + d, prog)
-    [bottom_line, _] = b3.line_x(size - 2 * d, prog)
+    [bottom_line, _] = b3.line_x(8 * d, prog)
 
     # add_side(right_col)
 
@@ -275,8 +281,6 @@ def solve():
         # f"cut [0.1.0.1] [x] [{size - 2 * d}]",
         # f"color [0.1.0.1.0] {black}"
     split_by_lines(main_block, bottom_line)
-
-    # add_sides()
 
     # split_blocks(block, 8)
 
