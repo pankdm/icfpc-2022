@@ -1,5 +1,7 @@
+from itertools import product
 from re import S
 import sys
+from typing import Dict, Tuple
 from src.utils import open_as_np
 from solver.geometric_median import geometric_median
 import math
@@ -14,7 +16,7 @@ class LogEntry:
     key: str
     pixel_size: int
     prog: pix.Prog
-    prog_length: int 
+    prog_length: int
     cost: int
     similarity: int
 
@@ -22,32 +24,59 @@ class LogEntry:
         return self.cost + self.similarity
 
 class PixelSolver2:
+    pixel_color: Dict[Tuple[int, int], Tuple[int, int, int, int]] = None
+
     def __init__(self, problem_id, start_block, max_block_id, pixel_size, max_steps = -1):
         assert isinstance(max_block_id, int), f"not an int: {max_block_id}"
 
         self.prog = pix.Prog()
         self.global_counter = max_block_id
         self.start_block = start_block
+        self.max_steps = max_steps
+        self.log = []
 
         self.pixel_size = pixel_size
         self.img = open_as_np(problem_id)
 
         self.BACKGROUND = (255, 255, 255, 255)
         self.prog.color(start_block.name, self.BACKGROUND, start_block.sq_size())
+        self.init_colors()
 
+    def iterate_pixel_idx_x(self, _x0=None, _x1=None):
+        _, (x0, y0), (x1, y1) = self.start_block
+        x_from = _x0 if _x0 is not None else x0
+        x_to = _x1 if _x1 is not None else x1
+        return range(x_from, x_to, self.pixel_size)
+
+    def iterate_pixel_idx_y(self, _y0=None, _y1=None):
+        _, (x0, y0), (x1, y1) = self.start_block
+        y_from = _y0 if _y0 is not None else y0
+        y_to = _y1 if _y1 is not None else y1
+        return range(y_from, y_to, self.pixel_size)
+
+    def iterate_pixel_idx(self, xy_from=None, xy_to=None):
+        _, (x0, y0), (x1, y1) = self.start_block
+        _x0, _y0 = xy_from or (x0, y0)
+        _x1, _y1 = xy_to or (x1, y1)
+        return product(self.iterate_pixel_idx_x(_x0, _x1), self.iterate_pixel_idx_y(_y0, _y1))
+
+    def init_colors(self):
         self.pixel_color = {}
-        for x in range(start_block.begin[0], start_block.end[0], pixel_size):
-            for y in range(start_block.begin[1], start_block.end[1], pixel_size):
-                self.pixel_color[(x, y)] = self.BACKGROUND
+        for x, y in self.iterate_pixel_idx():
+            self.pixel_color[(x, y)] = self.BACKGROUND
 
-        self.max_steps = max_steps
-        self.log = []
+    def set_pixel_color(self, x, y, color):
+        for x, y in self.iterate_pixel_idx((x,y)):
+            self.pixel_color[(x, y)] = color
+
+    def get_pixel_color(self, x, y):
+        return self.pixel_color[(x, y)]
 
     def compute_similarity(self):
         canvas = np.copy(self.img)
 
-        for coord, color in self.pixel_color.items():
-            x,y = coord
+        for x, y in self.iterate_pixel_idx():
+            color = self.get_pixel_color(x, y)
             canvas[x:x+self.pixel_size, y:y+self.pixel_size] = np.array(color)
 
         return costs_m.simil(self.img - canvas)
@@ -70,26 +99,21 @@ class PixelSolver2:
         color_cost = costs_m.get_cost(
             costs_m.COSTS.COLOR, color_width * color_height)
         new_simil = costs_m.float_simil(subimg - color)
-        old_simil = costs_m.float_simil(subimg - self.pixel_color[(x, y)])
+        old_simil = costs_m.float_simil(subimg - self.get_pixel_color(x,y))
         # print(
-        #     f"color_cost at {x} {y} {color_cost} old_simil {old_simil} new_simil {new_simil} (has {self.pixel_color[(x,y)]} need {color})")
+        #     f"color_cost at {x} {y} {color_cost} old_simil {old_simil} new_simil {new_simil} (has {self.get_pixel_color(x,y)} need {color})")
         if old_simil > new_simil + color_cost:
             return color
         else:
             return None
-        # return color if color != self.pixel_color[(x,y)] else None
-
-    def update_pixel_color(self, x, y, color):
-        for xi in range(x, self.start_block.end[0], self.pixel_size):
-            for yi in range(y, self.start_block.end[1], self.pixel_size):
-                self.pixel_color[(xi, yi)] = color
+        # return color if color != self.get_pixel_color(x,y) else None
 
     def pixelize_block(self, block: pix.Block, x, y, max_steps):
         if x >= self.start_block.end[0] or y >= self.start_block.end[1]:
             return
 
         print(
-            f"pixelize_block {block} {x} {y} corner color {self.pixel_color[(x,y)]}, max_steps={max_steps}")
+            f"pixelize_block {block} {x} {y} corner color {self.get_pixel_color(x,y)}, max_steps={max_steps}")
         if max_steps == 0:
             return
 
@@ -98,27 +122,29 @@ class PixelSolver2:
         color = self.pick_color(x, y, width, height)
         if color:
             self.prog.color(block.name, color, block.sq_size())
-            self.update_pixel_color(x, y, color)
+            self.set_pixel_color(x, y, color)
 
         # Horizontal row
-        for xs in range(x + self.pixel_size, x + width, self.pixel_size):
+        # for xs in range(x + self.pixel_size, x + width, self.pixel_size):
+        for xs in self.iterate_pixel_idx_x(x+self.pixel_size):
             # print(f"Horizontal row {xs} {y}")
             color = self.pick_color(xs, y, width - (xs - x), height)
             if color:
                 left, right = block.line_x(xs, self.prog)
                 self.prog.color(right.name, color, right.sq_size())
-                self.update_pixel_color(xs, y, color)
+                self.set_pixel_color(xs, y, color)
                 cur_name = self.merge(left.name, right.name, left.sq_size(), right.sq_size())
                 block = pix.Block(cur_name, block.begin, block.end)
 
          # Vertical row
-        for ys in range(y + self.pixel_size, y + height, self.pixel_size):
+        # for ys in range(y + self.pixel_size, y + height, self.pixel_size):
+        for ys in self.iterate_pixel_idx_y(y+self.pixel_size):
             # print(f"Vertical row {x} {ys}")
             color = self.pick_color(x, ys, width, height - (ys - y))
             if color:
                 bottom, top = block.line_y(ys, self.prog)
                 self.prog.color(top.name, color, top.sq_size())
-                self.update_pixel_color(x, ys, color)
+                self.set_pixel_color(x, ys, color)
                 cur_name = self.merge(bottom.name, top.name, bottom.sq_size(), top.sq_size())
                 block = pix.Block(cur_name, block.begin, block.end)
 
@@ -148,7 +174,7 @@ class PixelSolver2:
         self.pixelize_block(self.start_block, self.start_block.begin[0], self.start_block.begin[1], self.max_steps)
 
         self.log_state("final")
-        
+
 def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size, max_steps=-1):
     try:
         log_entries = []
