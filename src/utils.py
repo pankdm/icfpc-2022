@@ -26,6 +26,7 @@ def download_pic(n):
     else:
         print(f"File {n} exists")
 
+
 def open_as_np(n):
     img = Image.open(f"problems/{n}.png")
     a = np.asarray(img, dtype=np.int16)
@@ -33,7 +34,5 @@ def open_as_np(n):
 
 
 def save_from_np(path, np_array):
-    pic = np_array.swapaxes(0, 1)[::-1, :]
-    pic = np.array(pic, dtype=np.uint8)
-    img = Image.fromarray(pic)
+    img = Image.fromarray(np_array.swapaxes(0, 1)[::-1, :])
     img.save(path, "PNG")
