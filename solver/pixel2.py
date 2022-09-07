@@ -42,17 +42,17 @@ class PixelSolver2:
         self.prog.color(start_block.name, self.BACKGROUND, start_block.sq_size())
         self.init_colors()
 
+    def iterate_pixel_axis(self, axis, _from=None, _to=None):
+        _, begin, end = self.start_block
+        _from = _from if _from is not None else begin[axis]
+        _to = _to if _to is not None else end[axis]
+        return range(_from, _to, self.pixel_size)
+
     def iterate_pixel_idx_x(self, _x0=None, _x1=None):
-        _, (x0, y0), (x1, y1) = self.start_block
-        x_from = _x0 if _x0 is not None else x0
-        x_to = _x1 if _x1 is not None else x1
-        return range(x_from, x_to, self.pixel_size)
+        return self.iterate_pixel_axis(0, _x0, _x1)
 
     def iterate_pixel_idx_y(self, _y0=None, _y1=None):
-        _, (x0, y0), (x1, y1) = self.start_block
-        y_from = _y0 if _y0 is not None else y0
-        y_to = _y1 if _y1 is not None else y1
-        return range(y_from, y_to, self.pixel_size)
+        return self.iterate_pixel_axis(1, _y0, _y1)
 
     def iterate_pixel_idx(self, xy_from=None, xy_to=None):
         _, (x0, y0), (x1, y1) = self.start_block
