@@ -73,6 +73,9 @@ class PixelSolver3(pix2.PixelSolver2):
         self.log_state("final")
 
     def pixelize_block(self, block: pix.Block, max_steps):
+        block_size_x, block_size_y = self.subindices[0].shape
+        if block_size_x <= 0 or block_size_y <= 0:
+            return
         _, (x0,y0), (x1,y1) = block
         width = block.width()
         height = block.height()
@@ -80,6 +83,7 @@ class PixelSolver3(pix2.PixelSolver2):
         gx, gy = self.gravity_point
         dx = 1 if mx <= gx else -1
         dy = 1 if my <= gy else -1
+        print('>>>', 'b', (x0,y0), (x1,y1), 'm', (mx, my), 'g', (gx, gy), 'd', (dx,dy))
         self.subimg = self.img[x0:x1,y0:y1][::dx,::dy]
         self.subcanvas = self.canvas[x0:x1,y0:y1][::dx,::dy]
         self.subindices = self.indices[:,x0:x1,y0:y1][:,::dx,::dy]
@@ -101,7 +105,7 @@ class PixelSolver3(pix2.PixelSolver2):
             # print(f"Horizontal row {xs} {y}")
             color = self.pick_color(xs, 0, width - xs, height)
             if color:
-                abs_x = self.subindices[0,xs,0] - (dx-1)//2
+                abs_x = self.subindices[0,xs,0] + (1-dx)//2
                 left, right = block.line_x(abs_x, self.prog)
                 block_to_color = right if dx == 1 else left
                 self.prog.color(block_to_color.name, color, right.sq_size())
@@ -115,7 +119,7 @@ class PixelSolver3(pix2.PixelSolver2):
             # print(f"Vertical row {x} {ys}")
             color = self.pick_color(0, ys, width, height - ys)
             if color:
-                abs_y = self.subindices[1,0,ys] - (dx-1)//2
+                abs_y = self.subindices[1,0,ys] + (1-dy)//2
                 bottom, top = block.line_y(abs_y, self.prog)
                 block_to_color = top if dy == 1 else bottom
                 self.prog.color(block_to_color.name, color, top.sq_size())
@@ -129,9 +133,7 @@ class PixelSolver3(pix2.PixelSolver2):
         self.log_state(f"x{cx} y{cy}")
 
         if block.width() > self.pixel_size and block.height() > self.pixel_size:
-            split_pt = self.subindices[:,self.pixel_size,self.pixel_size]
-            split_pt[0] -= (dx-1)//2
-            split_pt[1] -= (dy-1)//2
+            split_pt = self.subindices[:, self.pixel_size+(dx-1)//2, self.pixel_size+(dy-1)//2]
             bot_left, bot_right, top_right, top_left = block.split(split_pt, self.prog)
             if (dx, dy) == (1,1):
                 next_block = top_right
@@ -147,7 +149,8 @@ class PixelSolver3(pix2.PixelSolver2):
 def run_pixel_solver(problem_id, start_block, max_block_id, gravity_point, pixel_size, max_steps=-1):
     try:
         log_entries = []
-        for ps in range(pixel_size - 5, pixel_size + 5):
+        for ps in range(pixel_size//2, pixel_size*2, pixel_size//4):
+        # for ps in [pixel_size]:
             solver = PixelSolver3(
                 problem_id=problem_id,
                 start_block=start_block,
