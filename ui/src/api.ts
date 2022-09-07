@@ -80,7 +80,7 @@ export async function getBinarySolverSolution(problemId, blockId, x1, x2, y1, y2
   });
 }
 
-export async function getPixelSolverSolution(problemId, blockId, x1, x2, y1, y2, maxBlockId, extraArgs) {
+export async function getPixelSolverSolution(problemId, blockId, x1, x2, y1, y2, gravityX, gravityY, maxBlockId, extraArgs) {
   const body = _.pickBy(
     {
       problem_id: problemId,
@@ -89,6 +89,8 @@ export async function getPixelSolverSolution(problemId, blockId, x1, x2, y1, y2,
       x2: x2,
       y1: y1,
       y2: y2,
+      gravity_x: gravityX,
+      gravity_y: gravityY,
       max_block_id: maxBlockId,
       extra_args: extraArgs,
     },

@@ -27,9 +27,9 @@ class PixelSolver3(pix2.PixelSolver2):
     BACKGROUND = np.array([255, 255, 255, 255])
     canvas: np.ndarray = None
 
-    def __init__(self, problem_id, start_block, max_block_id, pixel_size, max_steps = -1, direction=(1,1)):
+    def __init__(self, problem_id, start_block, max_block_id, pixel_size, max_steps = -1, gravity_point=(400,400)):
         super().__init__(problem_id, start_block, max_block_id, pixel_size, max_steps=max_steps)
-        self.direction = direction
+        self.gravity_point = gravity_point
         self.subimg = self.img[:,:]
         # create a matrix of indexes, such that indexes[x][y] -> (x,y)
         # we will take and flip slices of data, the matrix will help restore indexes
@@ -73,8 +73,13 @@ class PixelSolver3(pix2.PixelSolver2):
         self.log_state("final")
 
     def pixelize_block(self, block: pix.Block, max_steps):
-        dx, dy = self.direction
         _, (x0,y0), (x1,y1) = block
+        width = block.width()
+        height = block.height()
+        mx, my = self.subindices[:,width//2,height//2]
+        gx, gy = self.gravity_point
+        dx = 1 if mx <= gx else -1
+        dy = 1 if my <= gy else -1
         self.subimg = self.img[x0:x1,y0:y1][::dx,::dy]
         self.subcanvas = self.canvas[x0:x1,y0:y1][::dx,::dy]
         self.subindices = self.indices[:,x0:x1,y0:y1][:,::dx,::dy]
@@ -85,8 +90,6 @@ class PixelSolver3(pix2.PixelSolver2):
         if max_steps == 0:
             return
 
-        width = block.width()
-        height = block.height()
         color = self.pick_color(0, 0, width, height)
         if color:
             self.prog.color(block.name, color, block.sq_size())
@@ -143,15 +146,9 @@ class PixelSolver3(pix2.PixelSolver2):
 
             self.pixelize_block(next_block, max_steps - 1)
 
-def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size, directionIdx=0, max_steps=-1):
+def run_pixel_solver(problem_id, start_block, max_block_id, gravity_point, pixel_size, max_steps=-1):
     try:
         log_entries = []
-        direction = [
-            (1, 1),
-            (-1, 1),
-            (-1, -1),
-            (1, -1),
-        ][directionIdx]
         for ps in range(pixel_size - 5, pixel_size + 5):
             solver = PixelSolver3(
                 problem_id=problem_id,
@@ -159,7 +156,7 @@ def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size, directio
                 max_block_id=max_block_id,
                 pixel_size=ps,
                 max_steps=max_steps,
-                direction=direction,
+                gravity_point=gravity_point,
             )
 
             solver.run()
