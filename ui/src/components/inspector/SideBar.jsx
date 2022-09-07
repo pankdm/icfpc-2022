@@ -15,46 +15,30 @@ import { useAppState } from "../../app-state";
 import Spacer from "../common/Spacer";
 import Button from "../common/Button";
 import { Col, Row } from "../common/Flex";
-import { useRaf, parseBlockIdsFromCommand } from "../../utils/utils";
+import { useRaf, parseBlockIdsFromCommand, parseBlockIdsFromCommandIdx } from "../../utils/utils";
 import { Select, TextArea } from "../common/Inputs";
 import { forwardRef } from "react";
 import {
   solutionResult,
   previewLOC,
-  previewBlockIds
+  breakpointLOC,
+  previewBlockIds,
 } from "../Inspector.stores";
 
 
 
-const InstructionLog = forwardRef(({ code, className }, ref) => {
-  const [selectedLOC, setSelectedLOC] = useState();
+const InstructionLog = forwardRef(({ code, className, selectedLOC, onClickLOC=_.noop, onHoverLOC=_.noop, onLeaveLOCs=_.noop }, ref) => {
   if (!code)
     return <div>Nothing to display</div>;
   const instructions = code.split('\n');
-  const unpreviewLOC = () => {
-    previewLOC.set(selectedLOC || null);
-  };
   return (
-    <Col ref={ref} onMouseLeave={unpreviewLOC} className={tw(`flex-1 font-mono items-start overflow-auto whitespace-nowrap`, css({ flexBasis: 0 }), className)}>
+    <Col ref={ref} onMouseLeave={() => onLeaveLOCs()} className={tw(`flex-1 font-mono items-start overflow-auto whitespace-nowrap`, css({ flexBasis: 0 }), className)}>
       {instructions.map((line, idx) => {
+        const _onClickLOC = () => onClickLOC(idx)
+        const _onHoverLOC = () => onHoverLOC(idx)
         const selected = selectedLOC == idx;
         const cls = tw(apply`min-w-full min-h-[1.25rem] h-[1.25rem] px-1 -mx-1 cursor-pointer rounded`, selected ? `bg-[rgba(255,120,120,0.75)]` : `hover:bg-[rgba(255,255,255,0.75)]`);
-        const hoverLOC = () => {
-          previewLOC.set(idx);
-          let blockIds = parseBlockIdsFromCommand(line);
-          previewBlockIds.set(blockIds);
-        };
-        const onClick = () => {
-          if (selected) {
-            setSelectedLOC(null);
-            previewBlockIds.set([]);
-          } else {
-            setSelectedLOC(idx);
-            let blockIds = parseBlockIdsFromCommand(line);
-            previewBlockIds.set(blockIds);
-          }
-        };
-        return <div key={idx} onClick={onClick} onMouseEnter={hoverLOC} className={cls}>{line}</div>;
+        return <div key={idx} onClick={_onClickLOC} onMouseEnter={_onHoverLOC} className={cls}>{line}</div>;
       })}
     </Col>
   );
@@ -97,6 +81,8 @@ export function SideBar({ className }) {
   const [solutionId, setSolutionId] = useAppState("currentSolutionId");
   const [code, setCode] = useAppState("currentCode");
   const _solutionResult = useStore(solutionResult);
+  const _previewLOC = useStore(previewLOC);
+  const _breakpointLOC = useStore(breakpointLOC);
   const error = _solutionResult?.error;
   const errorLine = _solutionResult?.errorLine;
   const actionsCost = _solutionResult?.actionsCost;
@@ -122,10 +108,33 @@ export function SideBar({ className }) {
       setCode(code);
     }
   };
-  const reloadSolution = async () => await onSelectSolution(solutionId);
+  const reloadSolution = async () => {
+    await onSelectSolution(solutionId);
+  }
+  useHotkeys('Shift+R', reloadSolution)
   const onChangeCode = async (code) => {
     setCode(code);
   };
+  const onHoverLOC = (idx) => {
+    previewLOC.set(idx);
+    let blockIds = parseBlockIdsFromCommandIdx(idx);
+    previewBlockIds.set(blockIds);
+  }
+
+  const onLeaveLOCs = () => {
+    previewBlockIds.set(null);
+    previewLOC.set(_breakpointLOC || null)
+  }
+
+  const onClickLOC = (idx) => {
+    if (idx == _breakpointLOC) {
+      breakpointLOC.set(null)
+      previewLOC.set(idx)
+    } else {
+      breakpointLOC.set(idx);
+      previewLOC.set(idx)
+    }
+  }
   const [scroll, setScroll] = useState(0);
   useRaf(() => {
     if (!textAreaRef.current)
@@ -185,7 +194,12 @@ export function SideBar({ className }) {
             : <InstructionLog
               ref={textAreaRef}
               className={tw(`bg-gray-200 py-3 px-4 leading-tight`, css({ flexBasis: 0 }))}
-              code={code} />}
+              selectedLOC={_breakpointLOC}
+              onHoverLOC={onHoverLOC}
+              onClickLOC={onClickLOC}
+              onLeaveLOCs={onLeaveLOCs}
+              code={code} />
+          }
         </Col>
       </Col>
       {error && (

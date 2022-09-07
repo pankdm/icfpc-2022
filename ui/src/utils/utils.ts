@@ -271,12 +271,28 @@ export function parseBlockIdsFromCommand(instruction: String) {
         blocks.push(`${blockId}.3`);
     }
 
-    if (cmd == "swap" || cmd == "merge") {
+    if (cmd == "swap") {
         let otherBlockId = args[0]
         otherBlockId = otherBlockId.slice(1, -1)
         blocks.push(otherBlockId);
     }
+
+    if (cmd == "merge") {
+        let otherBlockId = args[0]
+        otherBlockId = otherBlockId.slice(1, -1)
+        blocks.push(otherBlockId);
+        // HACK: resultingBlockId for merge should factor in the global blockId counter
+        const resultingBlockId = parseInt(otherBlockId.split('.')[0])+1
+        blocks.push(resultingBlockId.toString());
+    }
     return blocks;
+}
+
+export function parseBlockIdsFromCommandIdx(instructionIdx) {
+    const code: String = getAppState("currentCode");
+    const instruction = code?.split('\n')[instructionIdx]
+    if (!instruction) return null
+    return parseBlockIdsFromCommand(instruction)
 }
 
 

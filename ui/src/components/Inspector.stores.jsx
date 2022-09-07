@@ -38,6 +38,7 @@ export const hoveredBlock = atom();
 export const previewBlockIds = atom();
 export const clickedBlock = atom();
 export const clickedBlockMedianColor = atom();
+export const breakpointLOC = atom();
 export const previewLOC = atom();
 export const selectedPixel = atom();
 export const activeCmd = atom();
