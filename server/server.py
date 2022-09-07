@@ -7,8 +7,7 @@ from traceback import print_stack, print_tb
 from flask_cors import CORS
 from flask import Flask, request, send_from_directory
 
-from solver.pixel2 import run_pixel_solver as run_pixel_solver_2
-from solver.pixel3 import run_pixel_solver as run_pixel_solver_3
+from solver.pixel3 import run_pixel_solver
 from .api import icfpc as ICFPC
 from .utils import get_sanitized_args
 from itertools import chain
@@ -137,21 +136,14 @@ def post_run_pixel_solver():
     max_block_id = payload["max_block_id"]
 
     args = [problem_id, start_block, max_block_id]
-    solver_version = 'v2'
     extra_args = []
     if "extra_args" in payload:
         extra_args = payload["extra_args"]
         extra_args = get_sanitized_args(extra_args)
-    solver_version, *extra_args = extra_args
     args += extra_args
 
-    solvers = {
-        'v2': run_pixel_solver_2,
-        'v3': run_pixel_solver_3,
-    }
-
-    print(f'run_pixel_solver() {solver_version} args', args)
-    cmds = solvers[solver_version](*args)
+    print(f'run_pixel_solver() args', args)
+    cmds = run_pixel_solver(*args)
 
     return {'cmds': cmds }
 
