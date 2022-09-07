@@ -10,7 +10,6 @@ import { isRunningSolver, solutionResult } from "../components/Inspector.stores"
 
 const getMaxBlockId = () => _.max(Object.keys(solutionResult.get().blocks).map(id => JSON.parse(id.split(".")[0])));
 
-
 export function generateLinearMergeCmds(cmdContext, startBlockId, endBlockId, direction) {
   const { solutionResult } = cmdContext;
 
@@ -190,15 +189,16 @@ export async function generateBinarySolverCmds(cmdContext, blockId) {
   return "# solver response\n" + responseData?.cmds.join("\n");
 }
 
-export async function generatePixelSolverCmds(cmdContext, blockId) {
+export async function generatePixelSolverCmds(cmdContext, blockId, gravityPoint) {
   const problemId = cmdContext.problemId;
   const solverExtraArgs = cmdContext.solverExtraArgs
   const block = cmdContext.solutionResult.blocks[blockId];
+  console.log(cmdContext.solutionResult, getMaxBlockId())
   const maxBlockId = getMaxBlockId()
 
   isRunningSolver.set(true);
   const responseData = await getPixelSolverSolution(
-    problemId, blockId, block.begin.x, block.end.x, block.begin.y, block.end.y, maxBlockId,
+    problemId, blockId, block.begin.x, block.end.x, block.begin.y, block.end.y, gravityPoint.x, gravityPoint.y, maxBlockId,
     solverExtraArgs);
   isRunningSolver.set(false);
 
@@ -373,9 +373,9 @@ export const CMDs: CommandsMap = _.keyBy([
   },
   {
     key: 'pixelSolver',
-    name: "run pixel solver (click block)",
+    name: "run pixel solver (click block, then gravity point)",
     codeGenerator: generatePixelSolverCmds,
-    numArgs: 1,
-    argTypes: ['block'],
+    numArgs: 2,
+    argTypes: ['block', 'point'],
   },
 ], 'key')

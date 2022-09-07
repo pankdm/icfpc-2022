@@ -27,9 +27,9 @@ class PixelSolver3(pix2.PixelSolver2):
     BACKGROUND = np.array([255, 255, 255, 255])
     canvas: np.ndarray = None
 
-    def __init__(self, problem_id, start_block, max_block_id, pixel_size, max_steps = -1, direction=(1,1)):
+    def __init__(self, problem_id, start_block, max_block_id, pixel_size, max_steps = -1, gravity_point=(400,400)):
         super().__init__(problem_id, start_block, max_block_id, pixel_size, max_steps=max_steps)
-        self.direction = direction
+        self.gravity_point = gravity_point
         self.subimg = self.img[:,:]
         # create a matrix of indexes, such that indexes[x][y] -> (x,y)
         # we will take and flip slices of data, the matrix will help restore indexes
@@ -73,8 +73,13 @@ class PixelSolver3(pix2.PixelSolver2):
         self.log_state("final")
 
     def pixelize_block(self, block: pix.Block, max_steps):
-        dx, dy = self.direction
         _, (x0,y0), (x1,y1) = block
+        width = block.width()
+        height = block.height()
+        mx, my = self.subindices[:,width//2,height//2]
+        gx, gy = self.gravity_point
+        dx = 1 if mx <= gx else -1
+        dy = 1 if my <= gy else -1
         self.subimg = self.img[x0:x1,y0:y1][::dx,::dy]
         self.subcanvas = self.canvas[x0:x1,y0:y1][::dx,::dy]
         self.subindices = self.indices[:,x0:x1,y0:y1][:,::dx,::dy]
@@ -85,8 +90,6 @@ class PixelSolver3(pix2.PixelSolver2):
         if max_steps == 0:
             return
 
-        width = block.width()
-        height = block.height()
         color = self.pick_color(0, 0, width, height)
         if color:
             self.prog.color(block.name, color, block.sq_size())
@@ -98,7 +101,7 @@ class PixelSolver3(pix2.PixelSolver2):
             # print(f"Horizontal row {xs} {y}")
             color = self.pick_color(xs, 0, width - xs, height)
             if color:
-                abs_x = self.subindices[0,xs,0]
+                abs_x = self.subindices[0,xs,0] - (dx-1)//2
                 left, right = block.line_x(abs_x, self.prog)
                 block_to_color = right if dx == 1 else left
                 self.prog.color(block_to_color.name, color, right.sq_size())
@@ -112,7 +115,7 @@ class PixelSolver3(pix2.PixelSolver2):
             # print(f"Vertical row {x} {ys}")
             color = self.pick_color(0, ys, width, height - ys)
             if color:
-                abs_y = self.subindices[1,0,ys]
+                abs_y = self.subindices[1,0,ys] - (dx-1)//2
                 bottom, top = block.line_y(abs_y, self.prog)
                 block_to_color = top if dy == 1 else bottom
                 self.prog.color(block_to_color.name, color, top.sq_size())
@@ -127,10 +130,8 @@ class PixelSolver3(pix2.PixelSolver2):
 
         if block.width() > self.pixel_size and block.height() > self.pixel_size:
             split_pt = self.subindices[:,self.pixel_size,self.pixel_size]
-            if dx == -1:
-                split_pt[0] += 1
-            if dy == -1:
-                split_pt[1] += 1
+            split_pt[0] -= (dx-1)//2
+            split_pt[1] -= (dy-1)//2
             bot_left, bot_right, top_right, top_left = block.split(split_pt, self.prog)
             if (dx, dy) == (1,1):
                 next_block = top_right
@@ -143,15 +144,9 @@ class PixelSolver3(pix2.PixelSolver2):
 
             self.pixelize_block(next_block, max_steps - 1)
 
-def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size, directionIdx=0, max_steps=-1):
+def run_pixel_solver(problem_id, start_block, max_block_id, gravity_point, pixel_size, max_steps=-1):
     try:
         log_entries = []
-        direction = [
-            (1, 1),
-            (-1, 1),
-            (-1, -1),
-            (1, -1),
-        ][directionIdx]
         for ps in range(pixel_size - 5, pixel_size + 5):
             solver = PixelSolver3(
                 problem_id=problem_id,
@@ -159,7 +154,7 @@ def run_pixel_solver(problem_id, start_block, max_block_id, pixel_size, directio
                 max_block_id=max_block_id,
                 pixel_size=ps,
                 max_steps=max_steps,
-                direction=direction,
+                gravity_point=gravity_point,
             )
 
             solver.run()

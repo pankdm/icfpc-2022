@@ -131,11 +131,13 @@ def post_run_pixel_solver():
 
     block_id = payload["block_id"]
     x1, x2, y1, y2 = payload["x1"], payload["x2"], payload["y1"], payload["y2"]
+    gx, gy = payload["gravity_x"], payload["gravity_y"]
     start_block = pix.Block(block_id, (x1, y1), (x2, y2))
+    gravity_point = (gx, gy)
 
     max_block_id = payload["max_block_id"]
 
-    args = [problem_id, start_block, max_block_id]
+    args = [problem_id, start_block, max_block_id, gravity_point]
     extra_args = []
     if "extra_args" in payload:
         extra_args = payload["extra_args"]

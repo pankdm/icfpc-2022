@@ -111,7 +111,7 @@ export function SideBar({ className }) {
   const reloadSolution = async () => {
     await onSelectSolution(solutionId);
   }
-  useHotkeys('Shift+R', reloadSolution)
+  useHotkeys('Shift+R', reloadSolution, [solutionId])
   const onChangeCode = async (code) => {
     setCode(code);
   };
