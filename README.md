@@ -25,6 +25,19 @@ If using `pyenv` + `pyenv virtualenv`, consider using env init script
 ./pyenv-init.sh
 ```
 
+# Run
+
+```bash
+# install deps
+make
+
+# run local server (to serve files, call solvers and browse problems/solutions)
+make start-server
+
+# in a separate terminal, run local UI bundler
+make start-ui
+```
+
 # REPL
 
 There is a pre-configured local REPL init script, that provides handy namespaces.
